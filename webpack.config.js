@@ -13,7 +13,10 @@ module.exports = {
     publicPath: "/",
     filename: "bundle.js"
   },
-  devServer: { contentBase: "./build" },
+  devServer: {
+    contentBase: "./build",
+    historyApiFallback: true
+  },
   module: {
     rules: [
       { test: /\.(js|jsx)$/, exclude: /node_modules/, use: ["babel-loader"] },
