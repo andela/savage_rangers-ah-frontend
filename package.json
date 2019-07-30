@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "scripts": {
     "start": "webpack-dev-server --mode development",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "test": "node_modules/.bin/jest --watchAll --collectCoverage"
   },
   "repository": "https://github.com/andela/savage_rangers-ah-frontend",
   "license": "MIT",
@@ -13,8 +14,12 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.5.5",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "jest": "^24.8.0",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "react-test-renderer": "^16.8.6"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",

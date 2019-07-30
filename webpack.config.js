@@ -1,22 +1,22 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const isDevelopment = process.env.NODE_ENV === 'development'
+const isDevelopment = process.env.NODE_ENV === 'development';
 
 module.exports = {
-  devtool: "inline-source-map",
-  entry: "./src/index.js",
-  entry: "./src/index.js",
+  devtool: 'inline-source-map',
+  entry: './src/index.js',
+  entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, "build/"),
-    publicPath: "/",
-    filename: "bundle.js"
+    path: path.resolve(__dirname, 'build/'),
+    publicPath: '/',
+    filename: 'bundle.js'
   },
-  devServer: { contentBase: "./build" },
+  devServer: { contentBase: './build' },
   module: {
     rules: [
-      { test: /\.(js|jsx)$/, exclude: /node_modules/, use: ["babel-loader"] },
+      { test: /\.(js|jsx)$/, exclude: /node_modules/, use: ['babel-loader'] },
       {
         test: /\.module\.s(a|c)ss$/,
         loader: [
@@ -51,12 +51,16 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test: /.(jpg|jpeg|png|gif|svg)$/,
+        use: ['file-loader']
       }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve("./public/index.html")
+      template: path.resolve('./public/index.html')
     }),
     new MiniCssExtractPlugin({
       filename: isDevelopment ? '[name].css' : '[name].[hash].css',
