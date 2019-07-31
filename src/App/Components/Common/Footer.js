@@ -9,6 +9,13 @@ export class Footer extends Component {
           &copy; Authors Haven
           {date.getFullYear()}
         </p>
+        </div>
+      <div className='row'>
+        <div className='footer text-center'>
+          <p className='footer-copyright'>
+            &copy; Authors Haven {date.getFullYear()}
+          </p>
+        </div>
       </div>
     );
   }

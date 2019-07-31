@@ -1,5 +1,6 @@
 .footer {
   position: relative;
+  top: 100%;
   left: 0;
   color: $primary-white;
   height: 100px;
@@ -41,5 +42,16 @@
     &-copyright {
       left: 25%;
     }
+  }
+}
+  margin-top: 25px;
+  background-color: $primary-theme-color;
+
+  &-copyright {
+    margin-top: 4%;
+    font-size: 1.8em;
+    position: absolute;
+    bottom: 2%;
+    left: 40%;
   }
 }

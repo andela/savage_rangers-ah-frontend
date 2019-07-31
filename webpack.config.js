@@ -72,6 +72,15 @@ module.exports = {
             }
           }
         ]
+        use: ['file-loader']
+      },
+      {
+        test:/\.css$/,
+        include: /(node_modules)/,
+      },
+      {
+        test: /plugin\.css$/,
+        include: /(node_modules)/,
       }
     ]
   },
@@ -83,5 +92,9 @@ module.exports = {
       chunkFilename: isDevelopment ? '[id].css' : '[id].[hash].css'
     })
   ],
-  resolve: { extensions: ['.js', '.jsx', '.scss'] }
+  resolve: { extensions: ['.js', '.jsx', '.scss'] },
+  externals: ["fs"],
+  resolve: {
+    extensions: ['.js', '.jsx', '.scss']
+  }
 };
