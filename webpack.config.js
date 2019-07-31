@@ -1,37 +1,37 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const isDevelopment = process.env.NODE_ENV === "development";
+const isDevelopment = process.env.NODE_ENV === 'development';
 
 module.exports = {
-  devtool: "inline-source-map",
-  entry: "./src/index.js",
-  entry: "./src/index.js",
+  devtool: 'inline-source-map',
+  entry: './src/index.js',
+  entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, "build/"),
-    publicPath: "/",
-    filename: "bundle.js"
+    path: path.resolve(__dirname, 'build/'),
+    publicPath: '/',
+    filename: 'bundle.js'
   },
-  devServer: { contentBase: "./build" },
+  devServer: { contentBase: './build' },
   module: {
     rules: [
-      { test: /\.(js|jsx)$/, exclude: /node_modules/, use: ["babel-loader"] },
+      { test: /\.(js|jsx)$/, exclude: /node_modules/, use: ['babel-loader'] },
       {
         test: /\.module\.s(a|c)ss$/,
         loader: [
-          isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
+          isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               modules: true,
-              localIdentName: "[name]__[local]___[hash:base64:5]",
+              localIdentName: '[name]__[local]___[hash:base64:5]',
               camelCase: true,
               sourceMap: isDevelopment
             }
           },
           {
-            loader: "sass-loader",
+            loader: 'sass-loader',
             options: {
               sourceMap: isDevelopment
             }
@@ -42,10 +42,10 @@ module.exports = {
         test: /\.s(a|c)ss$/,
         exclude: /\.module.(s(a|c)ss)$/,
         loader: [
-          isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
-          "css-loader",
+          isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader',
           {
-            loader: "sass-loader",
+            loader: 'sass-loader',
             options: {
               sourceMap: isDevelopment
             }
@@ -54,20 +54,20 @@ module.exports = {
       },
       {
         test: /.(jpg|jpeg|png|gif|svg)$/,
-        use: ["file-loader"]
+        use: ['file-loader']
       }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve("./public/index.html")
+      template: path.resolve('./public/index.html')
     }),
     new MiniCssExtractPlugin({
-      filename: isDevelopment ? "[name].css" : "[name].[hash].css",
-      chunkFilename: isDevelopment ? "[id].css" : "[id].[hash].css"
+      filename: isDevelopment ? '[name].css' : '[name].[hash].css',
+      chunkFilename: isDevelopment ? '[id].css' : '[id].[hash].css'
     })
   ],
   resolve: {
-    extensions: [".js", ".jsx", ".scss"]
+    extensions: ['.js', '.jsx', '.scss']
   }
 };
