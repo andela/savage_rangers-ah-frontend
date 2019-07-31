@@ -10,6 +10,7 @@ import store from '../Redux/store';
 import RegistrationComponent from './Components/Registration/Registration';
 import ForgotPassword from './Components/PasswordReset/ForgotPassword';
 import ResetPassword from './Components/PasswordReset/ResetPassword';
+import CreateArticle from '../App/Components/CreateArticle/CreateArticle';
 
 /**
  *
@@ -49,6 +50,7 @@ class App extends Component {
             />
             <Route exact path="/redirect" component={Redirection} />
             <Route exact path="/terms_and_conditions" component={TermsAndconditions} />
+            <Route path='/new' component= {CreateArticle}/>
             <Route exact path="*" component={NotFound} />
           </Switch>
         </Router>
