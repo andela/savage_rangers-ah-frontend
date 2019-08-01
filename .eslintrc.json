@@ -22,7 +22,10 @@
     "parser": "babel-eslint",
     "comma-dangle": [2, "never"],
     "function-paren-newline": ["error", "never"],
-    "object-curly-newline": ["error", { "multiline": true, "minProperties": 4 }],
+    "object-curly-newline": [
+      "error",
+      { "multiline": true, "minProperties": 4 }
+    ],
     "no-underscore-dangle": 0,
     "import/no-mutable-exports": 1,
     "import/no-named-as-default": 0,
@@ -30,6 +33,7 @@
     "react/destructuring-assignment": 1,
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "import/no-unresolved": [2, { "commonjs": true }],
+    "prefer-promise-reject-errors": 0,
     "react/prop-types": [
       1,
       {

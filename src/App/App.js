@@ -5,6 +5,8 @@ import Home from './Components/Home/Home';
 import NotFound from './Components/NotFound/NotFound';
 import Login from './Components/Login/Login';
 import store from '../Redux/store';
+import ForgotPassword from './Components/PasswordReset/ForgotPassword';
+import ResetPassword from './Components/PasswordReset/ResetPassword';
 
 /**
  *
@@ -14,7 +16,7 @@ import store from '../Redux/store';
  * @extends {react-Component}
  */
 class App extends Component {
-/**
+  /**
    * This function render the page
    *
    * @static
@@ -29,6 +31,8 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/forgot-password" component={ForgotPassword} />
+            <Route exact path="/reset-password" component={ResetPassword} />
             <Route exact path="*" component={NotFound} />
           </Switch>
         </Router>

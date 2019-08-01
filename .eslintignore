@@ -6,3 +6,6 @@ package-lock.json
 
 # Dependency directory
 node_modules
+
+# Styles
+ ./src/Style/Sass

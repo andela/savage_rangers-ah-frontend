@@ -1,0 +1,57 @@
+.alert-forgot-password {
+  top: 30%;
+  left: 19%;
+  width: 60%;
+  position: absolute;
+}
+
+.alert-danger {
+  background-color: rgb(207, 40, 40);
+  color: white;
+}
+
+.alert-success {
+  background-color: #6fcf97;
+  color: white;
+}
+
+.alert-reset-password {
+  top: 18%;
+  left: 25.5%;
+  width: 48%;
+  position: absolute;
+}
+
+@media (max-width: 768px) {
+  .alert-forgot-password {
+    top: 10%;
+    left: 5%;
+    width: 90%;
+  }
+}
+
+@media (max-width: 320px) {
+  .alert-forgot-password {
+    top: 5%;
+    left: 0%;
+    width: 100%;
+    font-size: 15px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .alert-reset-password {
+    top: 10%;
+    left: 5%;
+    width: 90%;
+  }
+}
+
+@media (max-width: 320px) {
+  .alert-reset-password {
+    top: 5%;
+    left: 0%;
+    width: 100%;
+    font-size: 15px !important;
+  }
+}
