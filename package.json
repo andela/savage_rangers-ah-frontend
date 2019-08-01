@@ -4,7 +4,14 @@
   "scripts": {
     "start": "webpack-dev-server --mode development",
     "build": "webpack --mode production",
-    "test": "node_modules/.bin/jest --watchAll --collectCoverage"
+    "test": "node_modules/.bin/jest --watchAll --collectCoverage",
+    "lint": "eslint . --cache --fix"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --cache --fix",
+      "git add"
+    ]
   },
   "repository": "https://github.com/andela/savage_rangers-ah-frontend",
   "license": "MIT",
@@ -32,7 +39,15 @@
     "@babel/register": "^7.5.5",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.1.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
     "html-webpack-plugin": "^3.2.0",
+    "husky": "^2.4.1",
+    "lint-staged": "^8.2.1",
     "mini-css-extract-plugin": "^0.8.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^7.1.0",
