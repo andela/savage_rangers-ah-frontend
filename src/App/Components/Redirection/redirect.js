@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
 
-
 export class redirect extends Component {
   componentDidMount() {
     const { token } = queryString.parse(window.location.search);
@@ -11,9 +10,7 @@ export class redirect extends Component {
   render() {
     return (
       <div>
-        <center id="redirect-text">
-          Redirection Page
-        </center>
+        <center id="redirect-text">Redirection Page</center>
       </div>
     );
   }

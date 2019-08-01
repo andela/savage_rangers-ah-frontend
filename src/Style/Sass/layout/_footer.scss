@@ -1,0 +1,45 @@
+.footer {
+  position: relative;
+  left: 0;
+  color: $primary-white;
+  height: 100px;
+  width: 100%;
+  background-color: $primary-theme-color;
+  margin-top: 40px;
+
+  &-copyright {
+    margin: 0 auto;
+    font-size: 1.8em;
+    position: absolute;
+    bottom: 25%;
+    left: 40%;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    &-copyright {
+      font-size: 1.3em;
+      bottom: 35%;
+      left: 35%;
+    }
+  }
+}
+
+@media (max-width: 425px) {
+  .footer {
+    &-copyright {
+      font-size: 1em;
+      bottom: 35%;
+      left: 30%;
+    }
+  }
+}
+
+@media (max-width: 320px) {
+  .footer {
+    &-copyright {
+      left: 25%;
+    }
+  }
+}

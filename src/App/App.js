@@ -6,6 +6,7 @@ import NotFound from './Components/NotFound/NotFound';
 import Login from './Components/Login/Login';
 import Redirection from './Components/Redirection/redirect';
 import store from '../Redux/store';
+import RegistrationComponent from './Components/Registration/Registration';
 
 /**
  *
@@ -16,14 +17,15 @@ import store from '../Redux/store';
  */
 class App extends Component {
   /**
-     * This function render the page
-     *
-     * @static
-     * @render {page} req the request
-     * @memberof App
-     * @returns {Component} res
-     */
+   * This function render the page
+   *
+   * @static
+   * @render {page} req the request
+   * @memberof App
+   * @returns {Component} res
+   */
   render() {
+    const isAuth = localStorage.getItem('token');
     return (
       <Provider store={store}>
         <Router>
@@ -31,6 +33,7 @@ class App extends Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/redirect" component={Redirection} />
+            <Route exact path="/signup" component={isAuth ? Home : RegistrationComponent} />
             <Route exact path="*" component={NotFound} />
           </Switch>
         </Router>
