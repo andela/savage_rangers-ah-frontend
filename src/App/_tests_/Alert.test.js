@@ -1,12 +1,10 @@
 import React from 'react';
-import Alert from '../Components/Common/Alert';
 import { shallow } from '../../enzyme';
+import Alert from '../Components/Common/Alert';
 
-const props = {
-  type: 'success',
-  message: 'done'
-};
-it('should render the alert component', (done) => {
-  shallow(<Alert {...props} />);
-  done();
+describe('Alert', () => {
+  const alert = shallow(<Alert type="success" message="this is good" />);
+  it('renders the Alert component', () => {
+    expect(alert.find('div').text()).toEqual(' this is good');
+  });
 });
