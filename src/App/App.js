@@ -1,12 +1,27 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Provider } from "react-redux";
-import Home from "../App/Components/Home/Home";
-import NotFound from "../App/Components/NotFound/NotFound";
-import Login from "../App/Components/Login/Login";
-import store from "../Redux/store";
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import Home from './Components/Home/Home';
+import NotFound from './Components/NotFound/NotFound';
+import Login from './Components/Login/Login';
+import store from '../Redux/store';
 
-export class App extends Component {
+/**
+ *
+ *
+ * @export
+ * @class App
+ * @extends {react-Component}
+ */
+class App extends Component {
+/**
+   * This function render the page
+   *
+   * @static
+   * @render {page} req the request
+   * @memberof App
+   * @returns {Component} res
+   */
   render() {
     return (
       <Provider store={store}>

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import testReduxAction from '../../Redux/Actions/testReduxActions';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import testReduxAction from '../../Redux/Actions/testReduxActions';
 
 const { getWelcome } = testReduxAction;
 /**
  *
  *This class is just for showing how we will use Redux,
- * Once the home page will be done, will no longer be needed 
+ * Once the home page will be done, will no longer be needed
  * @export
  * @class TestRedux
  * @extends {Component}
@@ -21,7 +21,7 @@ export class TestRedux extends Component {
     return (
       <div>
         <p>
-          message loaded from redux:{' '}
+          message loaded from redux:
           {this.props.data ? this.props.data.message : ''}
         </p>
       </div>
@@ -29,17 +29,11 @@ export class TestRedux extends Component {
   }
 }
 
-TestRedux.propTypes = {
-  getWelcome: propTypes.func.isRequired
-};
+TestRedux.propTypes = { getWelcome: propTypes.func.isRequired };
 
 // get data from redux and put it in props
-export const mapStateToProps = state => ({
-  data: state.testRedux.data
-});
+export const mapStateToProps = state => ({ data: state.testRedux.data });
 
 // export the component while connecting to redux
-export default connect(
-  mapStateToProps,
-  { getWelcome }
-)(TestRedux);
+export default connect(mapStateToProps,
+  { getWelcome })(TestRedux);

@@ -1,5 +1,3 @@
 import fetchHome from './fetchHome';
 
-export default {
-  fetchHome
-}
+export default { fetchHome };

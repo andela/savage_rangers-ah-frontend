@@ -1,0 +1,40 @@
+{
+  "env": { "browser": true, "es6": true, "jest": true },
+  "settings": {
+    "import/resolver": { "webpack": { "config": "./webpack.common.js" } }
+  },
+  "extends": ["airbnb", "plugin:react/recommended", "plugin:react/recommended"],
+  "plugins": ["react", "jsx-a11y"],
+  "globals": { "Atomics": "readonly", "SharedArrayBuffer": "readonly" },
+  "parserOptions": {
+    "ecmaFeatures": { "jsx": true },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "parser": "babel-eslint",
+  "rules": {
+    "one-var": 2,
+    "exclude": "/node_modules/",
+    "use": ["babel-loader", "eslint-loader"],
+    "no-func-assign": "error",
+    "curly": ["error", "multi-line"],
+    "no-class-assign": 1,
+    "parser": "babel-eslint",
+    "comma-dangle": [2, "never"],
+    "function-paren-newline": ["error", "never"],
+    "object-curly-newline": ["error", { "multiline": true, "minProperties": 4 }],
+    "no-underscore-dangle": 0,
+    "import/no-mutable-exports": 1,
+    "import/no-named-as-default": 0,
+    "react/prefer-stateless-function": 0,
+    "react/destructuring-assignment": 1,
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "import/no-unresolved": [2, { "commonjs": true }],
+    "react/prop-types": [
+      1,
+      {
+        "ignore": ["className", "children", "location", "params", "location*"]
+      }
+    ]
+  }
+}

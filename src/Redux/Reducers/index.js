@@ -1,6 +1,4 @@
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
 import testReduxReducer from './testReduxReducer';
 
-export default combineReducers({
-  testRedux: testReduxReducer
-});
+export default combineReducers({ testRedux: testReduxReducer });

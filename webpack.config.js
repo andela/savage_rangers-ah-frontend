@@ -7,13 +7,13 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 module.exports = {
   devtool: 'inline-source-map',
   entry: './src/index.js',
-  entry: './src/index.js',
+
   output: {
     path: path.resolve(__dirname, 'build/'),
     publicPath: '/',
     filename: 'bundle.js'
   },
-  devServer: { contentBase: "./build", historyApiFallback: true },
+  devServer: { contentBase: './build', historyApiFallback: true },
   module: {
     rules: [
       { test: /\.(js|jsx)$/, exclude: /node_modules/, use: ['babel-loader'] },
@@ -32,9 +32,7 @@ module.exports = {
           },
           {
             loader: 'sass-loader',
-            options: {
-              sourceMap: isDevelopment
-            }
+            options: { sourceMap: isDevelopment }
           }
         ]
       },
@@ -46,9 +44,7 @@ module.exports = {
           'css-loader',
           {
             loader: 'sass-loader',
-            options: {
-              sourceMap: isDevelopment
-            }
+            options: { sourceMap: isDevelopment }
           }
         ]
       },
@@ -59,15 +55,11 @@ module.exports = {
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: path.resolve('./public/index.html')
-    }),
+    new HtmlWebpackPlugin({ template: path.resolve('./public/index.html') }),
     new MiniCssExtractPlugin({
       filename: isDevelopment ? '[name].css' : '[name].[hash].css',
       chunkFilename: isDevelopment ? '[id].css' : '[id].[hash].css'
     })
   ],
-  resolve: {
-    extensions: ['.js', '.jsx', '.scss']
-  }
+  resolve: { extensions: ['.js', '.jsx', '.scss'] }
 };

@@ -5,7 +5,7 @@ if (process.env.NODE_ENV !== 'test') {
   instance = axios.create({
     baseURL: 'https://authors-heaven.herokuapp.com/'
   });
-}else{
+} else {
   instance = axios;
 }
 export default instance;
