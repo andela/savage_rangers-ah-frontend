@@ -4,7 +4,7 @@ import Navbar from '../Components/Common/NavProfile/navbar';
 
 describe('Navbar', () => {
   const navbar = shallow(<Navbar />);
-  it('renders the Alert component', () => {
+  it('renders the Navbar component', () => {
     expect(navbar.find('nav').exists()).toEqual(true);
     expect(navbar.find('Logo').exists()).toEqual(true);
   });

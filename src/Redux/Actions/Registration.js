@@ -1,5 +1,5 @@
 import types from '.';
-import axios from '../../../configs/axios';
+import axios from '../../configs/axios';
 
 const { REGISTER, CATCH_ERROR } = types;
 
