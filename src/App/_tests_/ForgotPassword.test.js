@@ -49,7 +49,6 @@ describe('reducers', () => {
       {
         type: 'SEND_RESET_PASSWORD_EMAIL',
         payload: {
-
           status: 200,
           message:
             "Password reset instructions have been sent to your account's primary email address. Please check the spam if you don't see the email"

@@ -33,19 +33,11 @@ class App extends Component {
         <Router>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/login" component={Login} />
+            <Route exact path="/login" component={!isAuth ? Login : Home} />
             <Route exact path="/redirect" component={Redirection} />
             <Route exact path="/signup" component={isAuth ? Home : RegistrationComponent} />
-            <Route
-              exact
-              path="/forgot-password"
-              component={!localStorage.getItem('token') ? ForgotPassword : Home}
-            />
-            <Route
-              exact
-              path="/reset-password"
-              component={!localStorage.getItem('token') ? ResetPassword : Home}
-            />
+            <Route exact path="/forgot-password" component={!isAuth ? ForgotPassword : Home} />
+            <Route exact path="/reset-password" component={!isAuth ? ResetPassword : Home} />
             <Route exact path="/redirect" component={Redirection} />
             <Route exact path="*" component={NotFound} />
           </Switch>
