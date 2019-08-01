@@ -4,7 +4,9 @@
   "scripts": {
     "start": "webpack-dev-server --mode development",
     "build": "webpack --mode production",
-    "test": "node_modules/.bin/jest --watchAll --collectCoverage"
+    "test:CI": "node_modules/.bin/jest --collectCoverage",
+    "test": "node_modules/.bin/jest --watchAll --collectCoverage",
+    "coveralls": "cat coverage/lcov.info | coveralls"
   },
   "repository": "https://github.com/andela/savage_rangers-ah-frontend",
   "license": "MIT",
