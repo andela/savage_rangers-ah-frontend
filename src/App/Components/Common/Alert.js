@@ -26,5 +26,5 @@ ErrorAlert.defaultProps = { message: 'default Message' };
 ErrorAlert.propTypes = {
   type: PropTypes.string.isRequired,
   message: PropTypes.string,
-  cssClass: PropTypes.string.isRequired
+  cssClass: PropTypes.string
 };

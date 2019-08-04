@@ -30,15 +30,13 @@ describe('Component', () => {
     wrapper = shallow(<TestReduxComponent store={store} {...props} />);
     const instance = wrapper.instance();
     expect(instance.props.getWelcome).toHaveBeenCalledTimes(2);
-    // For the `mapDispatchToProps`, call it directly but pass in
-    // a mock function and check the arguments passed in are as expected
     mapStateToProps({ testRedux: { data: {} } });
     done();
   });
 });
 
 it('should dispatch action', async (done) => {
-  const getState = {}; // initial state of the store
+  const getState = {};
   const action = { type: 'GET_WELCOME' };
   const expectedActions = [action];
   const store = mockStore(getState, expectedActions, done);
