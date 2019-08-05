@@ -6,7 +6,9 @@
     "build": "webpack --mode production",
     "test:CI": "node_modules/.bin/jest --collectCoverage",
     "coveralls": "cat coverage/lcov.info | coveralls",
-    "test": "NODE_ENV=test && node_modules/.bin/jest --watchAll --collectCoverage"
+    "test": "NODE_ENV=test && node_modules/.bin/jest --watchAll --collectCoverage",
+    "eslint": "eslint . --cache --fix",
+    "precommit": "lint-staged"
   },
   "repository": "https://github.com/andela/savage_rangers-ah-frontend",
   "license": "MIT",
@@ -14,12 +16,21 @@
   "resolutions": {
     "babel-core": "7.0.0-bridge.0"
   },
+  "lint-staged": {
+    "*.js": [
+      "eslint --cache --fix",
+      "git add"
+    ]
+  },
   "dependencies": {
     "@babel/runtime": "^7.5.5",
     "axios": "^0.19.0",
+    "babel-eslint": "^10.0.2",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
+    "eslint-loader": "^2.2.1",
     "jest": "^24.8.0",
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0",
@@ -38,7 +49,15 @@
     "@babel/register": "^7.5.5",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.1.0",
+    "eslint": "^5.3.0",
+    "eslint-config-airbnb": "^17.1.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
     "html-webpack-plugin": "^3.2.0",
+    "husky": "^2.7.0",
+    "lint-staged": "^8.2.1",
     "mini-css-extract-plugin": "^0.8.0",
     "node-sass": "^4.12.0",
     "redux-promise-middleware": "^6.1.1",
