@@ -5,6 +5,8 @@ import Home from './Components/Home/Home';
 import NotFound from './Components/NotFound/NotFound';
 import Login from './Components/Login/Login';
 import store from '../Redux/store';
+import Tags from './Components/ArticleTags/getTags/Tags';
+import newTags from './Components/ArticleTags/createTags/CreatedTags';
 
 /**
  *
@@ -14,7 +16,7 @@ import store from '../Redux/store';
  * @extends {react-Component}
  */
 class App extends Component {
-/**
+  /**
    * This function render the page
    *
    * @static
@@ -29,6 +31,8 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/Article/get" component={Tags} />
+            <Route exact path="/Article/create" component={newTags} />
             <Route exact path="*" component={NotFound} />
           </Switch>
         </Router>
