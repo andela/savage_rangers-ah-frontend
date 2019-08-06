@@ -6,6 +6,8 @@ import NotFound from './Components/NotFound/NotFound';
 import Login from './Components/Login/Login';
 import Redirection from './Components/Redirection/redirect';
 import store from '../Redux/store';
+import Tags from './Components/Articles/getTags/Tags';
+import newArticle from './Components/Articles/createArticle/createArticle';
 
 /**
  *
@@ -31,6 +33,8 @@ class App extends Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/redirect" component={Redirection} />
+            <Route exact path="/Article/get" component={Tags} />
+            <Route exact path="/Article/create" component={newArticle} />
             <Route exact path="*" component={NotFound} />
           </Switch>
         </Router>
