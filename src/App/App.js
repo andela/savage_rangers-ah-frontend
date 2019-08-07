@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import Home from './Components/Home/Home';
 import NotFound from './Components/NotFound/NotFound';
 import Login from './Components/Login/Login';
+import Redirection from './Components/Redirection/redirect';
 import store from '../Redux/store';
 import ForgotPassword from './Components/PasswordReset/ForgotPassword';
 import ResetPassword from './Components/PasswordReset/ResetPassword';
@@ -24,6 +25,7 @@ class App extends Component {
    * @memberof App
    * @returns {Component} res
    */
+
   render() {
     return (
       <Provider store={store}>
@@ -33,6 +35,7 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/forgot-password" component={ForgotPassword} />
             <Route exact path="/reset-password" component={ResetPassword} />
+            <Route exact path="/redirect" component={Redirection} />
             <Route exact path="*" component={NotFound} />
           </Switch>
         </Router>

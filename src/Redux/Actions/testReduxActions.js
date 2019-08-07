@@ -1,5 +1,5 @@
 import types from '.';
-import axios from '../../../configs/axios';
+import axios from '../../configs/axios';
 
 const { GET_WELCOME } = types;
 

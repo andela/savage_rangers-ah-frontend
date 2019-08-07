@@ -20,3 +20,38 @@
     padding-top: 1%;
   }
 }
+
+.social-btn .btn {
+    color: $whitecolor;
+    margin: 10px 0 0 30px;
+    font-size: 45px;
+    width: 70px;
+    height: 70px;
+    line-height: 38px;
+    border-radius: 50%;
+    font-weight: normal;
+    border: none;
+    transition: all 0.4s;
+    margin-top: 35%;
+    position: relative;
+  }
+  .social-btn .btn:first-child {
+    margin-left: 0;
+  }
+  .social-btn .btn:hover {
+    opacity: 0.8;
+  }
+  .social-btn .btn-primary {
+    background: $facebookcolor;
+  }
+  .social-btn .btn-info {
+    background: $twittercolor;
+  }
+  .social-btn .btn-danger {
+    background: $googlecolor;
+  }
+  .social-btn .btn i {
+    font-size: 30px;
+    color: $iconcolor;
+  }
+ 

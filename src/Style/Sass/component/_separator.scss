@@ -1,0 +1,24 @@
+.or-separator {
+    text-align: center;
+    border-top: 1px solid $whitecolor;
+    position: relative;
+    transform: translateY(500px);
+    width: 50%;
+    margin-left: 379px;
+   
+    b {
+      background: $whitecolor;
+      border: 1px solid $whitecolor;
+      border-radius: 50%;
+      display: inline-block;
+      font-size: 16px;
+      height: 40px;
+      line-height: 40px;
+      padding: 0 0px;
+      position: relative;
+      text-align: center;
+      top: -22px;
+      width: 40px;
+      z-index: 1;
+    }
+}

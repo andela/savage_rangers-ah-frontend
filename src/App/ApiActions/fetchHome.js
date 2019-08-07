@@ -1,4 +1,4 @@
-import axiosInstance from '../../../configs/axios';
+import axiosInstance from '../../configs/axios';
 
 export default async () => {
   await axiosInstance.get('');

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
-import axiosInstance from '../../../../configs/axios';
+import axiosInstance from '../../../configs/axios';
 import Alert from '../Common/Alert';
 
 export class PasswordReset extends Component {
