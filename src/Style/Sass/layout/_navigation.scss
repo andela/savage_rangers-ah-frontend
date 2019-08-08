@@ -117,7 +117,7 @@
 .nav-links-container {
   float: right;
   position: absolute;
-  left: 85vw;
+  right: 4vw;
 }
 
 @media (max-width: 768px) {
@@ -126,10 +126,96 @@
     position: relative;
     left: 0vw;
   }
+
+  #web-name {
+    display: none;
+  }
 }
 
 @media (min-width: 320px) {
   .nav-link {
     left: 90% !important;
   }
+}
+
+.profile-img {
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  &-notify {
+    width: 50px;
+    height: 50px;
+    border-style: outset;
+    border-style: solid;
+    border-width: medium;
+    border-color: red;
+  }
+}
+
+.notify-container {
+  position: relative;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.notify-bubble {
+  position: absolute;
+  top: 0px;
+  right: 0%;
+  padding: 2px 5px 2px 6px;
+  background-color: red;
+  color: white;
+  font-size: 0.65em !important;
+  border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+  .navbar-toggler {
+    border-color: white !important;
+  }
+  .navbar-toggler-icon {
+    border-color: white !important;
+  }
+  .notify-bubble {
+    right: 45.5%;
+  }
+
+  .notify-container {
+    text-align: center;
+  }
+
+  .nav-item-custom {
+    text-align: center;
+  }
+
+  .dropdown-menu-custom {
+    text-align: center;
+    width: 100%;
+    color: white;
+    background-color: #343a40;
+  }
+
+  .dropdown-item-custom {
+    color: white;
+  }
+}
+
+.fa-bars {
+  color: white;
+}
+
+@media (max-width: 425px) {
+  .notify-bubble {
+    right: 41.5%;
+  }
+}
+
+@media (max-width: 320px) {
+  .notify-bubble {
+    right: 39.5%;
+  }
+}
+
+.dropdown-menu-custom {
+  background-color: #f1eded;
 }

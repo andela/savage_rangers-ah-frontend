@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import Welcome from '../TestRedux';
+import Navbar from '../Common/NavProfile/navbar';
 
 export class Home extends Component {
   constructor(props) {
@@ -23,6 +24,7 @@ export class Home extends Component {
     const { state } = this;
     return (
       <React.Fragment>
+        <Navbar />
         <div>
           <h1>Authors Heaven</h1>
           <p>This is the home page of authors heaven v 1.0.0</p>

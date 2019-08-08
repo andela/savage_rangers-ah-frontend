@@ -1,10 +1,35 @@
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import NavLogo from './navLogo';
-// import NavLink from './navLink';
+import NavLinks from './navLinks';
+import Profile from './Profile';
+import Notifications from '../../Notifications/Notifications';
+import notificationActions from '../../../../Redux/Actions/notifications';
 
-export class navbar extends Component {
+const { hide } = notificationActions;
+
+export class Navbar extends Component {
+  static propTypes = { hide: PropTypes.func.isRequired, isShown: PropTypes.bool };
+
+  constructor(props) {
+    super(props);
+    this.state = { isShown: false };
+  }
+
+  componentWillReceiveProps({ isShown }) {
+    this.setState({ isShown });
+  }
+
+  hideNotificationsComponent = () => {
+    const { props } = this;
+    const { hide: hideNotifications } = props;
+    hideNotifications();
+  };
+
   render() {
+    const { state: { isShown } } = this;
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-dark">
         <NavLogo />
@@ -17,24 +42,22 @@ export class navbar extends Component {
           aria-controls="navbarNavAltMarkup"
           aria-expanded="false"
           aria-label="Toggle navigation"
+          onMouseOver={this.hideNotificationsComponent}
         >
-          <span className="navbar-toggler-icon" />
+          <i className="fas fa-bars" />
         </button>
         <div className="collapse navbar-collapse nav-links-container" id="navbarNavAltMarkup">
-          <div className="navbar-nav">
-            <Link className="nav-item nav-link" to="/login">
-              Login
-            </Link>
-            <div className="nav-item nav-link to-hide-on-responsive">|</div>
-            <Link className="nav-item nav-link" to="/signup">
-              Signup
-            </Link>
-          </div>
+          {!localStorage.getItem('token') ? <NavLinks /> : <Profile />}
         </div>
-        {/* <NavLink /> */}
+        <div className={isShown ? 'notifications show' : 'notifications hide'} id="notifications">
+          <Notifications />
+        </div>
       </nav>
     );
   }
 }
 
-export default navbar;
+export const mapStateToProps = ({ notifications: { isShown } }) => ({ isShown });
+
+export default connect(mapStateToProps,
+  { hide })(Navbar);
