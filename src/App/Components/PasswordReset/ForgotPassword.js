@@ -1,65 +1,61 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
-import axiosInstance from '../../../configs/axios';
+import propTypes from 'prop-types';
+import _ from 'lodash';
+import { connect } from 'react-redux';
 import Alert from '../Common/Alert';
+import actions from '../../../Redux/Actions/passwordReset';
 
-export class PasswordReset extends Component {
-  state = { email: '' };
+const { sendEmail } = actions;
+
+class ForgotPassword extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { email: '' };
+    this.onChange = this.onChange.bind(this);
+  }
+
+  componentWillReceiveProps({ data }) {
+    if (!_.isEmpty(data)) {
+      this.setState({
+        error: false,
+        success: true
+      });
+    } else {
+      this.setState({
+        email: '',
+        error: true
+      });
+    }
+  }
 
   onChange = event => this.setState({ [event.target.name]: event.target.value });
 
-  onSubmit = async (event) => {
+  onSubmit = (event) => {
     const { state } = this;
     event.preventDefault();
-    await axiosInstance
-      .post('/api/password-reset', { email: state.email })
-      .then((res) => {
-        this.setState({
-          error: false,
-          success: true,
-          data: res.data,
-          errorMessage: ''
-        });
-      })
-      .catch((error) => {
-        const errorObject = error.response.data.errors;
-        const errorMessage = errorObject[Object.getOwnPropertyNames(errorObject)[0]];
-        this.setState({
-          email: '',
-          error: true,
-          success: false,
-          errorMessage
-        });
-      });
-  };
-
-  reloadState = () => {
-    this.setState({
-      email: '',
-      error: false,
-      data: {},
-      errorMessage: '',
-      success: false
-    });
+    const { sendEmail: emailSender } = this.props;
+    emailSender(state.email);
   };
 
   render() {
-    const { state } = this;
+    const { state, props } = this;
     return (
       <div className="container resetPassword__container">
-        {state.success
-          ? setTimeout(() => {
-            this.reloadState();
-          }, 5000) && (
-          <Alert type="success" message={state.data.message} cssClass="alert-forgot-password" />
-          )
-          : ''}
-        {state.error
-          ? setTimeout(() => {
-            this.reloadState();
-          }, 5000) && (
-          <Alert type="danger" message={state.errorMessage} cssClass="alert-forgot-password" />
-          )
-          : ''}
+        {state.success ? (
+          <Alert
+            type="success"
+            message={props.data.message}
+            cssClass="alert-forgot-password alert-forgot-password__success"
+          />
+        ) : (
+          ''
+        )}
+        {state.error ? (
+          <Alert type="danger" message={props.errorMessage} cssClass="alert-forgot-password" />
+        ) : (
+          ''
+        )}
         <div className="row">
           <div className="col-sm-12 col-md-10">
             <div className="resetPassword">
@@ -88,4 +84,17 @@ export class PasswordReset extends Component {
   }
 }
 
-export default PasswordReset;
+ForgotPassword.defaultProps = { errorMessage: 'Cannot fetch' };
+
+ForgotPassword.propTypes = {
+  sendEmail: propTypes.func.isRequired,
+  data: propTypes.object.isRequired,
+  errorMessage: propTypes.string
+};
+export const mapStateToProps = state => ({
+  errorMessage: state.passwordReset.errorMessage,
+  data: state.passwordReset.data
+});
+
+export default connect(mapStateToProps,
+  { sendEmail })(ForgotPassword);

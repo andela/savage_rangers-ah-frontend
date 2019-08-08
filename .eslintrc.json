@@ -37,7 +37,14 @@
     "react/prop-types": [
       1,
       {
-        "ignore": ["className", "children", "location", "params", "location*", "name"]
+        "ignore": [
+          "className",
+          "children",
+          "location",
+          "params",
+          "location*",
+          "name"
+        ]
       }
     ]
   }

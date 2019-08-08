@@ -3,6 +3,9 @@
   left: 19%;
   width: 60%;
   position: absolute;
+  &__success {
+    top: 10%;
+  }
 }
 
 .alert-danger {
@@ -16,7 +19,7 @@
 }
 
 .alert-reset-password {
-  top: 18%;
+  top: 14%;
   left: 25.5%;
   width: 48%;
   position: absolute;

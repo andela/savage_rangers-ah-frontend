@@ -1,13 +1,38 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
-import queryString from 'query-string';
-import axiosInstance from '../../../configs/axios';
+import { Redirect } from 'react-router-dom';
+import _ from 'lodash';
+import propTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Alert from '../Common/Alert';
+import actions from '../../../Redux/Actions/passwordReset';
+
+const { resetPassword } = actions;
 
 export class PasswordReset extends Component {
-  state = { newPassword: '', confirmPassword: '' };
+  constructor(props) {
+    super(props);
+    this.state = { newPassword: '', confirmPassword: '', redirect: false };
+    this.onChange = this.onChange.bind(this);
+  }
+
+  componentWillReceiveProps({ data, errorMessage }) {
+    if (!_.isEmpty(data)) {
+      this.setState({
+        error: false,
+        success: true,
+        redirect: true
+      });
+    } else {
+      this.setState({
+        error: true,
+        success: false,
+        errorMessage
+      });
+    }
+  }
 
   onChange = (event) => {
-    this.forceUpdate();
     this.setState({ [event.target.name]: event.target.value });
   };
 
@@ -15,59 +40,32 @@ export class PasswordReset extends Component {
     const { state } = this;
     event.preventDefault();
     if (state.newPassword === state.confirmPassword) {
-      await axiosInstance
-        .post(`/api/password-reset/update/${queryString.parse(window.location.search).email}`, { password: state.newPassword })
-        .then((res) => {
-          this.setState({ success: true, data: res.data });
-        })
-        .catch((error) => {
-          const errorObject = error.response.data.errors;
-          const errorMessage = errorObject[Object.getOwnPropertyNames(errorObject)[0]];
-          this.setState({ error: true, errorMessage });
-        });
+      const { resetPassword: passwordReset } = this.props;
+      passwordReset(state.newPassword);
     } else {
-      this.setState({
-        error: true,
-        errorMessage: 'The two passwords have to match'
-      });
+      this.setState({ error: true, errorMessage: 'The two passwords have to match' });
     }
   };
 
-  reloadState = () => {
-    this.setState({
-      newPassword: '',
-      confirmPassword: '',
-      success: false,
-      error: false,
-      errorMessage: ''
-    });
-  };
-
   render() {
-    const { state } = this;
+    const { state, props } = this;
+    if (state.redirect) {
+      return <Redirect to="/" />;
+    }
     return (
       <div className="container login__container">
-        {state.success
-          && setTimeout(() => {
-            this.reloadState();
-            setTimeout(() => {
-              window.location.href = '/';
-            }, 500);
-          }, 5000) && (
-            <Alert type="success" message={state.data.message} cssClass="alert-reset-password" />
+        {state.success && (
+        <Alert type="success" message={props.data.message} cssClass="alert-reset-password" />
         )}
-        {state.error
-          && setTimeout(() => {
-            this.reloadState();
-          }, 5000) && (
-            <Alert type="danger" message={state.errorMessage} cssClass="alert-reset-password" />
+        {state.error && (
+        <Alert type="danger" message={state.errorMessage} cssClass="alert-reset-password" />
         )}
         <div className="row">
           <div className="col-sm-12 col-md-10">
             <div className="resetPassword">
               <div className="resetPassword__variation justify-content-center">
                 <h4 className="resetPassword__header--text resetPassword__header--transform">
-                  Please provide your new password
+                    Please provide your new password
                 </h4>
                 <hr />
               </div>
@@ -97,7 +95,7 @@ export class PasswordReset extends Component {
                   value="Submit"
                   className="resetPassword__form--btn btn resetPassword__form--btn__transform"
                 >
-                  Send
+                    Send
                 </button>
               </form>
             </div>
@@ -108,4 +106,17 @@ export class PasswordReset extends Component {
   }
 }
 
-export default PasswordReset;
+PasswordReset.defaultProps = { errorMessage: 'Cannot fetch' };
+
+PasswordReset.propTypes = {
+  resetPassword: propTypes.func.isRequired,
+  data: propTypes.object.isRequired,
+  errorMessage: propTypes.string
+};
+export const mapStateToProps = state => ({
+  errorMessage: state.passwordReset.errorMessage,
+  data: state.passwordReset.data
+});
+
+export default connect(mapStateToProps,
+  { resetPassword })(PasswordReset);
