@@ -5,6 +5,7 @@ import passwordReset from './passwordReset';
 import notifications from './notifications';
 import readArticleReducer from './readArticleReducer';
 import readPopularArticleReducer from './popularArticleReducer';
+import articleReducer from './articles';
 import authReducer from './auth';
 import termsAndConditionReducer from './termsAndcondReducers';
 import article from './createArticle';
@@ -15,6 +16,7 @@ import Signout from './signoutReducer';
 
 import profile from './Profile';
 import authorReducer from './authors';
+import searchArticle from './searchArticle';
 
 export default combineReducers({
   authReducer,
@@ -31,5 +33,9 @@ export default combineReducers({
   commentsReducer,
   profile,
   Signout,
-  authorReducer
+  authorReducer,
+  articles: articleReducer,
+  stats: articleReducer,
+  ratings: articleReducer,
+  searchArticle
 });

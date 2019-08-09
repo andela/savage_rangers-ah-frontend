@@ -1,0 +1,140 @@
+.errorPage-articles {
+
+    @media only screen and (min-width: 1460px) {
+        min-height: 530px;
+    }
+
+    @media only screen and (max-width: 1440px) {
+        min-height: 920px;
+    }
+
+    @media only screen and (max-width: 1024px) {
+        min-height: 780px;
+    }
+
+    @media only screen and (max-width: 768px) {
+        min-height: 482px;
+    }
+
+    @media only screen and (max-width: 425px) {
+        min-height: 492px;
+    }
+
+    @media only screen and (max-width: 375px) {
+        min-height: 499px;
+    }
+
+    @media only screen and (max-width: 320px) {
+        min-height: 509px;
+    }
+
+
+    &__error-articles {
+        @include center;
+        margin-top: 100px;
+
+        & h1 {
+            font-family: "lato";
+
+            @media only screen and (min-width: 1450px) {
+                font-size: 200px !important;
+            }
+
+            @media only screen and (max-width: 1440px) {
+                font-size: 250px !important;
+            }
+
+            @media only screen and (max-width: 1024px) {
+                font-size: 200px !important;
+            }
+
+            @media only screen and (max-width: 768px) {
+                margin-top: 20% !important;
+                font-size: 160px !important;
+            }
+
+            @media only screen and (max-width: 425px) {
+                margin-top: 20%;
+                font-size: 110px !important;
+            }
+
+            @media only screen and (max-width: 375px) {
+                font-size: 90px !important;
+            }
+        }
+
+        & p {
+
+            font-family: "lato";
+
+            @media only screen and (min-width: 1450px) {
+                margin-left: 10% !important;
+                font-size: 37px !important;
+            }
+
+            @media only screen and (max-width: 1440px) {
+                margin-left: 10% !important;
+                font-size: 50px !important;
+            }
+
+            @media only screen and (max-width: 1024px) {
+                margin-left: 7% !important;
+                font-size: 40px !important;
+            }
+
+            @media only screen and (max-width: 768px) {
+                margin-left: 7% !important;
+                font-size: 32px !important;
+            }
+
+            @media only screen and (max-width: 425px) {
+                margin-left: 6% !important;
+                font-size: 22px !important;
+            }
+
+            @media only screen and (max-width: 375px) {
+                margin-left: 2% !important;
+                font-size: 19px !important;
+            }
+        }
+
+        & h6 {
+
+            @media only screen and (min-width: 1450px) {
+                font-size: 20px !important;
+                margin-left: 28% !important;
+                margin-top: -2%;
+            }
+
+            @media only screen and (max-width: 1440px) {
+                font-size: 25px !important;
+                margin-left: 32% !important;
+                margin-top: -2%;
+            }
+
+            @media only screen and (max-width: 1024px) {
+                margin-left: 27% !important;
+            }
+
+            @media only screen and (max-width: 768px) {
+                font-size: 22px !important;
+                margin-left: 25% !important;
+            }
+
+            @media only screen and (max-width: 425px) {
+                font-size: 16px !important;
+                margin-left: 20% !important;
+            }
+
+            @media only screen and (max-width: 375px) {
+                margin-top: 6%;
+                font-size: 15px !important;
+                margin-left: 15% !important;
+            }
+
+        }
+
+
+    }
+
+}
