@@ -15,7 +15,6 @@
 @import 'component/category';
 @import 'component/tags';
 @import 'component/bottom-popular';
-@import 'component/loader';
 @import 'layout/alert';
 @import 'layout/editor';
 @import 'layout/cover-image';
@@ -34,3 +33,9 @@
 @import 'layout/notifications';
 @import 'component/bookmark';
 @import 'layout/notifications';
+@import 'component/articles_error';
+@import 'base/reset';
+@import 'pages/create';
+@import 'component/articles';
+@import 'component/rater';
+@import 'layout/pagination';

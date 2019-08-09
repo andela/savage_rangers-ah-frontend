@@ -5,10 +5,12 @@ import passwordReset from './passwordReset';
 import notifications from './notifications';
 import readArticleReducer from './readArticleReducer';
 import readPopularArticleReducer from './popularArticleReducer';
+import articleReducer from './articles';
 import authReducer from './auth';
 import termsAndConditionReducer from './termsAndcondReducers';
 import article from './createArticle';
 import bookmark from './Bookmark';
+import searchArticle from './searchArticle';
 
 export default combineReducers({
   authReducer,
@@ -20,5 +22,9 @@ export default combineReducers({
   article,
   readArticle: readArticleReducer,
   populars: readPopularArticleReducer,
-  bookmark
+  bookmark,
+  articles: articleReducer,
+  stats: articleReducer,
+  ratings: articleReducer,
+  searchArticle
 });
