@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<articles /> render() it should render a single article 1`] = `
+Object {
+  "$$typeof": Symbol(react.memo),
+  "WrappedComponent": [Function],
+  "compare": null,
+  "displayName": "Connect(Article)",
+  "type": [Function],
+}
+`;
+
+exports[`<articles /> render() it should render a single with deferent data 1`] = `
+Object {
+  "$$typeof": Symbol(react.memo),
+  "WrappedComponent": [Function],
+  "compare": null,
+  "displayName": "Connect(Article)",
+  "type": [Function],
+}
+`;
+
+exports[`<articles /> render() it should render a single with deferent data to cover all lines 1`] = `
+Object {
+  "$$typeof": Symbol(react.memo),
+  "WrappedComponent": [Function],
+  "compare": null,
+  "displayName": "Connect(Article)",
+  "type": [Function],
+}
+`;
+
+exports[`<articles /> render() it should render a single with deferent data to cover all lines 2`] = `
+Object {
+  "$$typeof": Symbol(react.memo),
+  "WrappedComponent": [Function],
+  "compare": null,
+  "displayName": "Connect(Article)",
+  "type": [Function],
+}
+`;
+
+exports[`<articles /> render() it should render a single with deferent data to cover all lines 3`] = `
+Object {
+  "$$typeof": Symbol(react.memo),
+  "WrappedComponent": [Function],
+  "compare": null,
+  "displayName": "Connect(Article)",
+  "type": [Function],
+}
+`;
+
+exports[`<articles /> render() it should render a single with deferent data to cover all lines 4`] = `
+Object {
+  "$$typeof": Symbol(react.memo),
+  "WrappedComponent": [Function],
+  "compare": null,
+  "displayName": "Connect(Article)",
+  "type": [Function],
+}
+`;
