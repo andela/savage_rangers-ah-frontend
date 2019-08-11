@@ -3,7 +3,6 @@
     min-height: 200px;
   }
 
-  
   &-editorContainer {
     // background-color: $editor-body-color;
     margin: 10px 10px 0 10px;
@@ -21,6 +20,11 @@
         font-size: 16px;
         margin-bottom: 20px;
       }
+
+      & h1 {
+        font-weight: 600;
+        text-align: center;
+      }
     }
   }
 }
@@ -29,36 +33,40 @@
   position: relative;
   border: 1px solid #ced4da;
   &__toolbar {
-   // background-color: #95a5a6;
+    // background-color: #95a5a6;
     height: 70px;
     width: 100%;
     border-bottom: 1px solid #ced4da;
 
     & ul {
-      width: 200px;
+      width: 250px;
       position: absolute;
       margin: 2% 0 0 12%;
       list-style: none;
 
       & li {
         display: inline-block;
-        padding: 4px 4px;
         cursor: pointer;
-        //border: 1px solid #000;
         &:not(:first-child) {
           margin-left: 12%;
         }
         &:hover {
-          &  i{
+          & i {
             color: #ced4da;
           }
         }
+      }
+
+      & button {
+        border: none;
+        background-color: $primary-white;
+        outline: none;
       }
     }
     &--ordering {
       left: 20%;
     }
-    &--alignment{
+    &--alignment {
       left: 43%;
     }
     &--img {
@@ -77,20 +85,20 @@
   }
 }
 
-.input-group{
+.input-group {
   width: 13%;
   margin-top: 1.5% !important;
   margin-left: 1% !important;
   position: absolute;
 }
-.RichEditor-blockquote{
+.RichEditor-blockquote {
   background: #f9f9f9;
   border-left: 10px solid #ccc;
   margin: 1.5em 10px;
   padding: 0.5em 10px;
-  quotes: "\201C""\201D""\2018""\2019";
+  quotes: '\201C''\201D''\2018''\2019';
 }
-.RichEditor-blockquote::before{
+.RichEditor-blockquote::before {
   color: #ccc;
   content: open-quote;
   font-size: 4em;
