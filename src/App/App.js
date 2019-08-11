@@ -48,9 +48,8 @@ class App extends Component {
               path="/reset-password"
               component={!localStorage.getItem('token') ? ResetPassword : Home}
             />
-            <Route exact path="/redirect" component={Redirection} />
             <Route exact path="/terms_and_conditions" component={TermsAndconditions} />
-            <Route path='/new' component= {CreateArticle}/>
+            <Route path="/article/new" component={isAuth ? CreateArticle : Login} />
             <Route exact path="*" component={NotFound} />
           </Switch>
         </Router>

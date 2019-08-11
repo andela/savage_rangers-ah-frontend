@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import Welcome from '../TestRedux';
 
-import axiosInstance from '../../../../configs/axios';
-import Navbar from '../Common/Navbar';
 export class Home extends Component {
   constructor(props) {
     super(props);
