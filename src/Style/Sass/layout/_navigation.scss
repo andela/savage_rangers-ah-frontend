@@ -5,8 +5,7 @@
     color: $primary-white;
     height: 80px;
     text-transform: uppercase;
-
-    & span {
+    ​ & span {
       position: absolute;
       top: 8px;
       left: 45%;
@@ -17,12 +16,7 @@
     left: 22px;
     top: 10px;
   }
-<<<<<<< HEAD
   ​ &-menu {
-=======
-
-  &-menu {
->>>>>>> enables users to create a new article
     position: absolute;
     top: 30px;
     left: 38%;
@@ -32,12 +26,7 @@
       left: 2%;
     }
   }
-<<<<<<< HEAD
   ​ &-auth {
-=======
-
-  &-auth {
->>>>>>> enables users to create a new article
     position: absolute;
     top: 2px;
     left: 78%;
@@ -69,12 +58,7 @@
         padding: 20%;
       }
     }
-<<<<<<< HEAD
     ​ &-block {
-=======
-
-    &-block {
->>>>>>> enables users to create a new article
       display: block;
       top: 79px;
       left: 0;
@@ -95,12 +79,7 @@
       }
     }
   }
-<<<<<<< HEAD
   ​ .nav {
-=======
-
-  .nav {
->>>>>>> enables users to create a new article
     &-menu {
       display: none;
     }
@@ -121,7 +100,6 @@
   display: block;
   transition: 0.8s all ease-out;
 }
-<<<<<<< HEAD
 ​ .hide {
   display: none;
 }
@@ -154,9 +132,4 @@
   .nav-link {
     left: 90% !important;
   }
-=======
-
-.hide {
-  display: none;
->>>>>>> enables users to create a new article
 }

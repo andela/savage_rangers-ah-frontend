@@ -14,7 +14,7 @@ module.exports = {
     publicPath: '/',
     filename: 'bundle.js'
   },
-  devServer: { contentBase: './build', historyApiFallback: true },
+  devServer: { contentBase: './build', historyApiFallback: true, port: 8080 },
   module: {
     rules: [
       { test: /\.(js|jsx)$/, exclude: /node_modules/, use: ['babel-loader'] },
@@ -72,29 +72,19 @@ module.exports = {
             }
           }
         ]
-        use: ['file-loader']
-      },
-      {
-        test:/\.css$/,
-        include: /(node_modules)/,
-      },
-      {
-        test: /plugin\.css$/,
-        include: /(node_modules)/,
       }
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: path.resolve('./public/index.html'), inject: true }),
+    new HtmlWebpackPlugin({
+      template: path.resolve('./public/index.html'),
+      inject: true
+    }),
     new Dotenv({ path: path.resolve(__dirname, '.env') }),
     new MiniCssExtractPlugin({
       filename: isDevelopment ? '[name].css' : '[name].[hash].css',
       chunkFilename: isDevelopment ? '[id].css' : '[id].[hash].css'
     })
   ],
-  resolve: { extensions: ['.js', '.jsx', '.scss'] },
-  externals: ["fs"],
-  resolve: {
-    extensions: ['.js', '.jsx', '.scss']
-  }
+  resolve: { extensions: ['.js', '.jsx', '.scss'] }
 };

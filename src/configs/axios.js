@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'https://authors-heaven.herokuapp.com/';
+const baseURL = 'http://127.0.0.1:3000/';
 const Axios = {};
 if (process.env.NODE_ENV !== 'test') {
   Axios.instance = axios.create({

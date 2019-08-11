@@ -11,6 +11,7 @@ import ResetPassword from './Components/PasswordReset/ResetPassword';
 import CreateArticle from '../App/Components/CreateArticle/CreateArticle';
 
 import Redirection from './Components/Redirection/redirect';
+
 /**
  *
  *
@@ -47,8 +48,7 @@ class App extends Component {
               path="/reset-password"
               component={!localStorage.getItem('token') ? ResetPassword : Home}
             />
-            <Route exact path="/redirect" component={Redirection} />
-            <Route path='/new' component= {CreateArticle}/>
+            <Route path="/article/new" component={CreateArticle} />
             <Route exact path="*" component={NotFound} />
           </Switch>
         </Router>
