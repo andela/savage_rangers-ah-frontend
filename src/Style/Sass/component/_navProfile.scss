@@ -16,11 +16,10 @@
   }
 }
 
-#icon{
-   font-size: 32px;
-   margin: 21px 5px 10px 10px;;
-   color: $primary-white;
-   float: right;
-   cursor: pointer;
-
+#navbarDropdown {
+  font-size: 25px;
+  margin: 13px 5px 5px 1px;
+  color: $primary-white;
+  float: right;
+  cursor: pointer;
 }

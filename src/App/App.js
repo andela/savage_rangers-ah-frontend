@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Home from './Components/Home/Home';
-import NotFound from './Components/NotFound/NotFound';
+import NotFound from './Components/ArticleNotFound/ArticleNotFound';
 import Login from './Components/Login';
 import TermsAndconditions from './Components/TermsAndConditions';
 import Redirection from './Components/Redirection/redirect';
+import ReadArticle from './Components/DisplayArticle/readArticle';
 import store from '../Redux/store';
 import RegistrationComponent from './Components/Registration/Registration';
 import ForgotPassword from './Components/PasswordReset/ForgotPassword';
 import ResetPassword from './Components/PasswordReset/ResetPassword';
-import CreateArticle from '../App/Components/CreateArticle/CreateArticle';
+import CreateArticle from './Components/CreateArticle/CreateArticle';
 
 /**
  *
@@ -48,8 +49,11 @@ class App extends Component {
               path="/reset-password"
               component={!localStorage.getItem('token') ? ResetPassword : Home}
             />
+
             <Route exact path="/terms_and_conditions" component={TermsAndconditions} />
             <Route path="/article/new" component={isAuth ? CreateArticle : Login} />
+            <Route exact path="/redirect" component={Redirection} />
+            <Route exact path="/articles/:slug" component={ReadArticle} />
             <Route exact path="*" component={NotFound} />
           </Switch>
         </Router>
