@@ -1,0 +1,22 @@
+.notFound {
+  text-align: center;
+  //   background-color: #2f3640;
+
+  &__number {
+    font-family: "lato";
+    font-size: 255px;
+    margin-top: 275px;
+    color: #2f3640;
+  }
+
+  &__pagenotfound {
+    font-family: "lato";
+    font-size: 30px;
+    color: #2f3640;
+  }
+
+  &__linkback {
+    font-family: "lato";
+    font-size: 20px;
+  }
+}
