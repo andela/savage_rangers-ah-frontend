@@ -9,15 +9,16 @@
 @import "base/reset";
 @import "component/buttons";
 @import "component/separator";
-@import "layout/navigation";
 @import "layout/alert";
 @import "pages/home";
+@import "pages/notFound";
+@import "layout/navbar";
+@import "layout/editor";
+@import "component/displayArticle";
 @import "pages/redirection";
 @import "pages/registration";
 @import "pages/resetPassword";
 @import "pages/forgotPassword";
 @import "themes/theme1";
-@import "themes/theme1";
 @import "abstract/mixin";
 @import "pages/auth";
-
