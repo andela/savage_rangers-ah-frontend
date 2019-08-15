@@ -43,6 +43,13 @@
         }
       }
     ],
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": ["Link"],
+        "specialLink": ["to"]
+      }
+    ],
     "jsx-a11y/label-has-for": [
       "error",
       {
@@ -62,7 +69,25 @@
           "location",
           "params",
           "location*",
-          "name"
+          "name",
+          "readArticle",
+          "getTags",
+          "popularArticle",
+          "readPopularArticle",
+          "match",
+          "error",
+          "category",
+          "articles",
+          "title",
+          "body",
+          "readTime",
+          "createdAt",
+          "coverImage",
+          "firstName",
+          "lastName",
+          "profileImage",
+          "tags",
+          "content"
         ]
       }
     ],
