@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Display renders the Display component 1`] = `ShallowWrapper {}`;
+
+exports[`read Article component renders the Display component 1`] = `ShallowWrapper {}`;
+
+exports[`testing the read article actions should check the read article action on failure 1`] = `undefined`;
+
+exports[`testing the read article actions should dispatch the GET_TAGS action and payload 1`] = `
+Array [
+  Object {
+    "payload": "Article is not found",
+    "type": "READ_ARTICLE_ERROR",
+  },
+]
+`;
+
+exports[`testing the read article actions should dispatch the GET_TAGS action and payload and throws an error 1`] = `
+Array [
+  Object {
+    "payload": "Article is not found",
+    "type": "READ_ARTICLE_ERROR",
+  },
+  Object {
+    "payload": undefined,
+    "type": "GET_ARTICLE_TAGS",
+  },
+]
+`;
+
+exports[`testing the read article actions should dispatch the READ_ARTICLE action and payload  1`] = `Array []`;
+
+exports[`testing the read article actions should dispatch the READ_ARTICLE action and payload 1`] = `undefined`;
+
+exports[`testing the read article actions should dispatch the READ_ARTICLE action and payload and throws an error 1`] = `Array []`;
