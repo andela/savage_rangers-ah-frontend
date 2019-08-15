@@ -35,8 +35,6 @@
     "react/prefer-stateless-function": 0,
     "react/destructuring-assignment": 1,
      "prefer-promise-reject-errors": 0,
-     "react/forbid-prop-types": 0,
-      "react/require-default-props": 0,
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "jsx-a11y/label-has-associated-control": [
       "error",
@@ -54,22 +52,14 @@
         }
       }
     ],
-    "jsx-a11y/anchor-is-valid": "off",
     "import/no-unresolved": [2, { "commonjs": true }],
-    "prefer-promise-reject-errors": 0,
-    "jsx-a11y/anchor-is-valid": "off",
     "react/prop-types": [
       1
       ,
       {
-        "ignore": [
-          "className",
-          "children",
-          "location",
-          "params",
-          "location*",
-          "name"
-        ]
+        "ignore": ["className", "children", "location", "params", "location*",
+           "name", "readArticle","getTags", "popularArticle","readPopularArticle",
+          "match", "params"]
       }
     ]
   }

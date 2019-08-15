@@ -1,50 +1,65 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import NavPopulator from '../../../Helpers/NavPopulator';
-
+import NavLink from './navbarProfile';
 
 export class navLink extends Component {
-  state = {
-    categories: [],
-    show: false
-  }
-
-  componentDidMount() {
-    const { categories } = this.state;
-    if (categories.length === 0) {
-      axios
-        .get('https://authors-heaven.herokuapp.com/api/articles')
-        .then((res) => {
-          console.log(res);
-          const menuList = NavPopulator(res.data.result.Articles);
-
-          this.setState({ categories: menuList });
-        });
-    }
-  }
-
   render() {
-    const { categories, show } = this.state;
     return (
-      <div className="navbarLink">
-        <ul className="nav justify-content-center nav-menu">
-          <li className="nav-item">
-            <Link to="/" className="nav-link">
-            Home
-            </Link>
+      <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul
+          className="navbar-nav mr-auto"
+          style={{ marginLeft: '10%' }}
+        >
+          <li className="nav-item active">
+            <a className="nav-link" href="/">
+HOME |
+              {' '}
+              <span className="sr-only">(current)</span>
+            </a>
           </li>
-          {Object.keys(categories)
-            .slice(0, 8)
-            .map((menuItem, index) => (
-              <li className="nav-item" key={index}>
-                <Link to={`/articles/${menuItem}`} className="nav-link">
-                  {menuItem}
-                </Link>
-                <span className="line">&#124;</span>
-              </li>
-            ))}
+          <li className="nav-item active">
+            <a className="nav-link" href="/">
+TECHNOLOGY |
+              {' '}
+              <span className="sr-only">(current)</span>
+            </a>
+          </li>
+          <li className="nav-item active">
+            <a className="nav-link" href="/">
+MUSIC |
+              {' '}
+              <span className="sr-only">(current)</span>
+            </a>
+          </li>
+          <li className="nav-item active">
+            <a className="nav-link" href="/">
+LOVE |
+              {' '}
+              <span className="sr-only">(current)</span>
+            </a>
+          </li>
+          <li className="nav-item active">
+            <a className="nav-link" href="/">
+ART |
+              {' '}
+              <span className="sr-only">(current)</span>
+            </a>
+          </li>
+          <li className="nav-item active">
+            <a className="nav-link" href="/">
+BUSINESS |
+              {' '}
+              <span className="sr-only">(current)</span>
+            </a>
+          </li>
+          <li className="nav-item active">
+            <a className="nav-link" href="/">
+ENTERTAINMENT
+              {' '}
+              <span className="sr-only">(current)</span>
+            </a>
+          </li>
         </ul>
+        <NavLink />
       </div>
     );
   }

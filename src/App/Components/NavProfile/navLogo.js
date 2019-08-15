@@ -1,9 +1,7 @@
 import React from 'react';
 
 const Logo = () => (
-  <div className="nav-logo">
-    <p id="logo" title="Home">AH</p>
-  </div>
+  <a href="/" id="logo" className="navbar-brand">AH</a>
 );
 
 export default Logo;
