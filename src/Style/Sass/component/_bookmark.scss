@@ -1,25 +1,18 @@
 .boomark_article {
   position: fixed;
-  margin-top: 150px;
-  margin-left: -50px;
+  margin-left: -120px;
   button {
     background: none;
     border: none;
     outline: none;
-    .fa-bookmark {
-      font-size: 50px;
-    }
+    cursor: pointer;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .boomark_article {
     position: relative;
-    margin: 20px 50% 20px 50%;
-    button {
-      .fa-bookmark {
-        font-size: 40px;
-      }
-    }
+    float: right;
+    margin-top: -82px;
   }
 }
