@@ -4,12 +4,13 @@ import { Provider } from 'react-redux';
 import Home from './Components/Home/Home';
 import NotFound from './Components/NotFound/NotFound';
 import Login from './Components/Login';
+import Redirection from './Components/Redirection/redirect';
+import ProfileComponent from './Components/Profile/Profile';
 import store from '../Redux/store';
 import RegistrationComponent from './Components/Registration/Registration';
 import ForgotPassword from './Components/PasswordReset/ForgotPassword';
 import ResetPassword from './Components/PasswordReset/ResetPassword';
 
-import Redirection from './Components/Redirection/redirect';
 /**
  *
  *
@@ -47,6 +48,7 @@ class App extends Component {
               component={!localStorage.getItem('token') ? ResetPassword : Home}
             />
             <Route exact path="/redirect" component={Redirection} />
+            <Route exact path="/profile" component={ProfileComponent} />
             <Route exact path="*" component={NotFound} />
           </Switch>
         </Router>

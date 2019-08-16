@@ -1,0 +1,105 @@
+.profile-container {
+  border: 1px solid #000;
+  height: fit-content;
+
+  &__cover {
+    position: relative;
+    background-color: #2f3640;
+    width: 100%;
+    height: 170px;
+    margin-bottom: 100px;
+    &--image {
+      position: absolute;
+      z-index: 300;
+      height: 130px;
+      border-radius: 50%;
+      top: 95%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+  &__details {
+    font-size: 23px;
+  }
+}
+
+.single-article {
+  background: #f5f4f4;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+  &-image {
+    height: 350px;
+  }
+  &-header {
+    font-family: Lato;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 30px;
+    color: #858383;
+  }
+  &-title {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 37px;
+    line-height: 44px;
+  }
+  &-status {
+    margin-left: 350px;
+    font-family: Lato;
+    font-size: 20px;
+  }
+}
+.dropdown-menu {
+  width: 10px !important;
+}
+
+.tabMenu-link1 {
+  color: black !important;
+}
+
+.tabMenu-link2 {
+  color: black !important;
+}
+.tabMenu-link3 {
+  color: black !important;
+}
+
+.bookmark_container {
+  background: #f5f4f4;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  &_read_more {
+    width: 174.39px;
+    height: 32.88px;
+    background: #c4c4c4;
+    border-radius: 30px;
+    text-align: center;
+  }
+  &_remove {
+    width: 174.39px;
+    height: 32.88px;
+    background: red;
+    border-radius: 30px;
+    text-align: center;
+  }
+  &_title {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 33px;
+    line-height: 40px;
+  }
+}
+.LOVE {
+  background: red;
+}
+.category {
+  width: 5px;
+  height: 20px;
+  margin-left: 30px;
+}
+// "MUSIC"
+// "ART"
+// "TECHNOLOGY"
+// "BUSINESS"
+// "ENTERTAINMENT"
