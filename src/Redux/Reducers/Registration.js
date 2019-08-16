@@ -13,7 +13,7 @@ export default (state = initialState, action) => {
     case REGISTER:
       return {
         ...state,
-        user: action.payload
+        message: action.payload
       };
     case CATCH_ERROR:
       return {

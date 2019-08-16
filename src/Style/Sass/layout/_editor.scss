@@ -104,3 +104,10 @@
   margin-right: 0.25em;
   vertical-align: -0.4em;
 }
+
+.adaptoid {
+  font-family: 'lato' !important;
+  & pre {
+      font-family: inherit !important;
+  }
+}

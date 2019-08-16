@@ -35,9 +35,12 @@ export class Login extends Component {
     const { validator, state } = this;
 
     let errorMessage;
-    const { authReducer: { errors, isAuthorized } = {}, history } = this.props;
-    if (!isAuthorized && errors) errorMessage = errors.error;
-    if (isAuthorized) history.replace('/');
+    const {
+      authReducer: { errors, isAuthorized, user },
+      history
+    } = this.props;
+    if (!isAuthorized && errors) errorMessage = errors.error || errors.email;
+    if (isAuthorized) history.replace(`/profile/${user.username}`);
 
     return (
       <div className="">

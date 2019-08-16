@@ -43,15 +43,15 @@ export class Registration extends Component {
    * @param {*} { user, error }
    * @memberof Registration
    */
-  async componentWillReceiveProps({ user, error }) {
-    if (user) {
-      const { history } = this.props;
-      await localStorage.setItem('token', user.token);
-      history.push(`/?username=${user.username}&email=${user.email}`);
-    } else {
-      this.setState({ error });
-    }
-  }
+  // async componentWillReceiveProps({ message, error }) {
+  //   if (user) {
+  //     const { history } = this.props;
+  //     await localStorage.setItem('token', user.token);
+  //     history.push(`/?username=${user.username}&email=${user.email}`);
+  //   } else {
+  //     this.setState({ error });
+  //   }
+  // }
 
   /**
    *handles the ochange event from input fields
@@ -84,12 +84,17 @@ export class Registration extends Component {
   };
 
   render() {
-    const { state } = this;
+    const {
+      props: { error, message },
+      state
+    } = this;
     return (
       <div>
         <NavBar />
         <div className="container">
-          {state.error ? <ErrorAlert message={state.error} type="danger" /> : ''}
+          {error ? <ErrorAlert message={error} type="danger" /> : ''}
+          {message ? <ErrorAlert message={message} type="success" /> : ''}
+
           <form className="form-horizontal col-sm-6 common-form">
             <h2 className="common-form-h2">Signup</h2>
             <div className="form-group">
@@ -184,14 +189,13 @@ export class Registration extends Component {
 }
 
 Registration.propTypes = {
-  history: propTypes.object.isRequired,
   register: propTypes.func.isRequired,
   error: propTypes.string,
-  user: propTypes.object
+  message: propTypes.string
 };
 export const mapStateToProps = state => ({
   error: state.registration.error,
-  user: state.registration.user
+  message: state.registration.message
 });
 
 export default connect(mapStateToProps,

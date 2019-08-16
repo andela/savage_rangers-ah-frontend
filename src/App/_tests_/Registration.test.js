@@ -21,6 +21,7 @@ const props = { register, history };
 describe('Test registration', () => {
   wrapper = shallow(<Registration store={store} {...props} />);
   wrapper.setProps({ error: 'not found' });
+  wrapper.setProps({ message: 'created' });
   wrapper.setProps({ user: { username: 'alain' } });
   it('use frontend validation', (done) => {
     wrapper.find('button').simulate('click', { preventDefault: () => {} });
@@ -133,17 +134,11 @@ describe('Test registration', () => {
   });
 
   test('reducers', () => {
-    const user = {
-      email: 'testdsd@test.com',
-      token:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo0MywidXNlcm5hbWUiOiJ0ZXN0dGVzIiwiZW1haWwiOiJ0ZXN0ZHNkQHRlc3QuY29tIn0sImlhdCI6MTU2NTE2ODg2MiwiZXhwIjoxNTY1MjU1MjYyfQ.8SWjfNqLidOoGwZ3untuMb6yFyuoRWgMADUT7_kCWfs',
-      username: 'testtes'
-    };
     const state = reducers({ registration: {} },
       {
         type: 'REGISTER',
-        payload: { ...user }
+        payload: 'account created'
       });
-    expect(state).toEqual({ registration: {}, user });
+    expect(state).toEqual({ registration: {}, message: 'account created' });
   });
 });
