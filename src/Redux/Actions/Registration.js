@@ -7,8 +7,8 @@ export default {
   register: data => dispatch => axios
     .post('/api/users/signup', { ...data })
     .then((response) => {
-      const { user } = response.data;
-      dispatch({ type: REGISTER, payload: user });
+      const { message } = response.data;
+      dispatch({ type: REGISTER, payload: message });
     })
     .catch((error) => {
       if (error.response.data.errors) {
