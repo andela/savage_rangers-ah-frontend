@@ -14,7 +14,7 @@ module.exports = {
     publicPath: '/',
     filename: 'bundle.js'
   },
-  devServer: { contentBase: './build', historyApiFallback: true },
+  devServer: { contentBase: './build', historyApiFallback: true, port: 8080 },
   module: {
     rules: [
       { test: /\.(js|jsx)$/, exclude: /node_modules/, use: ['babel-loader'] },
