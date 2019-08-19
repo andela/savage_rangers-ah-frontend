@@ -14,6 +14,25 @@
   }
 }
 
+.social-btn .btn {
+  color: $whitecolor;
+  margin: 48px 0 0 30px;
+  font-size: 45px;
+  width: 60px;
+  height: 60px;
+  line-height: 38px;
+  border-radius: 50%;
+  font-weight: normal;
+  border: none;
+  transition: all 0.4s;
+  margin-top: 9%;
+  position: relative;
+  padding: 5px;
+}
+.social-btn .btn:first-child {
+  margin-left: 0;
+}
+
 @media (max-width: 320px) {
   .resetPassword__form--btn {
     font-size: 0.9rem;
@@ -46,7 +65,7 @@
 
 .social-btn .btn {
   color: $whitecolor;
-  margin: 10px 0 0 30px;
+  margin: 48px 0 0 30px;
   font-size: 45px;
   width: 70px;
   height: 70px;
@@ -73,6 +92,6 @@
   background: $googlecolor;
 }
 .social-btn .btn i {
-  font-size: 30px;
+  font-size: 28px;
   color: $iconcolor;
 }

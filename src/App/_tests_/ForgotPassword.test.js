@@ -38,6 +38,10 @@ describe('reducers', () => {
   it('Before fetching', () => {
     state = reducers(undefined, {});
     expect(state).toEqual({
+      authReducer: {
+        isAuthorized: false,
+        isFetching: false
+      },
       testRedux: { data: {} },
       passwordReset: { data: {}, errorMessage: 'empty' },
       registration: { data: {} }
@@ -49,6 +53,10 @@ describe('reducers', () => {
       { type: 'CATCH_ERROR', payload: "A user with the provided email doesn't exist" });
     expect(state).toEqual({
       testRedux: { data: {} },
+      authReducer: {
+        isAuthorized: false,
+        isFetching: false
+      },
       passwordReset: { data: {}, errorMessage: "A user with the provided email doesn't exist" },
       registration: {
         data: {},
@@ -72,6 +80,10 @@ describe('reducers', () => {
     expect(state).toEqual({
       testRedux: { data: {} },
       registration: { data: {} },
+      authReducer: {
+        isAuthorized: false,
+        isFetching: false
+      },
       passwordReset: {
         data: {
           status: 200,

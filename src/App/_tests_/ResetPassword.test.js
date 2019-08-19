@@ -32,6 +32,10 @@ describe('reducers', () => {
       { type: 'CATCH_ERROR', payload: 'Invalid password provided' });
     expect(state).toEqual({
       testRedux: { data: {} },
+      authReducer: {
+        isAuthorized: false,
+        isFetching: false
+      },
       passwordReset: { data: {}, errorMessage: 'Invalid password provided' },
       registration: {
         data: {},
@@ -78,6 +82,10 @@ describe('reducers', () => {
     expect(state).toEqual({
       testRedux: { data: {} },
       registration: { data: {} },
+      authReducer: {
+        isAuthorized: false,
+        isFetching: false
+      },
       passwordReset: {
         data: {
           status: 200,
