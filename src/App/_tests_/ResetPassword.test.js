@@ -3,10 +3,7 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
 import { shallow } from '../../enzyme';
-import {
-  PasswordReset,
-  mapStateToProps
-} from '../Components/PasswordReset/ResetPassword';
+import { PasswordReset, mapStateToProps } from '../Components/PasswordReset/ResetPassword';
 import reducer from '../../Redux/Reducers/passwordReset';
 import actions from '../../Redux/Actions/passwordReset';
 import mockAxios from '../../__mocks__/axios';
@@ -31,10 +28,8 @@ describe('ResetPassword', () => {
 describe('reducers', () => {
   let state;
   it('On error', () => {
-    state = reducer(
-      { data: {}, errorMessage: 'empty' },
-      { type: 'CATCH_ERROR', payload: 'Invalid password provided' }
-    );
+    state = reducer({ data: {}, errorMessage: 'empty' },
+      { type: 'CATCH_ERROR', payload: 'Invalid password provided' });
     expect(state).toEqual({
       data: {},
       errorMessage: 'Invalid password provided'
@@ -42,8 +37,7 @@ describe('reducers', () => {
   });
 
   it('renders the ResetPassword component', () => {
-    state = reducer(
-      { data: {}, errorMessage: 'empty' },
+    state = reducer({ data: {}, errorMessage: 'empty' },
       {
         type: 'RESET_PASSWORD',
         payload: {
@@ -76,8 +70,7 @@ describe('reducers', () => {
           token:
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo0MywidXNlcm5hbWUiOiJQcsOpbWljZXMgVHV2ZXJlIiwiZW1haWwiOiJwcmVtaWNlcy50dXZlcmVAZ21haWwuY29tIn0sImlhdCI6MTU2NTc3NzMxNCwiZXhwIjoxNTY1ODYzNzE0fQ.eFPAsEvNALOjznlBPXRVZ-cPMAkWkAWPoKIDJmlqiBM'
         }
-      }
-    );
+      });
     expect(state).toEqual({
       data: {
         status: 200,
@@ -116,24 +109,20 @@ describe('reducers', () => {
 
 describe('Action', () => {
   it('on success', () => {
-    mockAxios.post = jest.fn(() =>
-      Promise.resolve({
-        status: 200,
-        data: { message: 'Password reset successfully' }
-      })
-    );
+    mockAxios.post = jest.fn(() => Promise.resolve({
+      status: 200,
+      data: { message: 'Password reset successfully' }
+    }));
     store.dispatch(action('123passworD'));
   });
 
   it('on error', () => {
-    mockAxios.post = jest.fn(() =>
-      Promise.reject({
-        response: {
-          status: 400,
-          data: { errors: { email: 'incorrect password' } }
-        }
-      })
-    );
+    mockAxios.post = jest.fn(() => Promise.reject({
+      response: {
+        status: 400,
+        data: { errors: { email: 'incorrect password' } }
+      }
+    }));
 
     store.dispatch(action('1234passworD'));
   });
@@ -170,9 +159,7 @@ describe('Simulations', () => {
   });
 
   it('Should simulate props', () => {
-    resetPassword
-      .instance()
-      .componentWillReceiveProps({ data: {}, errorMessage: '' });
+    resetPassword.instance().componentWillReceiveProps({ data: {}, errorMessage: '' });
   });
 
   it('Should simulate the state', () => {
@@ -180,11 +167,9 @@ describe('Simulations', () => {
   });
 
   it('Should simulate props', () => {
-    resetPassword
-      .instance()
-      .componentWillReceiveProps({
-        data: { token: '', message: 'message' },
-        errorMessage: ''
-      });
+    resetPassword.instance().componentWillReceiveProps({
+      data: { token: '', message: 'message' },
+      errorMessage: ''
+    });
   });
 });

@@ -3,13 +3,13 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Home from './Components/Home/Home';
 import NotFound from './Components/NotFound/NotFound';
-import Login from './Components/Login/Login';
-import Redirection from './Components/Redirection/redirect';
+import Login from './Components/Login';
 import store from '../Redux/store';
 import RegistrationComponent from './Components/Registration/Registration';
 import ForgotPassword from './Components/PasswordReset/ForgotPassword';
 import ResetPassword from './Components/PasswordReset/ResetPassword';
 
+import Redirection from './Components/Redirection/redirect';
 /**
  *
  *
