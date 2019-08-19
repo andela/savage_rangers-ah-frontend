@@ -38,7 +38,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.s(a|c)ss$/,
+        test: /.(css|scss)$/,
         exclude: /\.module.(s(a|c)ss)$/,
         loader: [
           isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
@@ -51,7 +51,27 @@ module.exports = {
       },
       {
         test: /.(jpg|jpeg|png|gif|svg)$/,
-        use: ['file-loader']
+        use: [
+          'file-loader',
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              mozjpeg: {
+                progressive: true,
+                quality: 65
+              },
+              // optipng.enabled: false will disable optipng
+              optipng: { enabled: false },
+              pngquant: {
+                quality: '65-90',
+                speed: 4
+              },
+              gifsicle: { interlaced: false },
+              // the webp option will enable WEBP
+              webp: { quality: 75 }
+            }
+          }
+        ]
       }
     ]
   },
