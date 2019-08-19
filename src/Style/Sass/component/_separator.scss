@@ -1,24 +1,25 @@
 .or-separator {
-    text-align: center;
-    border-top: 1px solid $whitecolor;
+  text-align: center;
+  border-top: 1px solid $whitecolor;
+  position: relative;
+  transform: translateY(12px);
+  width: 100%;
+  margin-left: 3px;
+
+  b {
+    background: $whitecolor;
+    border: 1px solid $whitecolor;
+    display: inline-block;
+    font-size: 16px;
+    height: 40px;
+    padding: 0 0px;
+    line-height: 35px;
     position: relative;
-    transform: translateY(500px);
-    width: 50%;
-    margin-left: 379px;
-   
-    b {
-      background: $whitecolor;
-      border: 1px solid $whitecolor;
-      border-radius: 50%;
-      display: inline-block;
-      font-size: 16px;
-      height: 40px;
-      line-height: 40px;
-      padding: 0 0px;
-      position: relative;
-      text-align: center;
-      top: -22px;
-      width: 40px;
-      z-index: 1;
-    }
+    text-align: center;
+    top: -20px;
+    width: 90px;
+    z-index: 1;
+    font-family: 'Lato';
+    font-size: 20px;
+  }
 }
