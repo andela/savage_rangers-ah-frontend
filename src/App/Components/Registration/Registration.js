@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SimpleReactValidator from 'simple-react-validator';
+import { Link } from 'react-router-dom';
 import ErrorAlert from '../Common/Alert';
 import RegistrationAction from '../../../Redux/Actions/Registration';
 import SocialLogin from '../SocialLogin/socialLogin';
@@ -158,7 +159,7 @@ export class Registration extends Component {
               />
               Agree to
               {' '}
-              <a href="/terms">terms and conditions</a>
+              <Link to="/terms_and_conditions">terms and conditions</Link>
               {this.validator.message('terms and conditions', state.accepted, 'accepted', { className: 'text-danger' })}
             </div>
             <button
@@ -170,9 +171,9 @@ export class Registration extends Component {
             </button>
             <p className="text-center">
               Already have an account ?
-              {' '}
               <a href="/login">Log in</a>
             </p>
+
             <SocialLogin />
           </form>
         </div>
