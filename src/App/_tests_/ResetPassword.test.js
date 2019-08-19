@@ -22,9 +22,7 @@ const store = mockStore(initialState);
 mapStateToProps({ passwordReset: { data: { user: {} } } });
 
 describe('ResetPassword', () => {
-  const resetPassword = shallow(
-    <PasswordReset store={store} resetPassword={() => {}} data={{}} />
-  );
+  const resetPassword = shallow(<PasswordReset store={store} resetPassword={() => {}} data={{}} />);
   it('renders the ResetPassword component', () => {
     expect(resetPassword.find('div').exists()).toBe(true);
   });
@@ -136,14 +134,13 @@ describe('Action', () => {
         }
       })
     );
+
     store.dispatch(action('1234passworD'));
   });
 });
 
 describe('Simulations', () => {
-  const resetPassword = shallow(
-    <PasswordReset store={store} resetPassword={() => {}} data={{}} />
-  );
+  const resetPassword = shallow(<PasswordReset store={store} resetPassword={() => {}} data={{}} />);
   it('Should simulate the filling', () => {
     resetPassword.find('#newPassword').simulate('change', {
       target: {

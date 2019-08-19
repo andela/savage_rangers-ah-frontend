@@ -35,14 +35,6 @@ describe('ForgotPassword', () => {
 
 describe('reducers', () => {
   let state;
-  // it('Before fetching', () => {
-  //   state = reducers(undefined, {});
-  //   expect(state).toEqual({
-  //     testRedux: { data: {} },
-  //     passwordReset: { data: {}, errorMessage: 'empty' },
-  //     registration: { data: {} }
-  //   });
-  // });
 
   it('On error', () => {
     state = reducer({ data: {}, errorMessage: 'empty' },
