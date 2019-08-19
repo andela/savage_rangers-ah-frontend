@@ -17,7 +17,10 @@ export class PasswordReset extends Component {
     super(props);
     this.state = { newPassword: '', confirmPassword: '', redirect: false };
     this.onChange = this.onChange.bind(this);
-    this.validator = new SimpleReactValidator({ messages: { in: 'New password and confirm password did not match' } });
+    this.validator = new SimpleReactValidator({
+      locale: 'en',
+      messages: { in: 'New password and confirm password did not match' }
+    });
   }
 
   componentWillReceiveProps({ data, errorMessage }) {

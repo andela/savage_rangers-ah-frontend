@@ -16,7 +16,7 @@ export class ForgotPassword extends Component {
     super(props);
     this.state = { email: '' };
     this.onChange = this.onChange.bind(this);
-    this.validator = new SimpleReactValidator();
+    this.validator = new SimpleReactValidator({ locale: 'en' });
   }
 
   componentWillReceiveProps({ data }) {

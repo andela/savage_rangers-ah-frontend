@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
 import { shallow } from '../../enzyme';
 import { ForgotPassword, mapStateToProps } from '../Components/PasswordReset/ForgotPassword';
-import reducers from '../../Redux/Reducers';
+import reducer from '../../Redux/Reducers/passwordReset';
 import actions from '../../Redux/Actions/passwordReset';
 import mockAxios from '../../__mocks__/axios';
 
@@ -35,63 +35,33 @@ describe('ForgotPassword', () => {
 
 describe('reducers', () => {
   let state;
-  it('Before fetching', () => {
-    state = reducers(undefined, {});
-    expect(state).toEqual({
-      authReducer: {
-        isAuthorized: false,
-        isFetching: false
-      },
-      testRedux: { data: {} },
-      passwordReset: { data: {}, errorMessage: 'empty' },
-      registration: { data: {} }
-    });
-  });
 
   it('On error', () => {
-    state = reducers({ testRedux: { data: {} }, passwordReset: { data: {}, errorMessage: 'empty' } },
+    state = reducer({ data: {}, errorMessage: 'empty' },
       { type: 'CATCH_ERROR', payload: "A user with the provided email doesn't exist" });
     expect(state).toEqual({
-      testRedux: { data: {} },
-      authReducer: {
-        isAuthorized: false,
-        isFetching: false
-      },
-      passwordReset: { data: {}, errorMessage: "A user with the provided email doesn't exist" },
-      registration: {
-        data: {},
-        error: undefined
-      }
+      data: {},
+      errorMessage: "A user with the provided email doesn't exist"
     });
   });
   it('On success', () => {
-    state = reducers({
-      testRedux: { data: {} },
-      passwordReset: { data: {}, errorMessage: "A user with the provided email doesn't exist" }
-    },
-    {
-      type: 'SEND_RESET_PASSWORD_EMAIL',
-      payload: {
-        status: 200,
-        message:
-            "Password reset instructions have been sent to your account's primary email address. Please check the spam if you don't see the email"
-      }
-    });
-    expect(state).toEqual({
-      testRedux: { data: {} },
-      registration: { data: {} },
-      authReducer: {
-        isAuthorized: false,
-        isFetching: false
-      },
-      passwordReset: {
-        data: {
+    state = reducer({ data: {}, errorMessage: "A user with the provided email doesn't exist" },
+      {
+        type: 'SEND_RESET_PASSWORD_EMAIL',
+        payload: {
+
           status: 200,
           message:
             "Password reset instructions have been sent to your account's primary email address. Please check the spam if you don't see the email"
-        },
-        errorMessage: "A user with the provided email doesn't exist"
-      }
+        }
+      });
+    expect(state).toEqual({
+      data: {
+        status: 200,
+        message:
+          "Password reset instructions have been sent to your account's primary email address. Please check the spam if you don't see the email"
+      },
+      errorMessage: "A user with the provided email doesn't exist"
     });
   });
 });
