@@ -168,7 +168,7 @@ export class CreateArticle extends Component {
           <p className="page__label--text">Write Article</p>
         </div>
         <div className="container create">
-          <div className="form-group category">
+          <div className="form-group category-dropdown">
             <select
               name="category"
               className="selectpicker category__selector"

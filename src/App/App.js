@@ -6,6 +6,7 @@ import NotFound from './Components/NotFound/NotFound';
 import Login from './Components/Login';
 import Redirection from './Components/Redirection/redirect';
 import readArticle from './Components/DisplayArticle/readArticle';
+import ProfileComponent from './Components/Profile/Profile';
 import store from '../Redux/store';
 import RegistrationComponent from './Components/Registration/Registration';
 import ForgotPassword from './Components/PasswordReset/ForgotPassword';
@@ -35,9 +36,7 @@ class App extends Component {
         <Router>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/forgot-password" component={ForgotPassword} />
-            <Route exact path="/reset-password" component={ResetPassword} />
+            <Route exact path="/login" component={isAuth ? Home : Login} />
             <Route exact path="/redirect" component={Redirection} />
             <Route exact path="/signup" component={isAuth ? Home : RegistrationComponent} />
             <Route
@@ -50,9 +49,10 @@ class App extends Component {
               path="/reset-password"
               component={!localStorage.getItem('token') ? ResetPassword : Home}
             />
-            <Route path="/article/new" component={CreateArticle} />
+            <Route path="/article/new" component={isAuth ? CreateArticle : Login} />
             <Route exact path="/redirect" component={Redirection} />
             <Route exact path="/articles/:slug" component={readArticle} />
+            <Route exact path="/profile" component={ProfileComponent} />
             <Route exact path="*" component={NotFound} />
           </Switch>
         </Router>

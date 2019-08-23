@@ -1,6 +1,6 @@
+@import 'abstract/variables';
 @import 'abstract/common';
 @import 'abstract/typography';
-@import 'abstract/variables';
 @import 'base/base';
 @import 'base/reset';
 @import 'component/navProfile';
@@ -21,8 +21,7 @@
 @import 'pages/notFound';
 @import 'layout/navbar';
 @import 'component/displayArticle';
-@import 'base/reset';
-@import 'layout/alert';
+@import 'component/rater';
 @import 'pages/redirection';
 @import 'pages/registration';
 @import 'pages/resetPassword';
@@ -30,3 +29,6 @@
 @import 'pages/create';
 @import 'themes/theme1';
 @import 'layout/notifications';
+@import 'themes/theme1';
+@import 'abstract/mixin';
+@import 'pages/auth';

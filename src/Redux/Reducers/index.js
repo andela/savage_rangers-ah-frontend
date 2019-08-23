@@ -7,6 +7,7 @@ import readPopularArticleReducer from './popularArticleReducer';
 import notifications from './notifications';
 import authReducer from './auth';
 import article from './createArticle';
+import profile from './Profile';
 
 export default combineReducers({
   authReducer,
@@ -16,5 +17,6 @@ export default combineReducers({
   article,
   readArticle: readArticleReducer,
   populars: readPopularArticleReducer,
-  notifications
+  notifications,
+  profile
 });
