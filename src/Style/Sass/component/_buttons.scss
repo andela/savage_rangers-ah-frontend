@@ -1,6 +1,6 @@
 .resetPassword__form--btn {
   background-color: $form-button-color !important;
-  color: $text-color-default !important;
+  color: white !important;
   width: 30%;
   border-radius: 50px;
   position: absolute;
@@ -14,6 +14,25 @@
   }
 }
 
+.social-btn .btn {
+  color: $whitecolor;
+  margin: 48px 0 0 30px;
+  font-size: 45px;
+  width: 60px;
+  height: 60px;
+  line-height: 38px;
+  border-radius: 50%;
+  font-weight: normal;
+  border: none;
+  transition: all 0.4s;
+  margin-top: 9%;
+  position: relative;
+  padding: 5px;
+}
+.social-btn .btn:first-child {
+  margin-left: 0;
+}
+
 @media (max-width: 320px) {
   .resetPassword__form--btn {
     font-size: 0.9rem;
@@ -21,37 +40,58 @@
   }
 }
 
+.forgotPassword__form--btn {
+  background-color: $form-button-color !important;
+  width: 30%;
+  color: white !important;
+  border-radius: 50px;
+  position: absolute;
+  left: 35%;
+  margin-top: 6%;
+  &:hover {
+    background-color: black !important;
+  }
+  &__transform {
+    margin-top: 5%;
+  }
+}
+
+@media (max-width: 320px) {
+  .forgotPassword__form--btn {
+    font-size: 0.9rem;
+    padding-top: 1%;
+  }
+}
+
 .social-btn .btn {
-    color: $whitecolor;
-    margin: 10px 0 0 30px;
-    font-size: 45px;
-    width: 70px;
-    height: 70px;
-    line-height: 38px;
-    border-radius: 50%;
-    font-weight: normal;
-    border: none;
-    transition: all 0.4s;
-    margin-top: 35%;
-    position: relative;
-  }
-  .social-btn .btn:first-child {
-    margin-left: 0;
-  }
-  .social-btn .btn:hover {
-    opacity: 0.8;
-  }
-  .social-btn .btn-primary {
-    background: $facebookcolor;
-  }
-  .social-btn .btn-info {
-    background: $twittercolor;
-  }
-  .social-btn .btn-danger {
-    background: $googlecolor;
-  }
-  .social-btn .btn i {
-    font-size: 30px;
-    color: $iconcolor;
-  }
- 
+  color: $whitecolor;
+  margin: 48px 0 0 30px;
+  font-size: 45px;
+  width: 70px;
+  height: 70px;
+  line-height: 38px;
+  border-radius: 50%;
+  font-weight: normal;
+  border: none;
+  transition: all 0.4s;
+  position: relative;
+}
+.social-btn .btn:first-child {
+  margin-left: 0;
+}
+.social-btn .btn:hover {
+  opacity: 0.8;
+}
+.social-btn .btn-primary {
+  background: $facebookcolor;
+}
+.social-btn .btn-info {
+  background: $twittercolor;
+}
+.social-btn .btn-danger {
+  background: $googlecolor;
+}
+.social-btn .btn i {
+  font-size: 28px;
+  color: $iconcolor;
+}

@@ -3,12 +3,13 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Home from './Components/Home/Home';
 import NotFound from './Components/NotFound/NotFound';
-import Login from './Components/Login/Login';
-import Redirection from './Components/Redirection/redirect';
+import Login from './Components/Login';
 import store from '../Redux/store';
+import RegistrationComponent from './Components/Registration/Registration';
 import ForgotPassword from './Components/PasswordReset/ForgotPassword';
 import ResetPassword from './Components/PasswordReset/ResetPassword';
 
+import Redirection from './Components/Redirection/redirect';
 /**
  *
  *
@@ -25,8 +26,8 @@ class App extends Component {
    * @memberof App
    * @returns {Component} res
    */
-
   render() {
+    const isAuth = localStorage.getItem('token');
     return (
       <Provider store={store}>
         <Router>
@@ -35,6 +36,22 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/forgot-password" component={ForgotPassword} />
             <Route exact path="/reset-password" component={ResetPassword} />
+            <Route exact path="/redirect" component={Redirection} />
+            <Route
+              exact
+              path="/signup"
+              component={isAuth ? Home : RegistrationComponent}
+            />
+            <Route
+              exact
+              path="/forgot-password"
+              component={!localStorage.getItem('token') ? ForgotPassword : Home}
+            />
+            <Route
+              exact
+              path="/reset-password"
+              component={!localStorage.getItem('token') ? ResetPassword : Home}
+            />
             <Route exact path="/redirect" component={Redirection} />
             <Route exact path="*" component={NotFound} />
           </Switch>

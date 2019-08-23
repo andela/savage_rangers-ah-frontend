@@ -1,0 +1,135 @@
+.nav {
+  &-body {
+    position: relative;
+    background: rgba(47, 54, 64, 1);
+    color: $primary-white;
+    height: 80px;
+    text-transform: uppercase;
+    ​ & span {
+      position: absolute;
+      top: 8px;
+      left: 45%;
+    }
+  }
+  &-logo {
+    position: absolute;
+    left: 22px;
+    top: 10px;
+  }
+  ​ &-menu {
+    position: absolute;
+    top: 30px;
+    left: 38%;
+    & span.line {
+      top: -24px;
+      position: relative;
+      left: 2%;
+    }
+  }
+  ​ &-auth {
+    position: absolute;
+    top: 2px;
+    left: 78%;
+  }
+  &-link {
+    color: $primary-white !important;
+  }
+}
+.responsive {
+  &-nav {
+    display: none;
+  }
+  &-block {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  .responsive {
+    &-nav {
+      position: absolute;
+      display: block;
+      left: 87%;
+      top: 10px;
+      font-size: 2em;
+      cursor: pointer;
+      & .fa-bars {
+        border: 1px solid $primary-white;
+        border-radius: 4px;
+        padding: 20%;
+      }
+    }
+    ​ &-block {
+      display: block;
+      top: 79px;
+      left: 0;
+      position: absolute;
+      background: inherit;
+      width: 100%;
+      text-align: center;
+      & ul {
+        & li {
+          border-bottom: 1px solid $primary-white;
+          // &:not(:last-child){
+          //   padding: 2%;
+          // }
+          & a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+          }
+        }
+      }
+    }
+  }
+  ​ .nav {
+    &-menu {
+      display: none;
+    }
+    &-auth {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 320px) {
+  .responsive {
+    &-nav {
+      left: 81%;
+    }
+  }
+}
+.show {
+  display: block;
+  transition: 0.8s all ease-out;
+}
+​ .hide {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .to-hide-on-responsive {
+    display: none;
+  }
+}
+
+.nav-link {
+  cursor: pointer;
+}
+
+.nav-links-container {
+  float: right;
+  position: absolute;
+  left: 85vw;
+}
+
+@media (max-width: 768px) {
+  .nav-links-container {
+    float: left;
+    position: relative;
+    left: 0vw;
+  }
+}
+
+@media (min-width: 320px) {
+  .nav-link {
+    left: 90% !important;
+  }
+}

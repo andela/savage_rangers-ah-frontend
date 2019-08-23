@@ -21,8 +21,10 @@ export default class ErrorAlert extends Component {
   }
 }
 
+ErrorAlert.defaultProps = { message: 'default Message' };
+
 ErrorAlert.propTypes = {
   type: PropTypes.string.isRequired,
-  message: PropTypes.string.isRequired,
-  cssClass: PropTypes.string.isRequired
+  message: PropTypes.string,
+  cssClass: PropTypes.string
 };

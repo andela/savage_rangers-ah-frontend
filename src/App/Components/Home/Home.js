@@ -11,9 +11,11 @@ export class Home extends Component {
   }
 
   componentWillMount() {
-    const { props } = this;
-    if (props.data.user) {
-      this.setState({ user: props.data.user });
+    const { data } = this.props;
+    if (data && data.user) {
+      this.setState({ user: data.user });
+    } else {
+      this.setState({ user: {} });
     }
   }
 
@@ -52,5 +54,7 @@ Home.propTypes = { data: propTypes.object };
 
 export const mapStateToProps = state => ({ data: state.passwordReset.data });
 
-export default connect(mapStateToProps,
-  {})(Home);
+export default connect(
+  mapStateToProps,
+  {}
+)(Home);

@@ -6,14 +6,23 @@ class SocialLogin extends Component {
   render() {
     return (
       <div className="social-btn text-center">
-        <Separator name="or" />
-        <a href={urls.facebookLink} className="btn btn-primary btn-lg" title="Facebook">
+        <Separator name="or use" />
+        <a
+          href={process.env.facebookLink}
+          className="btn btn-primary btn-lg"
+          title="Facebook">
           <i className="fab fa-facebook-f" />
         </a>
-        <a href={urls.twitterLink} className="btn btn-info btn-lg" title="Twitter">
+        <a
+          href={process.env.twitterLink}
+          className="btn btn-info btn-lg"
+          title="Twitter">
           <i className="fab fa-twitter" />
         </a>
-        <a href={urls.googleLink} className="btn btn-danger btn-lg" title="Google">
+        <a
+          href={process.env.googleLink}
+          className="btn btn-danger btn-lg"
+          title="Google">
           <i className="fab fa-google" />
         </a>
       </div>

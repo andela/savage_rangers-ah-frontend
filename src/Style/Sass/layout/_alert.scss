@@ -1,16 +1,11 @@
 .alert-forgot-password {
-  top: 30%;
+  top: 8%;
   left: 19%;
   width: 60%;
   position: absolute;
   &__success {
     top: 10%;
   }
-}
-
-.alert-danger {
-  background-color: rgb(207, 40, 40);
-  color: white;
 }
 
 .alert-success {
@@ -27,26 +22,27 @@
 
 @media (max-width: 768px) {
   .alert-forgot-password {
-    top: 10%;
+    top: 1%;
     left: 5%;
     width: 90%;
   }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 425px) {
   .alert-forgot-password {
-    top: 5%;
+    top: 0;
     left: 0%;
     width: 100%;
     font-size: 15px !important;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 375px) {
   .alert-reset-password {
-    top: 10%;
+    top: 0;
     left: 5%;
     width: 90%;
+    font-size: 5px !important;
   }
 }
 
