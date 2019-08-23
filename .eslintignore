@@ -8,4 +8,5 @@ package-lock.json
 node_modules
 
 # Styles
- ./src/Style/Sass
+./src/Style/Sass
+node_modules

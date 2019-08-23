@@ -8,8 +8,10 @@ import store from '../Redux/store';
 import RegistrationComponent from './Components/Registration/Registration';
 import ForgotPassword from './Components/PasswordReset/ForgotPassword';
 import ResetPassword from './Components/PasswordReset/ResetPassword';
+import CreateArticle from '../App/Components/CreateArticle/CreateArticle';
 
 import Redirection from './Components/Redirection/redirect';
+
 /**
  *
  *
@@ -52,7 +54,7 @@ class App extends Component {
               path="/reset-password"
               component={!localStorage.getItem('token') ? ResetPassword : Home}
             />
-            <Route exact path="/redirect" component={Redirection} />
+            <Route path="/article/new" component={CreateArticle} />
             <Route exact path="*" component={NotFound} />
           </Switch>
         </Router>

@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-let instance;
+const Axios = {};
 if (process.env.NODE_ENV !== 'test') {
-  instance = axios.create({ baseURL: 'https://authors-heaven.herokuapp.com/' });
+  Axios.instance = axios.create({ baseURL: 'https://authors-heaven.herokuapp.com/' });
 } else {
-  instance = axios;
+  Axios.instance = axios;
 }
-export default instance;
+export default Axios.instance;

@@ -14,7 +14,7 @@ module.exports = {
     publicPath: '/',
     filename: 'bundle.js'
   },
-  devServer: { contentBase: './build', historyApiFallback: true },
+  devServer: { contentBase: './build', historyApiFallback: true, port: 8080 },
   module: {
     rules: [
       { test: /\.(js|jsx)$/, exclude: /node_modules/, use: ['babel-loader'] },
@@ -76,7 +76,10 @@ module.exports = {
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: path.resolve('./public/index.html'), inject: true }),
+    new HtmlWebpackPlugin({
+      template: path.resolve('./public/index.html'),
+      inject: true
+    }),
     new Dotenv({ path: path.resolve(__dirname, '.env') }),
     new MiniCssExtractPlugin({
       filename: isDevelopment ? '[name].css' : '[name].[hash].css',

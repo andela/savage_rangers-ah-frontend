@@ -1,0 +1,17 @@
+.page{
+    &__label{
+        margin-top:23px;
+        left: 0;
+        color: $primary-white;
+        width: 200px;
+        height: 50px;
+        background-color: $primary-theme-color;
+        margin-bottom: 4%;
+        &--text{
+            margin-left: 20%;
+            padding: 8%;
+            text-transform: uppercase;
+        }
+    }
+
+}
