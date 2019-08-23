@@ -51,8 +51,7 @@ module.exports = {
       },
       {
         test: /.(jpg|jpeg|png|gif|svg)$/,
-        use: [
-          'file-loader',
+        use: ['file-loader',
           {
             loader: 'image-webpack-loader',
             options: {

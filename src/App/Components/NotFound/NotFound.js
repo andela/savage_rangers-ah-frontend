@@ -1,10 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const NotFound = () => (
-  <React.Fragment>
-    <h1>Authors Heaven</h1>
-    <h2>404</h2>
-    <p>The page you are searching for was not found</p>
-  </React.Fragment>
+  <div className="notFound">
+    <h1 className="notFound__number">404</h1>
+    <p className="notFound__pagenotfound">PAGE NOT FOUND</p>
+    <Link to="/" className="notFound__linkback">Back to Homepage</Link>
+  </div>
 );
 export default NotFound;
