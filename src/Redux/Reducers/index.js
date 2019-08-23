@@ -4,6 +4,7 @@ import registration from './Registration';
 import passwordReset from './passwordReset';
 import readArticleReducer from './readArticleReducer';
 import readPopularArticleReducer from './popularArticleReducer';
+import notifications from './notifications';
 import authReducer from './auth';
 import article from './createArticle';
 
@@ -14,5 +15,6 @@ export default combineReducers({
   registration,
   article,
   readArticle: readArticleReducer,
-  populars: readPopularArticleReducer
+  populars: readPopularArticleReducer,
+  notifications
 });

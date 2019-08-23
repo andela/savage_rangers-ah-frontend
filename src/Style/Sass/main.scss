@@ -1,7 +1,6 @@
 @import 'abstract/common';
 @import 'abstract/typography';
 @import 'abstract/variables';
-@import 'abstract/mixin';
 @import 'base/base';
 @import 'base/reset';
 @import 'component/navProfile';
@@ -22,10 +21,12 @@
 @import 'pages/notFound';
 @import 'layout/navbar';
 @import 'component/displayArticle';
+@import 'base/reset';
+@import 'layout/alert';
 @import 'pages/redirection';
 @import 'pages/registration';
 @import 'pages/resetPassword';
 @import 'pages/forgotPassword';
 @import 'pages/create';
 @import 'themes/theme1';
-@import 'pages/auth';
+@import 'layout/notifications';

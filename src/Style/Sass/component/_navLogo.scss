@@ -28,6 +28,7 @@
   }
 }
 
+<<<<<<< HEAD
 #web-name{
   margin: 10px;
   font-family: 'Times New Roman', Times, serif;
@@ -43,3 +44,12 @@
     font-size: 20px;
   }
 }
+=======
+@media (max-width: 768px) {
+  .nav-logo-custom {
+    display: none !important;
+  }
+}
+
+/*  */
+>>>>>>> ft-optin-optout-notifications-166240795

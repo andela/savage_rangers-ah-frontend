@@ -119,7 +119,9 @@
       "configs/axios",
       "src/Redux/store",
       "src/Redux/Actions/index",
-      "src/Redux/Reducers/index"
+      "src/Redux/Reducers/index",
+      "src/Redux/Reducers/index",
+      "src/configs/urls"
     ],
     "setupFilesAfterEnv": [
       "./src/App/_tests_/setup/setupEnzyme.js"
