@@ -5,13 +5,18 @@ import React, { Component } from 'react';
 import queryString from 'query-string';
 // import actions from '../../../Redux/Actions/profileActions';
 
-export class redirect extends Component {
+// const { getProfile } = actions;
+
+export class Redirect extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { username: '', profileImage: '' };
+  }
+
   componentDidMount() {
     // const { state, props } = this;
     // const { getProfile: profile } = props;
-    const { token, username, profileImage } = queryString.parse(
-      window.location.search
-    );
+    const { token, username, profileImage } = queryString.parse(window.location.search);
     localStorage.setItem('token', token);
     this.setState({ username, profileImage });
     // profile(state.token, state.username);
@@ -26,7 +31,20 @@ export class redirect extends Component {
     const { state } = this;
     return (
       <div>
-        <center id="redirect-text">Redirection Page</center>
+        <h1>
+          <center id="redirect-text">Redirection Page</center>
+        </h1>
+        <div>
+          <h2>User credentials</h2>
+          <p>
+            <strong>Picture: </strong>
+            <img src={state.profileImage} alt="Profile" />
+          </p>
+          <p>
+            <strong>Username: </strong>
+            {state.username}
+          </p>
+        </div>
       </div>
     );
   }

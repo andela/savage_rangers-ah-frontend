@@ -41,11 +41,11 @@ export class PasswordReset extends Component {
     }
   }
 
-  onChange = event => {
+  onChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  onSubmit = async event => {
+  onSubmit = async (event) => {
     const { state } = this;
     event.preventDefault();
     if (this.validator.allValid()) {
@@ -91,7 +91,8 @@ export class PasswordReset extends Component {
                 </div>
                 <form
                   onSubmit={this.onSubmit}
-                  className="container resetPassword__form">
+                  className="container resetPassword__form"
+                >
                   <div className="form-group">
                     <input
                       type="password"
@@ -101,12 +102,10 @@ export class PasswordReset extends Component {
                       className="form-control form-input"
                       id="newPassword"
                     />
-                    {this.validator.message(
-                      'newPassword',
+                    {this.validator.message('newPassword',
                       state.newPassword,
                       'required|string|min:8',
-                      { className: 'field-alert text-danger' }
-                    )}
+                      { className: 'field-alert text-danger' })}
                   </div>
                   <div className="form-group">
                     <input
@@ -117,17 +116,16 @@ export class PasswordReset extends Component {
                       placeholder="Confirm Password"
                       className="form-control form-input"
                     />
-                    {this.validator.message(
-                      'confirmPassword',
+                    {this.validator.message('confirmPassword',
                       state.confirmPassword,
                       `required|string|min:8|in:${state.newPassword}`,
-                      { className: 'field-alert text-danger' }
-                    )}
+                      { className: 'field-alert text-danger' })}
                   </div>
                   <button
                     type="submit"
                     value="Submit"
-                    className="resetPassword__form--btn btn resetPassword__form--btn__transform">
+                    className="resetPassword__form--btn btn resetPassword__form--btn__transform"
+                  >
                     Send
                   </button>
                 </form>
@@ -153,7 +151,5 @@ export const mapStateToProps = state => ({
   data: state.passwordReset.data
 });
 
-export default connect(
-  mapStateToProps,
-  { resetPassword }
-)(PasswordReset);
+export default connect(mapStateToProps,
+  { resetPassword })(PasswordReset);

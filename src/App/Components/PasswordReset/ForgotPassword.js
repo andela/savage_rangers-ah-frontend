@@ -33,10 +33,9 @@ export class ForgotPassword extends Component {
     }
   }
 
-  onChange = event =>
-    this.setState({ [event.target.name]: event.target.value });
+  onChange = event => this.setState({ [event.target.name]: event.target.value });
 
-  onSubmit = event => {
+  onSubmit = (event) => {
     const { state } = this;
     event.preventDefault();
     const { sendEmail: emailSender } = this.props;
@@ -83,7 +82,8 @@ export class ForgotPassword extends Component {
                 </div>
                 <form
                   onSubmit={this.onSubmit}
-                  className="container forgotPassword__form">
+                  className="container forgotPassword__form"
+                >
                   <div className="form-group">
                     <input
                       type="text"
@@ -93,16 +93,15 @@ export class ForgotPassword extends Component {
                       className="form-control form-input"
                       onChange={this.onChange}
                     />
-                    {this.validator.message(
-                      'email',
+                    {this.validator.message('email',
                       state.email,
                       'required|email',
-                      { className: 'field-alert text-danger' }
-                    )}
+                      { className: 'field-alert text-danger' })}
                   </div>
                   <button
                     type="submit"
-                    className="btn forgotPassword__form--btn">
+                    className="btn forgotPassword__form--btn"
+                  >
                     Send
                   </button>
                 </form>
@@ -128,7 +127,5 @@ export const mapStateToProps = state => ({
   data: state.passwordReset.data
 });
 
-export default connect(
-  mapStateToProps,
-  { sendEmail }
-)(ForgotPassword);
+export default connect(mapStateToProps,
+  { sendEmail })(ForgotPassword);

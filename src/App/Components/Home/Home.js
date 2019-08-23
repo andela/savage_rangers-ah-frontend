@@ -54,7 +54,5 @@ Home.propTypes = { data: propTypes.object };
 
 export const mapStateToProps = state => ({ data: state.passwordReset.data });
 
-export default connect(
-  mapStateToProps,
-  {}
-)(Home);
+export default connect(mapStateToProps,
+  {})(Home);
