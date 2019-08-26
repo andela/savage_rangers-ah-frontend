@@ -7,6 +7,7 @@ import Login from './Components/Login';
 import Redirection from './Components/Redirection/redirect';
 import readArticle from './Components/DisplayArticle/readArticle';
 import ProfileComponent from './Components/Profile/Profile';
+import TermsAndconditions from './Components/TermsAndConditions';
 import store from '../Redux/store';
 import RegistrationComponent from './Components/Registration/Registration';
 import ForgotPassword from './Components/PasswordReset/ForgotPassword';
@@ -53,6 +54,7 @@ class App extends Component {
             <Route exact path="/redirect" component={Redirection} />
             <Route exact path="/articles/:slug" component={readArticle} />
             <Route exact path="/profile" component={ProfileComponent} />
+            <Route exact path="/terms_and_conditions" component={TermsAndconditions} />
             <Route exact path="*" component={NotFound} />
           </Switch>
         </Router>

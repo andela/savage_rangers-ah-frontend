@@ -8,6 +8,7 @@ import notifications from './notifications';
 import authReducer from './auth';
 import article from './createArticle';
 import profile from './Profile';
+import termsAndConditionReducer from './termsAndcondReducers';
 
 export default combineReducers({
   authReducer,
@@ -18,5 +19,6 @@ export default combineReducers({
   readArticle: readArticleReducer,
   populars: readPopularArticleReducer,
   notifications,
-  profile
+  profile,
+  termsAndConditionReducer
 });
