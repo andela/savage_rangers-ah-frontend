@@ -1,3 +1,6 @@
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable react/require-default-props */
 /* eslint-disable no-shadow */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -42,37 +45,26 @@ export class CreateArticle extends Component {
     /* istanbul ignore next */
     this.autosaveFunctionality = setInterval(() => {
       const { initialState, stateTags, article } = this.state;
-      const { firstDraft: createFirstDraft, drafting: autosaveArticle } = this.props;
+      const {
+        firstDraft: createFirstDraft,
+        drafting: autosaveArticle
+      } = this.props;
       const keys = Object.keys(article);
       if (keys.length !== 1) {
         if (initialState === null) {
-          createFirstDraft(article)
-            .then(() => {
-              const { savedArticle } = this.props;
-              const patchableArticle = {
-                ...savedArticle.article,
-                tags: stateTags
-              };
-              this.setState({
-                initialState: patchableArticle,
-                article: patchableArticle
-              });
-              toast.success('Article saved successfully');
-            })
-            .catch(() => {
-              const { errorMessage } = this.props;
-              toast.warn(errorMessage);
+          createFirstDraft(article).then(() => {
+            const { savedArticle } = this.props;
+            const patchableArticle = {
+              ...savedArticle.article,
+              tags: stateTags
+            };
+            this.setState({
+              initialState: patchableArticle,
+              article: patchableArticle
             });
+          });
         } else {
-          autosaveArticle(article)
-            .then(() => {
-              const { autoSave } = this.props;
-              toast.success(autoSave);
-            })
-            .catch(() => {
-              const { errorMessage } = this.props;
-              toast.warn(errorMessage);
-            });
+          autosaveArticle(article);
         }
       }
     }, 15000);
@@ -190,23 +182,27 @@ export class CreateArticle extends Component {
           </div>
           <div className="form-group" />
           <div className="form-group">
-            <label htmlFor="title">Title:</label>
+            <label htmlFor="title" className="required">
+              Title:
+            </label>
             <input
               type="text"
               name="title"
               id="title"
               className="form-control"
               onChange={e => this.addContent(e)}
+              required
             />
           </div>
           <div className="form-group">
-            <label htmlFor="description">Description:</label>
+            <label htmlFor="description" className="required">Description:</label>
             <input
               type="text"
               name="description"
               id="description"
               className="form-control"
               onChange={e => this.addContent(e)}
+              required
             />
           </div>
           <div className="form-group cover-image">
@@ -219,6 +215,7 @@ export class CreateArticle extends Component {
               id="cover-image"
               accept="image/*"
               onChange={e => this.getImgUrl(e)}
+              required
             />
             <label htmlFor="cover-image">
               <div className={imgUrl ? '' : 'white-cover'} id="white-cover" />
@@ -233,7 +230,7 @@ export class CreateArticle extends Component {
             <SimplexEditor getArticle={this.addArticleToState} />
           </div>
           <div className="form-group">
-            <label htmlFor="tags">Tags</label>
+            <label htmlFor="tags" className="required">Tags</label>
             <Tagify tags={tags} getTagList={this.addTags} />
           </div>
           <div className="text-center">
