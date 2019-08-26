@@ -2,17 +2,20 @@ import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import ReactImageFallback from 'react-image-fallback';
 import SimpleReactValidator from 'simple-react-validator';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import numeral from 'numeral';
 import Rater from 'react-rater';
 import _ from 'underscore';
+import ReactHtmlParser from 'react-html-parser';
 import countRating from '../../../Helpers/countRating';
 import profileActions from '../../../Redux/Actions/Profile';
 import NavBar from '../Common/NavProfile/navbar';
 import Footer from '../Common/Footer';
 import UpdateProfileForm from './UpdateProfileForm';
 import Bookmark from './BookMark';
+import Followers from './Follower';
 /**
  * User's registration component
  *
@@ -98,7 +101,6 @@ export class Profile extends Component {
     const {
       profile, follower, following, bookmarks
     } = this.props;
-    console.log(bookmarks);
 
     const { temporally } = this.state;
 
@@ -135,7 +137,7 @@ export class Profile extends Component {
                     {profile.phoneNumber || 'empty'}
                   </p>
                   <p>
-                    bio: &lsquo;&lsquo;
+                    &lsquo;&lsquo;
                     {profile.bio || 'empty'}
                     &rsquo;&rsquo;
                   </p>
@@ -173,12 +175,12 @@ export class Profile extends Component {
             <div className="col-8 mt-5">
               <ul className="nav nav-tabs">
                 <li className="nav-item">
-                  <a className="nav-link tabMenu-link1" data-toggle="tab" href="#home">
+                  <a className="nav-link tabMenu-link1 active" data-toggle="tab" href="#home">
                     Articles
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link tabMenu-link2 active" data-toggle="tab" href="#menu1">
+                  <a className="nav-link tabMenu-link2" data-toggle="tab" href="#menu1">
                     Bookmarks
                   </a>
                 </li>
@@ -190,7 +192,7 @@ export class Profile extends Component {
               </ul>
 
               <div className="tab-content">
-                <div id="home" className="container tab-pane fade">
+                <div id="home" className="container tab-pane active">
                   {profile.Articles.map(article => (
                     <div key={article.id} className="row single-article mt-4">
                       <div className="single-article-header mt-3 row col-12">
@@ -223,19 +225,23 @@ export class Profile extends Component {
                           </div>
                         </div>
                       </div>
-                      <ReactImageFallback
-                        src={article.coverImage}
-                        fallbackImage="https://ielektro.es/wp-content/uploads/2017/04/ventajas-comprar-LED.jpg"
-                        className="img-fluid w-100 single-article-image"
-                        style={{ width: '150px', height: '370px' }}
-                      />
-                      <h2 className="m-3 single-article-title" style={{ fontFamily: 'lato' }}>
-                        {article.title}
-                      </h2>
-                      <p className="m-1 col-12" style={{ fontFamily: 'STSong', fontSize: '22px' }}>
-                        {`${article.body.substring(0, 170)}...`}
-                      </p>
-
+                      <Link className="single-article-link" to={`/artciles/${article.slug}`}>
+                        <ReactImageFallback
+                          src={article.coverImage}
+                          fallbackImage="https://ielektro.es/wp-content/uploads/2017/04/ventajas-comprar-LED.jpg"
+                          className="img-fluid w-100 single-article-image"
+                          style={{ width: '150px', height: '370px' }}
+                        />
+                        <h2 className="m-3 single-article-title" style={{ fontFamily: 'lato' }}>
+                          {article.title}
+                        </h2>
+                        <div
+                          className="m-1 col-12"
+                          style={{ fontFamily: 'STSong', fontSize: '22px' }}
+                        >
+                          {ReactHtmlParser(article.body.substring(0, 170))}
+                        </div>
+                      </Link>
                       <div className="row ml-4 mt-4 col-12">
                         <Rater
                           total={5}
@@ -266,16 +272,12 @@ export class Profile extends Component {
                   ))}
                 </div>
 
-                <div id="menu1" className="container tab-pane active">
+                <div id="menu1" className="container tab-pane fade">
                   <Bookmark data={bookmarks} />
                 </div>
 
                 <div id="menu2" className="container tab-pane fade">
-                  <h3>Menu 2</h3>
-                  <p>
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-                    doloremque laudantium, totam rem aperiam.
-                  </p>
+                  <Followers follower={follower} />
                 </div>
               </div>
             </div>

@@ -27,6 +27,10 @@
   background: #f5f4f4;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
+  a {
+    text-decoration: none;
+    color: black;
+  }
   &-image {
     height: 350px;
   }
@@ -68,17 +72,23 @@
 .bookmark_container {
   background: #f5f4f4;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  a {
+    text-decoration: none;
+    color: black;
+  }
   &_read_more {
     width: 174.39px;
     height: 32.88px;
     background: #c4c4c4;
     border-radius: 30px;
     text-align: center;
+    cursor: pointer;
   }
   &_remove {
     width: 174.39px;
     height: 32.88px;
     background: red;
+    cursor: pointer;
     border-radius: 30px;
     text-align: center;
   }
@@ -89,17 +99,50 @@
     font-size: 33px;
     line-height: 40px;
   }
+
+  &_description {
+    font-family: STSong;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 19px;
+    line-height: 19px;
+  }
+  .LOVE {
+    background: red;
+  }
+  .category {
+    width: 5px;
+    height: 20px;
+    margin-left: 30px;
+  }
+  .MUSIC {
+    background: #f2c94c;
+  }
+  .ART {
+    background: rgb(5, 5, 5);
+  }
+
+  .TECHNOLOGY {
+    background: rgb(20, 115, 194);
+  }
+  .BUSINESS {
+    background: rgb(7, 233, 222);
+  }
+  .ENTERTAINMENT {
+    background: rgb(8, 102, 26);
+  }
 }
-.LOVE {
-  background: red;
+.follower_container {
+  &_unfollow {
+    width: 100px;
+    height: 32.88px;
+    background: red;
+    border-radius: 30px;
+    text-align: center;
+    cursor: pointer;
+  }
+  &_username {
+    font-weight: bold;
+    font-family: Lato;
+  }
 }
-.category {
-  width: 5px;
-  height: 20px;
-  margin-left: 30px;
-}
-// "MUSIC"
-// "ART"
-// "TECHNOLOGY"
-// "BUSINESS"
-// "ENTERTAINMENT"
