@@ -74,6 +74,7 @@
   font-weight: normal;
   border: none;
   transition: all 0.4s;
+  margin-top: 35%;
   position: relative;
 }
 .social-btn .btn:first-child {
@@ -94,4 +95,17 @@
 .social-btn .btn i {
   font-size: 28px;
   color: $iconcolor;
+}
+
+.btn-button {
+  background-color: $primary-theme-color;
+  color: $primary-white;
+  border-radius: 40px;
+  width: 20%;
+  margin-top: 3%;
+  position: relative;
+}
+
+.hidden {
+  display: none;
 }

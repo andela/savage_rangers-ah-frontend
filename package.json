@@ -19,9 +19,15 @@
   "resolutions": {
     "babel-core": "7.0.0-bridge.0"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "lint-staged": {
-    "*.js": [
-      "eslint --cache --fix",
+    "src /**/*.{js,jsx}": [
+      "eslint",
+      "pretty-quick — staged",
       "git add"
     ]
   },
@@ -33,26 +39,41 @@
     "copy-webpack-plugin": "^5.0.4",
     "dotenv": "^8.0.0",
     "dotenv-webpack": "^1.7.0",
+    "draft-js": "^0.11.0",
+    "draft-js-alignment-plugin": "^2.0.5",
+    "draft-js-code": "^0.3.0",
+    "draft-js-export-html": "^1.4.1",
+    "draft-js-focus-plugin": "^2.2.0",
+    "draft-js-plugins-editor": "^2.1.1",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "eslint-loader": "^2.2.1",
     "express": "^4.17.1",
+    "fs": "^0.0.1-security",
     "image-webpack-loader": "^5.0.0",
     "jest": "^24.8.0",
+    "loader": "^2.1.1",
     "lodash": "^4.17.15",
+    "postcss-loader": "^3.0.0",
+    "prettier": "^1.18.2",
     "prop-types": "^15.7.2",
     "query-string": "^6.8.2",
+    "raw-loader": "^3.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
+    "react-select": "^3.0.4",
+    "react-tagify-section": "^1.0.0",
     "react-test-renderer": "^16.8.6",
     "react-toastify": "^5.3.2",
     "redux": "^4.0.4",
     "redux-mock-store": "^1.5.3",
     "redux-thunk": "^2.3.0",
     "serve": "^11.1.0",
+    "simple-react-editor": "1.0.0-fix",
     "simple-react-validator": "^1.2.2",
+    "style": "^0.0.3",
     "webpack-manifest-plugin": "^2.0.4"
   },
   "devDependencies": {
@@ -75,6 +96,7 @@
     "html-webpack-plugin": "^3.2.0",
     "husky": "^2.7.0",
     "lint-staged": "^8.2.1",
+    "file-loader": "^4.1.0",
     "mini-css-extract-plugin": "^0.8.0",
     "moxios": "^0.4.0",
     "node-sass": "^4.12.0",
@@ -93,6 +115,18 @@
       "src/Redux/store",
       "src/Redux/Actions/index",
       "src/Redux/Reducers/index"
+    ],
+    "setupFilesAfterEnv": [
+      "./src/enzyme.js"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|jpg|png|scss)$": "fileMock.js"
+    },
+    "modulePaths": [
+      "./src/__mocks__"
+    ],
+    "transformIgnorePatterns": [
+      "./src/Style/scss/*"
     ]
   }
 }
