@@ -14,7 +14,7 @@
 
 #web-name {
   margin: 10px;
-  font-family: "Times New Roman", Times, serif;
+  font-family: 'Times New Roman', Times, serif;
   color: $primary-white;
   font-size: 25px;
 }
@@ -22,31 +22,40 @@
 @media (max-width: 320px) {
   #web-name {
     margin: 1px;
-    font-family: "Times New Roman", Times, serif;
+    font-family: 'Times New Roman', Times, serif;
     color: $primary-white;
     font-size: 20px;
   }
 }
 
-#web-name{
+#web-name {
   margin: 10px;
   font-family: 'Times New Roman', Times, serif;
   color: $primary-white;
   font-size: 25px;
 }
 
-@media(max-width: 320px){
-  #web-name{
+@media (max-width: 320px) {
+  #web-name {
     margin: 1px;
     font-family: 'Times New Roman', Times, serif;
     color: $primary-white;
     font-size: 20px;
   }
 }
-@media (max-width: 768px) {
-  .nav-logo-custom {
-    display: none !important;
-  }
+
+#web-name {
+  margin: 10px;
+  font-family: 'Times New Roman', Times, serif;
+  color: $primary-white;
+  font-size: 25px;
 }
 
-/*  */
+@media (max-width: 320px) {
+  #web-name {
+    margin: 1px;
+    font-family: 'Times New Roman', Times, serif;
+    color: $primary-white;
+    font-size: 20px;
+  }
+}

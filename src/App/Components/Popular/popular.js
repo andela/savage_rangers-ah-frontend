@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import ReactImageFallback from 'react-image-fallback';
 import Actions from '../../../Redux/Actions/readPopularActions';
 
-
 const { readPopularArticle } = Actions;
 export class Popular extends Component {
   constructor(props) {
@@ -23,43 +22,58 @@ export class Popular extends Component {
     this.setState({ articles: nextProps.popularArticle.data });
   }
 
+  scrollUp = () => {
+    window.scrollTo(0, 50);
+  };
+
   render() {
     const { articles } = this.state;
     return (
-      <div className="container article__popular">
-
+      <div className="article__popular col-lg-2 col-md-12 col-sm-7 ml-1 mt-5 ">
         <p id="popular-title">Popular</p>
-        <hr />
-        {
-          articles.map(item => (
-            <Link to={`/articles/${item.slug}`} key={item.title} style={{ color: '#000', textDecoration: 'none' }}>
-              <div className="article__popular-content">
-                <ReactImageFallback className="content-image" src={item.coverImage} fallbackImage="https://ielektro.es/wp-content/uploads/2017/04/ventajas-comprar-LED.jpg" alt="content" title="popular Image" />
-                <div className="holder">
-                  <p className="holder__content-title">
-                    {truncate(item.title, 31)}
-                    ...
-                  </p>
-                  <div className="holder__vl" />
-                  <p className="holder__category">{item.Category.name}</p>
-                  <div className="holder__writer">
-                    <ReactImageFallback className="holder__writer-img" src={item.User.profileImage} fallbackImage="https://ielektro.es/wp-content/uploads/2017/04/ventajas-comprar-LED.jpg" alt="content" title="Writer Image" />
-                    <p className="writer__name">{`${item.User.firstName} ${item.User.lastName}`}</p>
-                    <p className="writer__date">{moment(item.createdAt).format('Do MMM YYYY')}</p>
-                  </div>
-
+        <hr className="line-separator" />
+        {articles.map(item => (
+          <Link
+            to={`/articles/${item.slug}`}
+            onClick={this.scrollUp}
+            key={item.title}
+            style={{ color: '#000', textDecoration: 'none' }}
+          >
+            <div className="article__popular-content">
+              <ReactImageFallback
+                className="content-image"
+                src={item.coverImage}
+                fallbackImage="https://ielektro.es/wp-content/uploads/2017/04/ventajas-comprar-LED.jpg"
+                alt="content"
+                title="popular Image"
+              />
+              <div className="holder">
+                <p className="holder__content-title">
+                  {truncate(item.title, 31)}
+                  ...
+                </p>
+                <div className="holder__vl" />
+                <p className="holder__category">{item.Category.name}</p>
+                <div className="holder__writer">
+                  <ReactImageFallback
+                    className="holder__writer-img"
+                    src={item.User.profileImage}
+                    fallbackImage="https://ielektro.es/wp-content/uploads/2017/04/ventajas-comprar-LED.jpg"
+                    alt="content"
+                    title="Writer Image"
+                  />
+                  <p className="writer__name">{`${item.User.firstName} ${item.User.lastName}`}</p>
+                  <p className="writer__date">{moment(item.createdAt).format('Do MMM YYYY')}</p>
                 </div>
-
               </div>
-            </Link>
-
-          ))
-        }
+            </div>
+          </Link>
+        ))}
       </div>
     );
   }
 }
 export const mapStateToProps = state => ({ popularArticle: state.populars.Articles });
 
-
-export default connect(mapStateToProps, { readPopularArticle })(Popular);
+export default connect(mapStateToProps,
+  { readPopularArticle })(Popular);

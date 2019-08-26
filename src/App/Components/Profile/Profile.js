@@ -225,7 +225,7 @@ export class Profile extends Component {
                           </div>
                         </div>
                       </div>
-                      <Link className="single-article-link" to={`/artciles/${article.slug}`}>
+                      <Link className="single-article-link" to={`/articles/${article.slug}`}>
                         <ReactImageFallback
                           src={article.coverImage}
                           fallbackImage="https://ielektro.es/wp-content/uploads/2017/04/ventajas-comprar-LED.jpg"
