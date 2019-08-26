@@ -4,16 +4,14 @@ import thunk from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
 import { shallow } from '../../enzyme';
 import { Profile, mapStateToProps } from '../Components/Common/NavProfile/Profile';
-
-//  <div class="notifications-container"> </div>
-//  <div class="space-notifications"> </div>
-//  <input type="checkbox" id="get-notifications" />
-//  <div id="notifications" ></div>
-//  <div id="notifications-triangle" ></div>
+import io, { serverSocket } from '../../__mocks__/socket.io-client';
 
 document.body.innerHTML = `<div> 
  <div class="notify-bubble" ></div>
 </div>`;
+
+// Initializing the fake socket
+io.connect();
 
 const middlewares = [thunk, promiseMiddleware];
 const mockStore = configureStore(middlewares);
@@ -34,7 +32,9 @@ const props = {
   show: jest.fn(() => {}),
   hide: jest.fn(() => {}),
   configs: { config: { isShown: true } },
-  profile: { profile: {} }
+  profile: { profile: {} },
+  markAsRead: () => Promise.resolve({}),
+  get: jest.fn(() => {})
 };
 
 const profile = shallow(<Profile store={store} {...props} />);
@@ -52,7 +52,8 @@ describe('Profile', () => {
       data: [
         {
           id: 1,
-          message: 'Jesus is Lord'
+          message: 'Jesus is Lord',
+          url: 'url'
         }
       ]
     });
@@ -99,5 +100,70 @@ describe('Profile', () => {
       data: []
     });
     expect(profile.find('img').exists()).toEqual(true);
+  });
+
+  it('renders the io notification for all events', () => {
+    profile.setState({ profile: { id: 3 } });
+    serverSocket.emit('blockArticle', {
+      inAppNotification: {
+        id: 1,
+        userId: 3,
+        url: 'url/url',
+        message: 'message'
+      }
+    });
+
+    serverSocket.emit('unblockArticle', {
+      inAppNotification: {
+        id: 1,
+        userId: 3,
+        url: 'url/url',
+        message: 'message'
+      }
+    });
+
+    serverSocket.emit('blockComment', {
+      inAppNotification: {
+        id: 1,
+        userId: 3,
+        url: 'url/url',
+        message: 'message'
+      }
+    });
+
+    serverSocket.emit('unblockComment', {
+      inAppNotification: {
+        id: 1,
+        userId: 3,
+        url: 'url/url',
+        message: 'message'
+      }
+    });
+
+    serverSocket.emit('reportArticle', {
+      inAppNotification: {
+        id: 1,
+        userId: 3,
+        url: 'url/url',
+        message: 'message'
+      }
+    });
+
+    serverSocket.emit('reportComment', {
+      inAppNotification: {
+        id: 1,
+        userId: 3,
+        url: 'url/url',
+        message: 'message'
+      }
+    });
+
+    profile.instance().componentDidMount();
+    // console.log(profile.debug());
+  });
+
+  it('should mark as read a notification', () => {
+    profile.instance().markIoNotificationAsRead(3);
+    expect(store.getState().isShown).toEqual(false);
   });
 });
