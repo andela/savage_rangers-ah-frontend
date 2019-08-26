@@ -8,8 +8,9 @@ import store from '../Redux/store';
 import RegistrationComponent from './Components/Registration/Registration';
 import ForgotPassword from './Components/PasswordReset/ForgotPassword';
 import ResetPassword from './Components/PasswordReset/ResetPassword';
-
+import 'react-toastify/dist/ReactToastify.css';
 import Redirection from './Components/Redirection/redirect';
+
 /**
  *
  *

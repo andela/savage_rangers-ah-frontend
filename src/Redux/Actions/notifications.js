@@ -1,4 +1,7 @@
 // import queryString from 'query-string';
+import async from 'async';
+import io from '../../Helpers/Notifications/socket.io';
+import store from '../store';
 import axios from '../../configs/axios';
 import types from '.';
 
@@ -9,10 +12,13 @@ const {
   NOTIFICATIONS_CATCH_ERROR,
   SNOOZE_NOTIFICATION,
   GET_NOTIFICATIONS_CONFIGS,
-  GET_USER_PROFILE_ON_LOGIN
+  GET_USER_PROFILE_ON_LOGIN,
+  MARK_NOTIFICATION_AS_READ,
+  MARK_ALL_NOTIFICATIONS_AS_READ,
+  GET_IO_NOTIFICATION
 } = types;
 
-export default {
+const actions = {
   show: () => (dispatch) => {
     document.getElementById('notifications').style.display = 'block';
     document.getElementById('notifications-triangle').style.display = 'block';
@@ -21,7 +27,6 @@ export default {
   hide: () => (dispatch) => {
     document.getElementById('notifications').style.display = 'none';
     document.getElementById('notifications-triangle').style.display = 'none';
-    document.getElementsByClassName('space-notifications')[0].style.display = 'none';
     return dispatch({ type: HIDE_NOTIFICATIONS, payload: false });
   },
   get: token => (dispatch) => {
@@ -67,7 +72,7 @@ export default {
 
   getProfile: token => (dispatch) => {
     axios
-      .get('/api/profiles/', { headers: { authorization: token } })
+      .get('/api/profiles', { headers: { authorization: token } })
       .then((res) => {
         dispatch({ type: GET_USER_PROFILE_ON_LOGIN, payload: res.data });
       })
@@ -76,5 +81,51 @@ export default {
         const errorMessage = errorObject[Object.getOwnPropertyNames(errorObject)[0]];
         dispatch({ type: NOTIFICATIONS_CATCH_ERROR, payload: errorMessage });
       });
-  }
+  },
+
+  markAsRead: (token, id) => dispatch => new Promise((resolve, reject) => {
+    axios
+      .patch(`/api/notifications/${id}/seen`, { data: {} }, { headers: { authorization: token } })
+      .then((res) => {
+        dispatch({ type: MARK_NOTIFICATION_AS_READ, payload: res.data });
+        resolve(res.data);
+      })
+      .catch((error) => {
+        const errorObject = error.response.data.errors;
+        const errorMessage = errorObject[Object.getOwnPropertyNames(errorObject)[0]];
+        dispatch({ type: NOTIFICATIONS_CATCH_ERROR, payload: errorMessage });
+        reject(error);
+      });
+  }),
+
+  markAllAsRead: (token, data) => dispatch => new Promise((resolve, reject) => {
+    let messages = [];
+    async.each(data,
+      (notification, callback) => {
+        axios
+          .patch(`/api/notifications/${notification.id}/seen`,
+            { data: {} },
+            { headers: { authorization: token } })
+          .then((res) => {
+            messages = [...messages, res.data];
+            callback();
+          });
+      },
+      (error) => {
+        if (!error) {
+          dispatch({ type: MARK_ALL_NOTIFICATIONS_AS_READ, payload: messages });
+          resolve(messages);
+        } else reject(error);
+      });
+  })
 };
+
+// Socket listeners
+io.on('blockArticle', data => store.dispatch({ type: GET_IO_NOTIFICATION, payload: data.inAppNotification }));
+io.on('unblockArticle', data => store.dispatch({ type: GET_IO_NOTIFICATION, payload: data.inAppNotification }));
+io.on('blockComment', data => store.dispatch({ type: GET_IO_NOTIFICATION, payload: data.inAppNotification }));
+io.on('unblockComment', data => store.dispatch({ type: GET_IO_NOTIFICATION, payload: data.inAppNotification }));
+io.on('reportArticle', data => store.dispatch({ type: GET_IO_NOTIFICATION, payload: data.inAppNotification }));
+io.on('reportComment', data => store.dispatch({ type: GET_IO_NOTIFICATION, payload: data.inAppNotification }));
+
+export default actions;

@@ -1,14 +1,20 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+import { ToastContainer, toast } from 'react-toastify';
+import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
 import PropTypes from 'prop-types';
 import actions from '../../../../Redux/Actions/notifications';
 import defaultData from '../../../../configs/urls';
 import Triangle from '../Triangle';
+import IoNotification from '../../Notifications/IoNotification';
 
-const { show, hide } = actions;
+const {
+  show, hide, get, markAsRead
+} = actions;
 
 export class Profile extends Component {
   constructor(props) {
@@ -17,7 +23,8 @@ export class Profile extends Component {
       isShown: false,
       profile: {},
       notifications: [],
-      notificationsBubble: ''
+      notificationsBubble: '',
+      isSnoozed: false
     };
   }
 
@@ -25,15 +32,40 @@ export class Profile extends Component {
     isShown, profile, configs, data
   }) {
     this.setState({ isShown });
-    if (!_.isEmpty({ ...profile, ...configs })) this.setState({ profile });
-    else this.setState({ profile: {} });
-    if (!_.isEmpty(data)) {
-      this.setState({ notifications: data });
+    if (!isEmpty({ profile }) && !isEmpty(configs)) {
+      this.setState({ profile, isSnoozed: configs.config.isSnoozed });
+    } else this.setState({ profile: {} });
+    if (data && !isEmpty(data.filter(item => item.type === 'inApp'))) {
+      const notifications = data.filter(item => item.type === 'inApp');
+      this.setState({ notifications });
       document.getElementsByClassName('notify-bubble')[0].style.display = 'block';
-      if (data.length < 10) {
-        this.setState({ notificationsBubble: `${data.length}` });
+      if (notifications.length < 10) {
+        this.setState({ notificationsBubble: `${notifications.length}` });
       } else this.setState({ notificationsBubble: '9+' });
     } else document.getElementsByClassName('notify-bubble')[0].style.display = 'none';
+  }
+
+  componentDidUpdate({ io }) {
+    const { state: { profile } } = this;
+    const { props: { io: newIo } } = this;
+    const { get: getNotifications } = this.props;
+    const token = localStorage.getItem('token');
+    if (
+      io
+      && profile
+      && newIo.userId === profile.id
+      && !this.state.isSnoozed
+      && !isEqual(io, newIo)
+    ) {
+      toast.success(<IoNotification
+        message={`${newIo.message}`}
+        link={`${newIo.url}`}
+        id={`${newIo.id}`}
+        markAsRead={this.markIoNotificationAsRead}
+      />,
+      { className: 'io-container', closeButton: false });
+      getNotifications(token);
+    }
   }
 
   showNotifications = () => {
@@ -45,10 +77,19 @@ export class Profile extends Component {
     return showNotifications();
   };
 
+  markIoNotificationAsRead = (id) => {
+    const { markAsRead: markNotificationAsRead, get: getNotifications } = this.props;
+    const token = localStorage.getItem('token');
+
+    markNotificationAsRead(token, id).then(getNotifications(token));
+  };
+
   render() {
+    // console.log('state', this.state);
     const { state } = this;
     return (
       <React.Fragment>
+        <ToastContainer autoClose={false} />
         <ul className="navbar-nav">
           <li className="dropdown notify-container" id="notify-container">
             <img
@@ -62,9 +103,8 @@ export class Profile extends Component {
               alt=""
               width="50"
               height="50"
-              // rounded-circle profile-img
               className={
-                state.notifications.length > 0
+                !isEmpty(state.notifications)
                   ? 'rounded-circle profile-img-notify'
                   : 'rounded-circle profile-img'
               }
@@ -109,18 +149,27 @@ export class Profile extends Component {
 Profile.propTypes = {
   isShown: PropTypes.bool,
   show: PropTypes.func,
+  get: PropTypes.func,
   hide: PropTypes.func,
   data: PropTypes.array,
   configs: PropTypes.object,
-  profile: PropTypes.object
+  profile: PropTypes.object,
+  markAsRead: PropTypes.func,
+  io: PropTypes.object
 };
 
 export const mapStateToProps = state => ({
   isShown: state.notifications.isShown,
   data: state.notifications.data.data,
   configs: state.notifications.configs,
-  profile: state.notifications.profile.profile
+  profile: state.notifications.profile.profile,
+  io: state.notifications.io
 });
 
 export default connect(mapStateToProps,
-  { show, hide })(Profile);
+  {
+    show,
+    hide,
+    get,
+    markAsRead
+  })(Profile);
