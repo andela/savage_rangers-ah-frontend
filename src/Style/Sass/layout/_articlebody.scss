@@ -1,0 +1,27 @@
+.article {
+  &-body {
+    font-family: inherit;
+    overflow: visible;
+    max-height: none;
+    min-height: 400px !important;
+    &__container {
+      &--content {
+        margin-top: 45px;
+        font-size: 20px;
+        color: rgb(66, 63, 63);
+        letter-spacing: 0.1em;
+        line-break: 4px;
+        text-align: justify;
+      }
+    }
+  }
+}
+
+.DraftEditor {
+  &-coverImage {
+    width: 100%;
+    height: 100%;
+    margin-left: -8.5%;
+    margin-top: 15%;
+  }
+}

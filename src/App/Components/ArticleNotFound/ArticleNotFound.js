@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import propTypes from 'prop-types';
 import Navbar from '../Common/NavProfile/navbar';
 
 const ArticleNotFound = (props) => {
@@ -17,5 +18,7 @@ const ArticleNotFound = (props) => {
     </React.Fragment>
   );
 };
+
+ArticleNotFound.propTypes = { content: propTypes.string };
 
 export default ArticleNotFound;

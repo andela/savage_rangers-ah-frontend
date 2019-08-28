@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
+import jwt from 'jwt-decode';
 import ReadArticleActions from '../../../Redux/Actions/readArticleActions';
 import PopularArticleAction from '../../../Redux/Actions/readPopularActions';
 import ArticleNotFound from '../ArticleNotFound/ArticleNotFound';
@@ -26,8 +27,12 @@ export class ReadArticle extends Component {
       tags: [],
       isLoading: true,
       articles: [{ title: '', User: {}, Category: {} }],
-      username: localStorage.getItem('username')
+      isAuthor: false
     };
+  }
+
+  componentWillMount() {
+
   }
 
   componentDidMount() {
@@ -55,8 +60,16 @@ export class ReadArticle extends Component {
         coverImage: nextProps.article.coverImage,
         firstName: nextProps.article.User.firstName,
         lastName: nextProps.article.User.lastName,
-        profileImage: nextProps.article.User.profileImage
+        profileImage: nextProps.article.User.profileImage,
+        username: nextProps.article.User.username
       });
+      if (localStorage.getItem('token')) {
+        const { username } = this.state;
+        const { user: author } = jwt(localStorage.getItem('token'));
+        if (author.username === username) {
+          this.setState({ isAuthor: true });
+        }
+      }
     }
 
     setTimeout(() => {
@@ -104,8 +117,12 @@ export class ReadArticle extends Component {
       slug,
       isLoading,
       articles,
-      username
+      username,
+      isAuthor
     } = this.state;
+
+    const authorCredential = { isAuthor, slug };
+
     const { bookmarks } = this.props;
     return isLoading ? (
       <Loader />
@@ -129,9 +146,11 @@ export class ReadArticle extends Component {
                   firstName={firstName}
                   lastName={lastName}
                   profileImage={profileImage}
+                  username={username}
+                  authorCredential={authorCredential}
                 />
                 {username && <Bookmark username={username} slug={slug} bookmarks={bookmarks} />}
-                <BottomPopular articles={articles} />
+                {/* <BottomPopular articles={articles} /> */}
               </div>
             </div>
             <Footer />

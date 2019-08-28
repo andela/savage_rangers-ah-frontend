@@ -9,22 +9,24 @@ import propTypes from 'prop-types';
 
 import SimplexEditor from 'simple-react-editor';
 import Tagify from 'react-tagify-section';
+import queryString from 'query-string';
 import Navbar from '../Common/NavProfile/navbar';
 import Footer from '../Common/Footer';
 import Loader from '../Common/loader';
 import {
-  createArticle as firstDraft,
   categories as getCategories,
   getTags,
   changeState,
   drafting,
   publish
 } from '../../../Redux/Actions/articles';
+import updateArticle from '../../../Redux/Actions/getArticle';
 import imageUploader from '../../../Helpers/image-upload';
 import Selector from './Selector';
-import 'simple-react-editor/dist/index.css';
+import NotFound from '../ArticleNotFound/ArticleNotFound';
 
-export class CreateArticle extends Component {
+const { getArticleDetail, getArticleTags, getDraftedArticle } = updateArticle;
+export class UpdateArticle extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,50 +39,58 @@ export class CreateArticle extends Component {
       initialState: null,
       published: false,
       isLoading: true,
+      title: '',
+      description: '',
       isChanged: false
     };
 
     /* istanbul ignore next */
     this.autosaveFunctionality = setInterval(() => {
       const {
-        initialState, isChanged, stateTags, article
+        stateTags, article, imgUrl, isChanged
       } = this.state;
-      const {
-        firstDraft: createFirstDraft,
-        drafting: autosaveArticle
-      } = this.props;
-      const keys = Object.keys(article);
-      if (keys.length !== 1) {
-        if (initialState === null) {
-          createFirstDraft(article).then(() => {
-            const { savedArticle } = this.props;
-            const patchableArticle = {
-              ...savedArticle.article,
-              tags: stateTags
-            };
-            this.setState({
-              initialState: patchableArticle,
-              article: patchableArticle,
-              isChanged: false
-            });
-          });
-        } else if (isChanged === true) {
-          autosaveArticle(article);
-          this.setState({ isChanged: false });
-        }
+      const { drafting: autosaveArticle, match } = this.props;
+      const { slug } = match.params;
+      const data = {
+        ...article, slug, tags: stateTags, coverImage: imgUrl
+      };
+      if (isChanged) {
+        autosaveArticle(data);
+        this.setState({ isChanged: false });
       }
     }, 6000);
   }
 
   componentWillMount() {
-    const { getCategories, getTags } = this.props;
+    const {
+      getCategories,
+      getArticleTags,
+      getDraftedArticle,
+      location,
+      match,
+      getArticleDetail,
+      getTags
+    } = this.props;
 
     getCategories();
     getTags();
+    const { draft } = queryString.parse(location.search);
+    const { slug } = match.params;
 
-    setTimeout(() => {
-      this.setState({ isLoading: false });
-    }, 2000);
+    if (draft === 'true') {
+      getDraftedArticle(slug);
+      getArticleTags(slug);
+      setTimeout(() => {
+        this.setState({ isLoading: false });
+      }, 2000);
+    } else {
+      getArticleDetail(slug);
+      getArticleTags(slug);
+      /* istanbul ignore next */
+      setTimeout(() => {
+        this.setState({ isLoading: false });
+      }, 2000);
+    }
   }
 
   componentDidMount() {
@@ -90,13 +100,29 @@ export class CreateArticle extends Component {
 
   componentWillReceiveProps({
     listOfCategories,
-    listOfTags
+    listOfTags,
+    articleToUpdate,
+    articleTags,
+    notFound
   }) {
-    if (listOfCategories && listOfTags) {
+    if (articleToUpdate && articleTags) {
+      const cleanTagName = [];
+      articleTags.data.map(tagName => cleanTagName.push(tagName.name));
       this.setState({
         categories: listOfCategories,
-        tags: listOfTags
+        tags: listOfTags,
+        articleToUpdate,
+        stateTags: cleanTagName,
+        title: articleToUpdate.title,
+        description: articleToUpdate.description,
+        imgUrl: articleToUpdate.coverImage
       });
+      /* istanbul ignore next */
+      setTimeout(() => {
+        this.setState({ isLoading: false });
+      }, 2000);
+    } else {
+      this.setState({ notFound });
     }
   }
 
@@ -157,10 +183,14 @@ export class CreateArticle extends Component {
   };
 
   publishArticle = () => {
-    const { publish } = this.props;
-    const { article } = this.state;
+    const { publish, match } = this.props;
+    const { article, imgUrl } = this.state;
+    let data = {};
 
-    publish(article)
+    const { slug } = match.params;
+    data = { ...article, slug, coverImage: imgUrl };
+
+    publish(data)
       .then((res) => {
         toast.success(res.payload);
         /* istanbul ignore next */
@@ -180,10 +210,18 @@ export class CreateArticle extends Component {
       tags,
       categories,
       published,
-      isLoading
+      articleToUpdate,
+      stateTags,
+      isLoading,
+      title,
+      description,
+      notFound
     } = this.state;
     if (published) {
-      return <Redirect to="/profile" />;
+      return <Redirect to={`/articles/${articleToUpdate.slug}`} />;
+    }
+    if (notFound) {
+      return <NotFound content={notFound} />;
     }
 
     if (!isLoading) {
@@ -195,7 +233,12 @@ export class CreateArticle extends Component {
           </div>
           <div className="container create">
             <div className="form-group category-dropdown">
-              <Selector categories={categories} addContent={this.addContent} editMode="false" />
+              <Selector
+                categories={categories}
+                addContent={this.addContent}
+                editMode="true"
+                categoryId={articleToUpdate.category}
+              />
             </div>
             <br />
             <div className="form-group">
@@ -208,6 +251,7 @@ export class CreateArticle extends Component {
                 id="title"
                 className="form-control"
                 onChange={e => this.addContent(e)}
+                value={title}
                 required
               />
             </div>
@@ -221,6 +265,7 @@ export class CreateArticle extends Component {
                 id="description"
                 className="form-control"
                 onChange={e => this.addContent(e)}
+                value={description}
                 required
               />
             </div>
@@ -244,13 +289,14 @@ export class CreateArticle extends Component {
                 >
                   <p>Cover image</p>
                 </div>
-                <img id="output-header" />
+                <img id="output-header" src={imgUrl} />
               </label>
             </div>
             <div className="form-group">
               <label htmlFor="editor">Body</label>
               <SimplexEditor
                 getArticle={this.addArticleToState}
+                content={articleToUpdate.body}
               />
             </div>
             <div className="form-group">
@@ -260,6 +306,7 @@ export class CreateArticle extends Component {
               <Tagify
                 tags={tags}
                 getTagList={this.addTags}
+                existingTags={stateTags}
               />
             </div>
             <div className="text-center">
@@ -282,32 +329,43 @@ export class CreateArticle extends Component {
   }
 }
 
-CreateArticle.propTypes = {
-  savedArticle: propTypes.object,
+UpdateArticle.propTypes = {
   publish: propTypes.func,
-  firstDraft: propTypes.func,
   drafting: propTypes.func,
   listOfCategories: propTypes.array,
   listOfTags: propTypes.array,
   getCategories: propTypes.func,
-  getTags: propTypes.func
+  articleToUpdate: propTypes.object,
+  getArticleTags: propTypes.func,
+  getArticleDetail: propTypes.func,
+  getDraftedArticle: propTypes.func,
+  match: propTypes.object,
+  articleTags: propTypes.array,
+  getTags: propTypes.func,
+  notFound: propTypes.string
+
 };
 
-export const mapStateToProps = state => ({
-  listOfCategories: state.article.categories,
-  listOfTags: state.article.tags,
-  savedArticle: state.article.createdArticle,
-  autoSave: state.article.updatedArticle,
-  errorMessage: state.article.error,
-  articleTags: state.getArticle.tags
-});
+export const mapStateToProps = state => (
+  {
+    listOfCategories: state.article.categories,
+    listOfTags: state.article.tags,
+    savedArticle: state.article.createdArticle,
+    autoSave: state.article.updatedArticle,
+    errorMessage: state.article.error,
+    articleToUpdate: state.getArticle.article,
+    articleTags: state.getArticle.tags,
+    notFound: state.getArticle.notFound
+  });
 
 export default connect(mapStateToProps,
   {
-    firstDraft,
     getCategories,
     getTags,
     changeState,
     drafting,
-    publish
-  })(CreateArticle);
+    publish,
+    getArticleDetail,
+    getArticleTags,
+    getDraftedArticle
+  })(UpdateArticle);

@@ -28,4 +28,10 @@ describe('testing the article body component', () => {
     expect(articleBody.find('div').exists()).toBe(true);
     expect(articleBody).toMatchSnapshot();
   });
+
+  it('testing when the token is set', () => {
+    articleBody.setState({ username: 'BurindiAlain2' });
+    localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJ1c2VybmFtZSI6IkJ1cmluZGlBbGFpbjIiLCJlbWFpbCI6ImFsYWluMkBnbWFpbC5jb20ifSwiaWF0IjoxNTY3NzU0OTA2LCJleHAiOjE1Njc4NDEzMDZ9.6S_8T58qjdtJlam2EJIXDLa7btzlIhuqhke8Kxg6MEk');
+    
+  });
 });
