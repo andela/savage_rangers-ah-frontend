@@ -5,6 +5,7 @@ import passwordReset from './passwordReset';
 import authReducer from './auth';
 import termsAndConditionReducer from './termsAndcondReducers';
 import article from './createArticle';
+import getArticle from './getArticleReducer';
 
 export default combineReducers({
   authReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   passwordReset,
   registration,
   termsAndConditionReducer,
-  article
+  article,
+  getArticle
 });

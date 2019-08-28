@@ -11,6 +11,7 @@ import SimplexEditor from 'simple-react-editor';
 import Tagify from 'react-tagify-section';
 import Navbar from '../Common/NavProfile/navbar';
 import Footer from '../Common/Footer';
+import Loader from '../Common/loader';
 import {
   createArticle as firstDraft,
   categories as getCategories,
@@ -19,12 +20,16 @@ import {
   drafting,
   publish
 } from '../../../Redux/Actions/articles';
+import updateArticle from '../../../Redux/Actions/getArticle';
 import imageUploader from '../../../Helpers/image-upload';
+import Selector from './Selector';
 
+const { getArticleDetail, getArticleTags } = updateArticle;
 export class CreateArticle extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      article: null,
       categories: [],
       tags: [],
       imgUrl: null,
@@ -32,23 +37,24 @@ export class CreateArticle extends Component {
       stateTags: [],
       initialState: null,
       published: false,
-      article: {}
+      isLoading: true,
+      editMode: false,
+      title: '',
+      description: ''
     };
 
-    // eslint-disable-next-line react/destructuring-assignment
-    this.props.getCategories();
-    // eslint-disable-next-line react/destructuring-assignment
-    this.props.getTags();
     /* istanbul ignore next */
     this.autosaveFunctionality = setInterval(() => {
-      const { initialState, stateTags, article } = this.state;
+      const {
+        initialState, stateTags, article, editMode
+      } = this.state;
       const {
         firstDraft: createFirstDraft,
         drafting: autosaveArticle
       } = this.props;
       const keys = Object.keys(article);
       if (keys.length !== 1) {
-        if (initialState === null) {
+        if (initialState === null && editMode !== true) {
           createFirstDraft(article).then(() => {
             const { savedArticle } = this.props;
             const patchableArticle = {
@@ -60,6 +66,10 @@ export class CreateArticle extends Component {
               article: patchableArticle
             });
           });
+        } else if (editMode) {
+          const { slug } = this.props.match.params;
+          const data = { ...article, slug, tags: stateTags };
+          autosaveArticle(data);
         } else {
           autosaveArticle(article);
         }
@@ -67,13 +77,59 @@ export class CreateArticle extends Component {
     }, 15000);
   }
 
+  componentWillMount() {
+    // eslint-disable-next-line react/destructuring-assignment
+    this.props.getCategories();
+    // eslint-disable-next-line react/destructuring-assignment
+    this.props.getTags();
+    const { slug } = this.props.match.params;
+    if (slug) {
+      const { getArticleDetail, getArticleTags } = this.props;
+      getArticleDetail(slug);
+      getArticleTags(slug);
+    } else {
+      setTimeout(() => {
+        this.setState({ isLoading: false });
+      }, 2000);
+    }
+  }
+
   componentDidMount() {
     // eslint-disable-next-line no-unused-expressions
     this.autosaveFunctionality;
   }
 
-  componentWillReceiveProps({ listOfCategories, listOfTags }) {
-    this.setState({ categories: listOfCategories, tags: listOfTags });
+  componentWillReceiveProps({
+    listOfCategories,
+    listOfTags,
+    articleToUpdate,
+    articleTags
+  }) {
+    if (articleToUpdate && articleTags) {
+      const cleanTagName = [];
+      articleTags.data.map(tagName => cleanTagName.push(tagName.name));
+
+      this.setState({
+        categories: listOfCategories,
+        tags: listOfTags,
+        articleToUpdate,
+        stateTags: cleanTagName,
+        title: articleToUpdate.title,
+        description: articleToUpdate.description
+      });
+      setTimeout(() => {
+        this.setState({
+          isLoading: false,
+          imgUrl: articleToUpdate.coverImage,
+          editMode: true
+        });
+      }, 2000);
+    } else {
+      this.setState({
+        categories: listOfCategories,
+        tags: listOfTags
+      });
+    }
   }
 
   /* istanbul ignore next */
@@ -113,6 +169,12 @@ export class CreateArticle extends Component {
     if (name === 'category') {
       this.articleContentUpdater(this.state, { [name]: Number(value) });
     } else {
+      if (e.target.name === 'title') {
+        this.setState({ title: e.target.value });
+      }
+      if (e.target.name === 'description') {
+        this.setState({ description: e.target.value });
+      }
       this.articleContentUpdater(this.state, { [name]: value });
     }
   };
@@ -128,8 +190,16 @@ export class CreateArticle extends Component {
 
   publishArticle = () => {
     const { publish } = this.props;
-    const { article } = this.state;
-    publish(article)
+    const { article, editMode } = this.state;
+    let data = {};
+
+    if (editMode === true) {
+      const { slug } = this.props.match.params;
+      data = { ...article, slug };
+    } else {
+      data = article;
+    }
+    publish(data)
       .then((res) => {
         toast.success(res.payload);
         /* istanbul ignore next */
@@ -145,106 +215,118 @@ export class CreateArticle extends Component {
 
   render() {
     const {
-      imgUrl, tags, categories, published
+      imgUrl,
+      tags,
+      categories,
+      published,
+      articleToUpdate,
+      stateTags,
+      editMode,
+      isLoading,
+      title,
+      description
     } = this.state;
     if (published) {
       return <Redirect to="/profile" />;
     }
-    return (
-      <div>
-        <Navbar />
-        <div className="page__label">
-          <p className="page__label--text">Write Article</p>
-        </div>
-        <div className="container create">
-          <div className="form-group category-dropdown">
-            <select
-              name="category"
-              className="selectpicker category__selector"
-              onChange={e => this.addContent(e)}
-              data-live-search="true"
-            >
-              <option defaultValue>Select Category</option>
-              {categories.map(category => (
-                <option
-                  key={category.id}
-                  value={category.id}
-                  id={`category-${category.id}`}
-                  data-tokens={category.name}
+
+    if (!isLoading) {
+      return (
+        <div>
+          <Navbar />
+          <div className="page__label">
+            <p className="page__label--text">Write Article</p>
+          </div>
+          <div className="container create">
+            <div className="form-group category-dropdown">
+              <Selector categories={categories} addContent={this.addContent} />
+            </div>
+            <br />
+            <div className="form-group">
+              <label htmlFor="title" className="required">
+                Title:
+              </label>
+              <input
+                type="text"
+                name="title"
+                id="title"
+                className="form-control"
+                onChange={e => this.addContent(e)}
+                value={title}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="description" className="required">
+                Description:
+              </label>
+              <input
+                type="text"
+                name="description"
+                id="description"
+                className="form-control"
+                onChange={e => this.addContent(e)}
+                value={description}
+                required
+              />
+            </div>
+            <div className="form-group cover-image">
+              <label htmlFor="cover-image" className="image-icon">
+                <i className="fas fa-camera" />
+              </label>
+              <input
+                type="file"
+                name="cover-image"
+                id="cover-image"
+                accept="image/*"
+                onChange={e => this.getImgUrl(e)}
+                required
+              />
+              <label htmlFor="cover-image">
+                <div className={imgUrl ? '' : 'white-cover'} id="white-cover" />
+                <div
+                  className={imgUrl ? 'hidden' : 'btn btn-cover'}
+                  id="output"
                 >
-                  {category.name}
-                </option>
-              ))}
-            </select>
+                  <p>Cover image</p>
+                </div>
+                <img id="output-header" src={imgUrl || ''} />
+              </label>
+            </div>
+            <div className="form-group">
+              <label htmlFor="editor">Body</label>
+              <SimplexEditor
+                getArticle={this.addArticleToState}
+                content={editMode ? articleToUpdate.body : ' '}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="tags" className="required">
+                Tags
+              </label>
+              <Tagify
+                tags={tags}
+                getTagList={this.addTags}
+                existingTags={editMode ? stateTags : []}
+              />
+            </div>
+            <div className="text-center">
+              <button
+                onClick={() => this.publishArticle()}
+                className="btn btn-button"
+                type="button"
+                id="published"
+              >
+                Save article
+              </button>
+            </div>
           </div>
-          <div className="form-group" />
-          <div className="form-group">
-            <label htmlFor="title" className="required">
-              Title:
-            </label>
-            <input
-              type="text"
-              name="title"
-              id="title"
-              className="form-control"
-              onChange={e => this.addContent(e)}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="description" className="required">Description:</label>
-            <input
-              type="text"
-              name="description"
-              id="description"
-              className="form-control"
-              onChange={e => this.addContent(e)}
-              required
-            />
-          </div>
-          <div className="form-group cover-image">
-            <label htmlFor="cover-image" className="image-icon">
-              <i className="fas fa-camera" />
-            </label>
-            <input
-              type="file"
-              name="cover-image"
-              id="cover-image"
-              accept="image/*"
-              onChange={e => this.getImgUrl(e)}
-              required
-            />
-            <label htmlFor="cover-image">
-              <div className={imgUrl ? '' : 'white-cover'} id="white-cover" />
-              <div className={imgUrl ? 'hidden' : 'btn btn-cover'} id="output">
-                <p>Cover image</p>
-              </div>
-              <img id="output-header" />
-            </label>
-          </div>
-          <div className="form-group">
-            <label htmlFor="editor">Body</label>
-            <SimplexEditor getArticle={this.addArticleToState} />
-          </div>
-          <div className="form-group">
-            <label htmlFor="tags" className="required">Tags</label>
-            <Tagify tags={tags} getTagList={this.addTags} />
-          </div>
-          <div className="text-center">
-            <button
-              onClick={() => this.publishArticle()}
-              className="btn btn-button"
-              type="button"
-              id="published"
-            >
-              Save article
-            </button>
-          </div>
+          <ToastContainer />
+          <Footer />
         </div>
-        <ToastContainer />
-        <Footer />
-      </div>
-    );
+      );
+    }
+    return <Loader />;
   }
 }
 
@@ -256,7 +338,11 @@ CreateArticle.propTypes = {
   listOfCategories: propTypes.array,
   listOfTags: propTypes.array,
   getCategories: propTypes.func,
-  getTags: propTypes.func
+  getTags: propTypes.func,
+  articleToUpdate: propTypes.object,
+  articleTags: propTypes.object,
+  getArticleDetail: propTypes.func,
+  getArticleTags: propTypes.func
 };
 
 export const mapStateToProps = state => ({
@@ -264,7 +350,9 @@ export const mapStateToProps = state => ({
   listOfTags: state.article.tags,
   savedArticle: state.article.createdArticle,
   autoSave: state.article.updatedArticle,
-  errorMessage: state.article.error
+  errorMessage: state.article.error,
+  articleToUpdate: state.getArticle.article,
+  articleTags: state.getArticle.tags
 });
 
 export default connect(mapStateToProps,
@@ -274,5 +362,7 @@ export default connect(mapStateToProps,
     getTags,
     changeState,
     drafting,
-    publish
+    publish,
+    getArticleDetail,
+    getArticleTags
   })(CreateArticle);
