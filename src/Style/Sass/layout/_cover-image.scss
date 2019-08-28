@@ -3,13 +3,12 @@
   border: 1px solid $bootstrap-line-color !important;
   background: #c4c4c4;
   border-radius: 5px;
-  & input[type='file'] {
+  & input[type="file"] {
     display: none;
   }
 
   & .image-icon {
     position: absolute;
-    z-index: 300;
     width: 100px;
     height: 100px;
     left: 90%;
@@ -52,6 +51,14 @@
     }
   }
 }
+@media (max-width: 1024px) {
+  .cover-image {
+    .image-icon {
+      left: 88%;
+      top: 2%;
+    }
+  }
+}
 
 @media (max-width: 768px) {
   .cover-image {
@@ -61,9 +68,9 @@
     }
 
     & label {
-      height:45vh;
+      height: 45vh;
 
-      & img{
+      & img {
         height: 45vh;
       }
       & .btn-cover {
@@ -76,31 +83,53 @@
 
 @media (max-width: 425px) {
   .cover-image {
-    height: 45vh;
-    width: 124vw;
-    .image-icon {
-      left: 78%;
-      top: 7%;
-      width: 66px;
-      height: 66px;
-
-      & i {
-        font-size: 2em;
-        top: 27%;
-        left: 27%;
+    label.image-icon {
+      width: 50px;
+      height: 50px;
+      top: 3%;
+      i {
+        font-size: 1.8em;
       }
     }
 
-    & label {
-      height: auto;
-      & img {
-        height: 45vh;
-        width: 124vw;
+    & .btn-cover {
+      width: 40% !important;
+      left: 29% !important;
+      top: 43% !important;
+      & p {
+        font-size: 1em;
+        left: 18% !important;
       }
+    }
+  }
+}
 
-      & .btn-cover {
-        left: 28%;
-        width: 45%;
+@media (max-width: 375px) {
+  .cover-image {
+    label {
+      height: 35vh;
+      & img {
+        height: inherit;
+      }
+    }
+    & .btn-cover {
+      height: 12% !important;
+      & p {
+        font-size: 1em !important;
+        top: 4% !important;
+      }
+    }
+  }
+}
+
+@media (max-width: 320px) {
+  .cover-image {
+    label.image-icon {
+      left: 80%;
+    }
+    & .btn-cover {
+      & p {
+        left: 12% !important;
       }
     }
   }

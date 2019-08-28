@@ -10,7 +10,8 @@ const data = {
   coverImage: '',
   firstName: 'Frank',
   lastName: 'Mutabazi',
-  profileImage: ''
+  profileImage: '',
+  authorCredential: { isAuthor: false, slug: 'let-me-see-101' }
 };
 
 describe('testing the article body component', () => {
@@ -23,6 +24,7 @@ describe('testing the article body component', () => {
     firstName={data.firstName}
     lastName={data.lastName}
     profileImage={data.profileImage}
+    authorCredential={data.authorCredential}
   />);
   it('should test if the component renders the appropriate jsx elements', () => {
     expect(articleBody.find('div').exists()).toBe(true);
