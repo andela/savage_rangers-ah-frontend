@@ -17,6 +17,7 @@ import profile from './Profile';
 import authorReducer from './authors';
 import searchArticle from './searchArticle';
 import report from './reportArticle';
+import articleRatings from './articleRatings';
 
 export default combineReducers({
   authReducer,
@@ -38,5 +39,6 @@ export default combineReducers({
   stats: articleReducer,
   ratings: articleReducer,
   searchArticle,
-  report
+  report,
+  articleRatings
 });
