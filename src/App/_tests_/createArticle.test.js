@@ -24,7 +24,9 @@ const props = {
   getTags: jest.fn(),
   imageUploder: jest.fn(() => Promise.resolve('http://localhost/jpeg.jpg')),
   publish: jest.fn(() => Promise.resolve('article updated successfully')),
-  getCategories: jest.fn()
+  getCategories: jest.fn(),
+  getArticleDetail: jest.fn(),
+  getArticleTags: jest.fn()
 };
 
 const {
@@ -40,9 +42,16 @@ const middlewares = [thunk, promiseMiddleware];
 const mockStore = configureStore(middlewares);
 const getState = {}; // initial state of the store
 const store = mockStore(getState);
+
 describe('Create article', () => {
-  const Create = shallow(<CreateArticle {...props} />);
+  const routeParam = { match: { params: { slug: 'let me see' } } };
+
+  const Create = shallow(<CreateArticle
+    {...props}
+    {...routeParam}
+  />);
   test('should update the title', () => {
+    Create.setState({ isLoading: false });
     Create.find('#title').simulate('change', { target: { name: 'title', value: 'test title' } });
     expect(Create.state().article.title).toEqual('test title');
   });

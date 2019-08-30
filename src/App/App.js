@@ -51,11 +51,11 @@ class App extends Component {
               path="/reset-password"
               component={!localStorage.getItem('token') ? ResetPassword : Home}
             />
-            <Route path="/article/new" component={isAuth ? CreateArticle : Login} />
-            <Route exact path="/redirect" component={Redirection} />
             <Route exact path="/articles/:slug" component={readArticle} />
             <Route exact path="/profile" component={ProfileComponent} />
             <Route exact path="/terms_and_conditions" component={TermsAndconditions} />
+            <Route path="/article/new" component={isAuth ? CreateArticle : Login} />
+            <Route path="/update/article/:slug" component={isAuth ? CreateArticle : Login} />
             <Route exact path="*" component={NotFound} />
           </Switch>
         </Router>

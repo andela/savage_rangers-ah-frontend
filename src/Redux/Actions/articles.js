@@ -8,8 +8,7 @@ const {
   AUTO_SAVE,
   GET_CATEGORIES,
   GET_TAGS,
-  PUBLISH_ARTICLE,
-  PUBLISH_ARTICLE_ERROR
+  PUBLISH_ARTICLE
 } = types;
 const token = localStorage.getItem('token');
 
@@ -21,24 +20,20 @@ export const createArticle = data => dispatch => new Promise((resolve, reject) =
   .catch(() => {
     reject(reject(dispatch({
       type: CREATE_ARTICLE_ERROR,
-      payload:
-                "Ooop..failed to create the article.Don't wory keep on typing"
+      payload: "Ooop..failed to create the article.Don't wory keep on typing"
     })));
   }));
 
 export const drafting = data => dispatch => new Promise((resolve, reject) => {
   axios
-    .patch(`/api/articles/${data.slug}`,
-      { ...data },
-      { headers: { Authorization: token } })
+    .patch(`/api/articles/${data.slug}`, { ...data }, { headers: { Authorization: token } })
     .then((res) => {
       resolve(dispatch({ type: AUTO_SAVE, payload: res.data.message }));
     })
     .catch(() => {
       reject(dispatch({
         type: CREATE_ARTICLE_ERROR,
-        payload:
-              "Ooop..failed to update the article.Don't wory keep on typing"
+        payload: "Ooop..failed to update the article.Don't wory keep on typing"
       }));
     });
 });
@@ -51,10 +46,7 @@ export const publish = data => dispatch => new Promise((resolve, reject) => {
     .then((res) => {
       resolve(dispatch({ type: PUBLISH_ARTICLE, payload: res.data.message }));
     })
-    .catch(error => reject(dispatch({
-      type: PUBLISH_ARTICLE_ERROR,
-      payload: error.response.data.errors
-    })));
+    .catch(() => reject("Ooops, can't publish at the moment, try again in a minute"));
 });
 
 export const categories = () => (dispatch) => {
@@ -64,9 +56,7 @@ export const categories = () => (dispatch) => {
 };
 
 export const getTags = () => (dispatch) => {
-  axios
-    .get('/api/tags')
-    .then(res => dispatch({ type: GET_TAGS, payload: res.data.tags }));
+  axios.get('/api/tags').then(res => dispatch({ type: GET_TAGS, payload: res.data.tags }));
 };
 export const changeState = data => (dispatch) => {
   dispatch({ type: CHANGE_STATE, payload: data });

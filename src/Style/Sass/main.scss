@@ -13,9 +13,7 @@
 @import 'component/category';
 @import 'component/tags';
 @import 'layout/navigation';
-@import 'layout/alert';
 @import 'layout/editor';
-@import 'layout/cover-image';
 @import 'pages/notFound';
 @import 'layout/navbar';
 @import 'component/rater';
@@ -32,4 +30,6 @@
 @import 'themes/theme1';
 @import 'abstract/mixin';
 @import 'component/displayArticle';
-@import 'pages/redirection';
+@import 'layout/alert';
+@import 'layout/cover-image';
+@import 'component/loader';

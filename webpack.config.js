@@ -72,6 +72,14 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test: /\.css$/,
+        include: /(node_modules)/
+      },
+      {
+        test: /plugin\.css$/,
+        include: /(node_modules)/
       }
     ]
   },
@@ -80,7 +88,7 @@ module.exports = {
       template: path.resolve('./public/index.html'),
       inject: true
     }),
-    new Dotenv({ path: path.resolve(__dirname, '.env') }),
+    new Dotenv(),
     new MiniCssExtractPlugin({
       filename: isDevelopment ? '[name].css' : '[name].[hash].css',
       chunkFilename: isDevelopment ? '[id].css' : '[id].[hash].css'
