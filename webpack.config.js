@@ -13,7 +13,7 @@ module.exports = {
     publicPath: '/',
     filename: 'bundle.js'
   },
-  devServer: { contentBase: './build', historyApiFallback: true, port: 3001 },
+  devServer: { contentBase: './build', historyApiFallback: true, port: 8080 },
   module: {
     rules: [
       { test: /\.(js|jsx)$/, exclude: /node_modules/, use: ['babel-loader'] },
@@ -50,7 +50,8 @@ module.exports = {
       },
       {
         test: /.(jpg|jpeg|png|gif|svg)$/,
-        use: ['file-loader',
+        use: [
+          'file-loader',
           {
             loader: 'image-webpack-loader',
             options: {
