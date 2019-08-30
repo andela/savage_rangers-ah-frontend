@@ -50,6 +50,7 @@
     "express": "^4.17.1",
     "fs": "^0.0.1-security",
     "file-loader": "^4.2.0",
+    "history": "^4.9.0",
     "image-webpack-loader": "^5.0.0",
     "jest": "^24.8.0",
     "loader": "^2.1.1",
@@ -83,6 +84,7 @@
     "style": "^0.0.3",
     "truncate": "^2.1.0",
     "underscore": "^1.9.1",
+    "socket.io-client": "^2.2.0",
     "webpack-manifest-plugin": "^2.0.4"
   },
   "devDependencies": {
@@ -129,11 +131,12 @@
       "src/configs/urls",
       "src/Redux/Reducers/index"
     ],
-    "setupFilesAfterEnv": [
-      "./src/App/_tests_/setup/setupEnzyme.js"
-    ],
     "testPathIgnorePatterns": [
-      "./src/App/_tests_/setup/"
+      "./src/App/_tests_/setup/",
+      "src/configs/urls"
+    ],
+    "setupFilesAfterEnv": [
+      "./src/enzyme.js"
     ],
     "moduleNameMapper": {
       "\\.(css|jpg|png|scss)$": "fileMock.js"
@@ -142,7 +145,8 @@
       "./src/__mocks__"
     ],
     "transformIgnorePatterns": [
-      "./src/Style/scss/*"
+      "./src/Style/scss/*",
+      "./node_modules/react-toastify/dist/ReactToastify.css"
     ]
   }
 }
