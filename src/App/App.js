@@ -14,6 +14,8 @@ import ForgotPassword from './Components/PasswordReset/ForgotPassword';
 import ResetPassword from './Components/PasswordReset/ResetPassword';
 import CreateArticle from './Components/CreateArticle/CreateArticle';
 import 'react-toastify/dist/ReactToastify.css';
+import Articles from './Components/Articles/getArticles/Articles';
+import Search from './Components/search/search';
 
 /**
  *
@@ -58,6 +60,8 @@ class App extends Component {
             <Route exact path="/redirect" component={Redirection} />
             <Route exact path="/articles/:slug" component={ReadArticle} />
             <Route path="/profile" component={ProfileComponent} />
+            <Route exact path="/articles" component={Articles} />
+            <Route exact path="/articles/search" component={Search} />
             <Route exact path="*" component={NotFound} />
           </Switch>
         </Router>

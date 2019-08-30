@@ -8,13 +8,12 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 module.exports = {
   devtool: 'inline-source-map',
   entry: './src/index.js',
-
   output: {
     path: path.resolve(__dirname, 'build/'),
     publicPath: '/',
     filename: 'bundle.js'
   },
-  devServer: { contentBase: './build', historyApiFallback: true, port: 8080 },
+  devServer: { contentBase: './build', historyApiFallback: true, port: 3001 },
   module: {
     rules: [
       { test: /\.(js|jsx)$/, exclude: /node_modules/, use: ['babel-loader'] },

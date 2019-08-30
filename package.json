@@ -5,7 +5,7 @@
     "start": "serve -s ./build",
     "dev": "webpack-dev-server --mode development --open",
     "build": "webpack --mode production",
-    "test:CI": "node_modules/.bin/jest --collectCoverage",
+    "test:CI": "node_modules/.bin/jest --collectCoverage -u",
     "coveralls": "cat coverage/lcov.info | coveralls",
     "test": "NODE_ENV=test && node_modules/.bin/jest --watchAll --collectCoverage",
     "eslint": "eslint . --cache --fix",
@@ -58,18 +58,20 @@
     "jest": "^24.8.0",
     "loader": "^2.1.1",
     "lodash": "^4.17.15",
+    "moment": "^2.24.0",
     "postcss-loader": "^3.0.0",
     "prettier": "^1.18.2",
     "react-dropdown-select": "^3.3.4",
-    "moment": "^2.24.0",
     "numeral": "^2.0.6",
     "prop-types": "^15.7.2",
     "query-string": "^6.8.2",
     "raw-loader": "^3.1.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "react-html-parser": "^2.0.2",
     "react-image-fallback": "^8.0.0",
+    "react-js-pagination": "^3.0.2",
+    "react-pagination-library": "^0.1.14",
     "react-rater": "^5.1.0",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
@@ -153,7 +155,9 @@
     "transformIgnorePatterns": [
       "./src/Style/scss/*",
       "./node_modules/react-toastify/dist/ReactToastify.css",
-      "./src/Style/scss/*"
+      "./src/Style/scss/*",
+      "src/Redux/Reducers/index",
+      "src/App/_tests_/articles/articles"
     ]
   }
 }
