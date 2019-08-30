@@ -57,6 +57,7 @@ class App extends Component {
             <Route path="/article/new" component={isAuth ? CreateArticle : Login} />
             <Route exact path="/redirect" component={Redirection} />
             <Route exact path="/articles/:slug" component={ReadArticle} />
+            <Route path="/profile" component={ProfileComponent} />
             <Route exact path="*" component={NotFound} />
           </Switch>
         </Router>

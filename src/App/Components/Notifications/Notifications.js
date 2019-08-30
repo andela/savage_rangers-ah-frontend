@@ -90,6 +90,7 @@ export class Notifications extends Component {
 
   render() {
     const { state } = this;
+    console.log(state)
     return localStorage.getItem('token') ? (
       <div>
         <div className="notifications-header border-bottom">
@@ -132,7 +133,7 @@ export class Notifications extends Component {
             </div>
             )}
         </div>
-        {(!_.isEmpty(state.notifications) && (
+        {(!_.isEmpty(state.notifications) && !state.isSnoozed && (
           <div className="space space-notifications" onClick={this.markAllAsRead}>
             Mark all as read
           </div>

@@ -10,13 +10,24 @@ const {
   GET_FOLLOWING,
   PROFILE_UPDATED,
   GET_BOOKMARK,
-  NO_BOOKMARK
+  NO_BOOKMARK,
+  REMOVE_BOOKMARK,
+  UNFOLLOW,
+  NO_FOLLOWING,
+  FOLLOW,
+  DELETE_ARTICLE,
+  DELETE_ARTICLE_FAILED,
+  GET_PROFILE_FAILED,
+  PROFILE_UPDATED_FAILED,
+  UNFOLLOW_FAILED,
+  FOLLOW_FAILED,
+  NO_FOLLOWER
 } = actions;
 
 export default {
-  getProfile: () => (dispatch) => {
+  getProfile: username => (dispatch) => {
     axios
-      .get('/api/profiles/Burindi', { headers: { Authorization: localStorage.getItem('token') } })
+      .get(`/api/profiles/${username || ''}`, { headers: { Authorization: localStorage.getItem('token') } })
       .then(async (response) => {
         const articles = response.data.profile.Articles;
         async.each(articles,
@@ -30,23 +41,26 @@ export default {
           () => {
             dispatch({ type: GET_PROFILE, payload: response.data });
           });
+      })
+      .catch(dispatch({ type: GET_PROFILE_FAILED }));
+  },
+  getFolowers: username => (dispatch) => {
+    axios
+      .get(`/api/profiles/follower/${username}`, { headers: { Authorization: localStorage.getItem('token') } })
+      .then((followerResponse) => {
+        dispatch({ type: GET_FOLLOWER, payload: followerResponse.data });
+      })
+      .catch(dispatch({type: NO_FOLLOWER}));
+  },
+  getFollowing: username => (dispatch) => {
+    axios
+      .get(`/api/profiles/following/${username}`, { headers: { Authorization: localStorage.getItem('token') } })
+      .then((followingResponse) => {
+        dispatch({ type: GET_FOLLOWING, payload: followingResponse.data });
+      })
+      .catch(() => {
+        dispatch({ type: NO_FOLLOWING });
       });
-  },
-  getFolowers: () => (dispatch) => {
-    axios
-      .get('/api/profiles/follower', { headers: { Authorization: localStorage.getItem('token') } })
-      .then((response) => {
-        dispatch({ type: GET_FOLLOWER, payload: response.data });
-      })
-      .catch(error => error);
-  },
-  getFollowing: () => (dispatch) => {
-    axios
-      .get('/api/profiles/following', { headers: { Authorization: localStorage.getItem('token') } })
-      .then((response) => {
-        dispatch({ type: GET_FOLLOWING, payload: response.data });
-      })
-      .catch(error => error);
   },
   updateProfile: profile => async (dispatch) => {
     const {
@@ -78,13 +92,45 @@ export default {
       }
     })
       .then(() => dispatch({ type: PROFILE_UPDATED }))
-      // eslint-disable-next-line no-console
-      .catch(error => console.log(error.response));
+      .catch(dispatch({ type: PROFILE_UPDATED_FAILED }));
   },
-  getBoooMarks: () => (dispatch) => {
+  getBookMarks: username => (dispatch) => {
     axios
-      .get('/api/bookmarks/', { headers: { Authorization: localStorage.getItem('token') } })
+      .get(`/api/bookmarks/${username}`, { headers: { Authorization: localStorage.getItem('token') } })
       .then(response => dispatch({ type: GET_BOOKMARK, payload: response.data }))
       .catch(() => dispatch({ type: NO_BOOKMARK }));
+  },
+  removeBookmark: slug => (dispatch) => {
+    axios
+      .post(`/api/bookmarks/${slug}`,
+        {},
+        { headers: { Authorization: localStorage.getItem('token') } })
+      .then(response => dispatch({ type: REMOVE_BOOKMARK, payload: response.data.message }));
+  },
+  unfollow: username => (dispatch) => {
+    axios
+      .delete(`/api/profiles/${username}/unfollow`, { headers: { Authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        dispatch({ type: UNFOLLOW, payload: response.data });
+      })
+      .catch(dispatch({ type: UNFOLLOW_FAILED }));
+  },
+  follow: username => (dispatch) => {
+    axios
+      .post(`/api/profiles/${username}/follow`,
+        {},
+        { headers: { Authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        dispatch({ type: FOLLOW, payload: response.data });
+      })
+      .catch(dispatch({ type: FOLLOW_FAILED }));
+  },
+  deleteArticle: slug => (dispatch) => {
+    axios
+      .delete(`/api/articles/${slug}`, { headers: { Authorization: localStorage.getItem('token') } })
+      .then(dispatch({ type: DELETE_ARTICLE }))
+      .catch((err) => {
+        dispatch({ type: DELETE_ARTICLE_FAILED, payload: err.response });
+      });
   }
 };

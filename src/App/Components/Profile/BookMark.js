@@ -5,11 +5,12 @@ import propTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 export default function BookMark(props) {
-  const { data } = props;
+  const { data, remove, owner } = props;
+
   return !_.isEmpty(data) ? (
     <div>
       {data.bookmarks.map(bookmark => (
-        <div key={bookmark.id} className="row mt-4 bookmark_container p-3">
+        <div key={bookmark.Article.id} className="row mt-4 bookmark_container p-3">
           <div className="col-12 mt-2">
             <h4 className="col-12 bookmark_container_title">{bookmark.Article.title}</h4>
             <div className="row">
@@ -34,7 +35,15 @@ export default function BookMark(props) {
           >
             Read more
           </Link>
-          <p className="btn-danger bookmark_container_remove m-2 p-1">Remove</p>
+          {owner && (
+            <button
+              type="button"
+              className="btn-danger bookmark_container_remove m-2 p-1"
+              onClick={() => remove(bookmark.articleSlug)}
+            >
+              Remove
+            </button>
+          )}
         </div>
       ))}
     </div>
@@ -43,4 +52,8 @@ export default function BookMark(props) {
   );
 }
 
-BookMark.propTypes = { data: propTypes.object.isRequired };
+BookMark.propTypes = {
+  data: propTypes.object.isRequired,
+  remove: propTypes.func.isRequired,
+  owner: propTypes.bool.isRequired
+};
