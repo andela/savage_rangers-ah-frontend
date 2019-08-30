@@ -9,7 +9,6 @@
 
   & .image-icon {
     position: absolute;
-    z-index: 300;
     width: 100px;
     height: 100px;
     left: 90%;
@@ -61,9 +60,9 @@
     }
 
     & label {
-      height:45vh;
+      height: 45vh;
 
-      & img{
+      & img {
         height: 45vh;
       }
       & .btn-cover {
