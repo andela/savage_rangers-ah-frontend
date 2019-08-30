@@ -19,6 +19,12 @@
     line-break: 4px;
   }
 
+  &__point-separator {
+    margin-left: 219px;
+    margin-top: -4px;
+    font-weight: bold;
+  }
+
   &__name {
     color: black;
   }
@@ -33,9 +39,14 @@
   &__profileDetails {
     margin-top: -5%;
   }
+
+  &__followButton {
+    background-color: $primary-white;
+  }
+
   &__nameDetails {
     margin-left: 100px;
-    font-size: 25px;
+    font-size: 20px;
     margin-bottom: 8px;
     font-family: 'lato';
   }
@@ -49,9 +60,9 @@
 
   &__minDetails {
     position: absolute;
-    margin-left: 225px;
+    margin-left: 231px;
     font-family: 'lato';
-    margin-top: 2px;
+    margin-top: -19px;
   }
 
   &__tag {
@@ -66,10 +77,10 @@
     height: 35px;
     border: 1px solid rgb(233, 225, 225);
     border-radius: 5px;
-    font-size: 20px;
+    font-size: 16px;
     display: inline-block;
     margin-right: 20px;
-    padding: 0px 5px 0px 5px;
+    padding: 4px 10px 0px 10px;
     margin-top: 60px;
   }
 
@@ -108,7 +119,7 @@
 
     &-content {
       position: relative;
-      height: auto;
+      height: 170px;
       padding: 20px;
       margin-bottom: 25px;
       background-color: #efefef;
@@ -118,14 +129,14 @@
 
     .content-image {
       position: relative;
-      height: 130px;
-      width: 150px;
+      height: 100px;
+      width: 100px;
       cursor: pointer;
     }
 
     .holder {
-      margin-left: 165px;
-      margin-top: -137px;
+      margin-left: 117px;
+      margin-top: -104px;
 
       &__content-title {
         font-size: 15px;
@@ -161,7 +172,7 @@
 
     .writer__date {
       font-size: 16px;
-      margin-left: 81px;
+      margin-left: 59px;
       margin-top: -15px;
       font-family: 'STSong';
     }
@@ -187,7 +198,6 @@
 
   #popular-title {
     font-size: 35px;
-    text-align: center;
   }
 
   &__data {
@@ -216,7 +226,7 @@
   width: 200px;
   height: 50px;
   margin-top: -72px;
-  margin-left: 210px;
+  margin-left: 194px;
   background-color: $primary-theme-color;
 
   &__label {
@@ -231,7 +241,7 @@
   width: 200px;
   height: 50px;
   margin-top: -2px;
-  margin-left: 420px;
+  margin-left: 402px;
   background-color: $primary-theme-color;
   border-radius: 0px 30px 30px 0px;
 
@@ -725,14 +735,14 @@
   .article {
     &__popular {
       &-content {
-        width: 250%;
-        min-height: 150px;
+        width: 240%;
+        height: 170px;
       }
     }
   }
 
   .line-separator {
-    width: 250%;
+    width: 240%;
   }
 
   .category-p {
