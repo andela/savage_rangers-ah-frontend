@@ -3,28 +3,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import moment from 'moment';
-import ReactHtmlParser from 'react-html-parser';
-import ReactImageFallback from 'react-image-fallback';
 import Popular from '../Popular/popular';
-import Actions from '../../../Redux/Actions/readArticleActions';
-import Navbar from '../Common/NavProfile/navbar';
-import Footer from '../Common/Footer';
+import ReadArticleActions from '../../../Redux/Actions/readArticleActions';
+import PopularArticleAction from '../../../Redux/Actions/readPopularActions';
+import ArticleNotFound from '../ArticleNotFound/ArticleNotFound';
+import BreadCrumb from './breadCrumb';
+import ArticleBody from './articleBody';
+import Loader from '../Loader/Loader';
 
-const { readArticle, getTags } = Actions;
+const { readArticle, getTags } = ReadArticleActions;
+const { readPopularArticle } = PopularArticleAction;
 
 export class ReadArticle extends Component {
-  state = { tags: [] };
+  state = { tags: [], isLoading: true, articles: [{ title: '', User: {}, Category: {} }] }
 
   componentWillMount() {
-    const { readArticle: readArticles, getTags: getTag } = this.props;
+    const { readArticle: readArticles, getTags: getTag, readPopularArticle: readPopular } = this.props;
     const { match: { params: { slug } } } = this.props;
     readArticles(slug);
     getTag(slug);
+    readPopular();
   }
 
+
   componentWillReceiveProps(nextProps) {
-    if (nextProps.article && nextProps.tags) {
+    if (nextProps.article) {
       this.setState({
         slug: nextProps.article.slug,
         category: nextProps.article.Category.name,
@@ -35,16 +38,27 @@ export class ReadArticle extends Component {
         coverImage: nextProps.article.coverImage,
         firstName: nextProps.article.User.firstName,
         lastName: nextProps.article.User.lastName,
-        profileImage: nextProps.article.User.profileImage,
-        tags: nextProps.tags.data
+        profileImage: nextProps.article.User.profileImage
       });
     }
-  }
 
-  componentWillUpdate(nextProps) {
+    setTimeout(() => {
+      this.setState({ isLoading: false });
+    }, 2000);
+
+    if (nextProps.tags) {
+      this.setState({ tags: nextProps.tags.data });
+    }
+
+    if (nextProps.popularArticle) {
+      this.setState({ articles: nextProps.popularArticle.data });
+    }
+
     const { readArticle: readArticles, getTags: getTag } = this.props;
     const { params: { slug } } = nextProps.match;
-    if (nextProps.match.params.slug !== this.state.slug) {
+
+    if (nextProps.match.params.slug !== this.state.slug && this.state.slug) {
+      this.setState({ isLoading: true });
       readArticles(slug);
       getTag(slug);
     }
@@ -52,95 +66,43 @@ export class ReadArticle extends Component {
 
   render() {
     const {
-      category,
-      title,
-      body,
-      readTime,
-      tags,
-      createdAt,
-      coverImage,
-      firstName,
-      lastName,
-      profileImage
+      category, title, body, readTime, tags,
+      createdAt, coverImage,
+      firstName, lastName, profileImage, slug, isLoading, articles
     } = this.state;
-    const formattedDate = moment(createdAt).format('Do MMM YYYY');
-    return (
+
+    return isLoading ? <Loader /> : (
       <React.Fragment>
-        <Navbar />
-        <div className="page__label col-lg-2">
-          <p className="page__label--text">Articles</p>
-          <div className="category-p">
-            <p className="category-p__label">CATEGORY</p>
-          </div>
-          <div className="category-t">
-            <p className="category-t__label">{category}</p>
-          </div>
-        </div>
-        <div className="container article">
-          <div className="row">
-            {/* <div className="article__icons col-lg-1">
-              <button type="button" className="article__rating">
-                <i className="fas fa-star" id="star" />
-              </button>
-              <i className={isBookmarked ? 'fas fa-bookmark' : 'far fa-bookmark'} id="bookmark" />
-            </div> */}
-            <div className="col-sm-9 col-md-12 col-lg-9">
-              <div className="article__data">
-                <h2 className="article__description">{title}</h2>
-                <div className="article__profileDetails">
-                  <ReactImageFallback
-                    className="article__imgProfile"
-                    src={profileImage}
-                    fallbackImage="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                    alt="profilePic"
-                    title="profile"
+        {
+          !slug ? <ArticleNotFound /> : (
+            <div>
+              <BreadCrumb category={category} />
+              <div className="container article">
+                <div className="row">
+                  <ArticleBody
+                    title={title}
+                    body={body}
+                    readTime={readTime}
+                    tags={tags}
+                    createdAt={createdAt}
+                    coverImage={coverImage}
+                    firstName={firstName}
+                    lastName={lastName}
+                    profileImage={profileImage}
                   />
-                  <p to="/" className="article__nameDetails">{`${firstName} ${lastName}`}</p>
-                  <p to="/" className="article__dateDetails">
-                    {formattedDate}
-                  </p>
-                  <p to="/" className="article__minDetails">
-                    {readTime}
-                    {' '}
-min
-                  </p>
-                </div>
-                <div className="DraftEditor-root">
-                  <div className="DraftEditor-editorContainer">
-                    <div className="ml-0.5">
-                      {
-                        <ReactImageFallback
-                          className="DraftEditor-coverImage ml-1"
-                          src={coverImage}
-                          fallbackImage="https://ielektro.es/wp-content/uploads/2017/04/ventajas-comprar-LED.jpg"
-                          alt="coverImage"
-                        />
-                      }
-                    </div>
-                    <div className="public-DraftEditor-content">{ReactHtmlParser(body)}</div>
+
+                  <div className="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12">
+                    <Popular articles={articles} />
                   </div>
-                </div>
-                <div className="ml-2">
-                  {tags.map(item => (
-                    <div key={item.id} className="article__tags">
-                      {item.name}
-                    </div>
-                  ))}
                 </div>
               </div>
             </div>
-            <Popular />
-          </div>
-        </div>
-        <Footer />
+          )
+        }
       </React.Fragment>
     );
   }
 }
 ReadArticle.propTypes = { article: propTypes.object, tags: propTypes.object };
-export const mapStateToProps = state => ({
-  article: state.readArticle.article,
-  tags: state.readArticle.tags
-});
-export default connect(mapStateToProps,
-  { readArticle, getTags })(ReadArticle);
+export const mapStateToProps = state => ({ article: state.readArticle.article, tags: state.readArticle.tags, popularArticle: state.populars.Articles });
+export default connect(mapStateToProps, { readArticle, getTags, readPopularArticle })(ReadArticle);

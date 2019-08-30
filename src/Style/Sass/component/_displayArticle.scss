@@ -53,6 +53,7 @@
     font-family: 'lato';
     margin-top: 2px;
   }
+
   &__tag {
     &--list {
       display: flex;
@@ -715,13 +716,6 @@
   }
 }
 
-@media screen and (min-width: 1441px) and (max-width: 1920px) {
-  #bookmark {
-    left: 21%;
-    margin-top: 4%;
-  }
-}
-
 @media screen and (max-width: 1440px) {
   #bookmark {
     left: 28%;
@@ -732,6 +726,7 @@
     &__popular {
       &-content {
         width: 250%;
+        min-height: 150px;
       }
     }
   }
@@ -754,9 +749,37 @@
   .article {
     &__popular {
       &-content {
-        width: 250%;
+        width: 242%;
       }
     }
+  }
+
+  .article__popular .holder {
+    margin-left: 112px;
+    margin-top: -103px;
+  }
+
+  .article__popular .content-image {
+    height: 100px;
+    width: 100px;
+  }
+
+  .article__popular .writer__name {
+    margin-left: 45px;
+    margin-top: -40px;
+    font-size: 17px;
+  }
+
+  .article__popular .writer__date {
+    margin-left: 52px;
+    margin-top: -15px;
+  }
+
+  .article__popular .holder__writer-img {
+    height: 40px;
+    width: 40px;
+    margin-top: -8px;
+    margin-left: -4px;
   }
 
   .line-separator {
@@ -776,94 +799,10 @@
   .my-5 {
     margin-top: 1rem !important;
   }
-
-  // .holder {
-  //   margin-left: 113px;
-  //   margin-top: -105px;
-
-  //   &__content-title {
-  //     font-size: 16px;
-  //   }
-
-  //   &__vl {
-  //     margin-top: -11px;
-  //   }
-
-  //   &__category {
-  //     margin-top: -20px;
-  //     margin-left: 10px;
-  //     font-size: 13px;
-  //   }
-
-  //   &__writer-img {
-  //     height: 40px;
-  //     width: 40px;
-  //   }
-
-  //   .writer__name {
-  //     font-size: 14px;
-  //     margin-left: 37px;
-  //     margin-top: -32px;
-  //   }
-
-  //   .writer__date {
-  //     font-size: 12px;
-  //     margin-left: 43px;
-  //     margin-top: -19px;
-  //   }
-  // }
-
-  // .article__popular .content-image {
-  //   width: 100%;
-  //   height: 100%;
-  // }
-
-  // .article__popular .holder {
-  //   margin-left: 0px;
-  //   margin-top: 9px;
-  // }
-
-  // .article__popular-content {
-  //   width: 193%;
-  // }
-
-  // .article__popular .holder__content-title {
-  //   font-size: 16px;
-  // }
-
-  // .article__popular .holder__writer-img {
-  //   height: 40px;
-  //   width: 40px;
-  // }
-
-  // .holder .writer__name {
-  //   font-size: 19px;
-  //   margin-left: 51px;
-  //   margin-top: -42px;
-  // }
-
-  // .holder .writer__date {
-  //   font-size: 15px;
-  //   margin-left: 65px;
-  // }
-
-  // .line-separator {
-  //   width: 193%;
-  // }
 }
 
-@media screen and (max-width: 768px) {
+@media only screen and (max-width: 768px) {
   .article {
-    &__icons {
-      // position: absolute;
-      top: 3%;
-      left: 50%;
-      // & #bookmark {
-      //   margin-left: 4%;
-      //   display: inline-block;
-      // }
-    }
-
     &__popular {
       &-content {
         width: 100%;

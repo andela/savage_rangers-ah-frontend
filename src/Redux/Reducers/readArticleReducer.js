@@ -1,12 +1,12 @@
 import actions from '../Actions';
 
-const { READ_ARTICLE, GET_ARTICLE_TAGS } = actions;
+const { FETCH_ONE_ARTICLE, GET_ARTICLE_TAGS, READ_ARTICLE_ERROR } = actions;
 
-const initialState = { Article: {} };
+const initialState = { Article: {}, error: 'empty' };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case READ_ARTICLE:
+    case FETCH_ONE_ARTICLE:
       return {
         ...state,
         article: action.payload
@@ -16,6 +16,12 @@ export default (state = initialState, action) => {
         ...state,
         tags: action.payload
       };
+    case READ_ARTICLE_ERROR:
+      return {
+        ...state,
+        error: action.payload
+      };
+
     default:
       return state;
   }

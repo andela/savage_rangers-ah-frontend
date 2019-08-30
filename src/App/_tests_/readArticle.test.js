@@ -41,58 +41,80 @@ const payload = {
   }
 };
 
-mapStateToProps({ readArticle: {} });
-const match = { params: { slug: 'slug' } };
-const props = {
-  readArticle: jest.fn(), getTags: jest.fn(), match, tags: { data: [{ id: 1, name: 'TECH' }] }, article: { Category: { name: 'Tech' }, User: { firstName: 'Frank' } }
+const tagPayload = {
+  tags: {
+    status: 200,
+    data: [
+      {
+        id: 4,
+        name: 'Software',
+        createdAt: '2019-08-14T12:56:55.150Z',
+        updatedAt: '2019-08-14T12:56:55.150Z'
+      },
+      {
+        id: 6,
+        name: 'Growing',
+        createdAt: '2019-08-14T12:56:55.152Z',
+        updatedAt: '2019-08-14T12:56:55.152Z'
+      },
+      {
+        id: 5,
+        name: 'Engineering',
+        createdAt: '2019-08-14T12:56:55.151Z',
+        updatedAt: '2019-08-14T12:56:55.151Z'
+      }
+    ]
+  }
 };
-const display = shallow(<ReadArticle {...props} />);
-describe('Display', () => {
+
+const errorPayload = { error: { Article: 'Article not found' } };
+
+mapStateToProps({ readArticle: {}, populars: {} });
+const match = { params: { slug: 'slug' } };
+
+const props = {
+  readArticle: jest.fn(),
+  getTags: jest.fn(),
+  match,
+  tags: { data: [{ id: 1, name: 'TECH' }] },
+  article: { Category: { name: 'Tech' }, User: { firstName: 'Frank' } },
+  readPopularArticle: jest.fn(),
+  isLoading: false,
+  popularArticle: [{
+    id: 1,
+    name: 'TECH'
+  }]
+};
+const readOneArticle = shallow(<ReadArticle {...props} />);
+describe('read Article component', () => {
   it('renders the Display component', () => {
-    expect(display).toBeDefined();
-    expect(display.find('div').exists()).toBe(true);
-    expect(display).toMatchSnapshot();
+    expect(readOneArticle).toBeDefined();
+    expect(readOneArticle).toMatchSnapshot();
   });
 
-  it('should receive the props', () => {
-    display.setState({ article: {}, tags: [], isBookmarked: true });
-    display.setProps(props);
-    expect(display.instance().props).toEqual(props);
-    expect(display.instance().state).toEqual({
-      article: {}, body: undefined, category: 'Tech', coverImage: undefined, createdAt: undefined, firstName: 'Frank', isBookmarked: true, lastName: undefined, profileImage: undefined, readTime: undefined, slug: undefined, tags: [{ id: 1, name: 'TECH' }], title: undefined
+  it('will receive props', () => {
+    readOneArticle.setState({
+      article: {},
+      slug: 'why-do-we-test',
+      tags: [],
+      articles: [{
+        id: 4,
+        name: 'Software',
+        createdAt: '2019-08-14T12:56:55.150Z',
+        updatedAt: '2019-08-14T12:56:55.150Z'
+      }],
+      isLoading: false
     });
+    readOneArticle.setProps(props);
+    expect(readOneArticle.instance().props).toEqual(props);
+    expect(readOneArticle.instance().state.isLoading).toEqual(true);
   });
 });
 
 describe('test the reducers', () => {
-  const tagPayload = {
-    tags: {
-      status: 200,
-      data: [
-        {
-          id: 4,
-          name: 'Software',
-          createdAt: '2019-08-14T12:56:55.150Z',
-          updatedAt: '2019-08-14T12:56:55.150Z'
-        },
-        {
-          id: 6,
-          name: 'Growing',
-          createdAt: '2019-08-14T12:56:55.152Z',
-          updatedAt: '2019-08-14T12:56:55.152Z'
-        },
-        {
-          id: 5,
-          name: 'Engineering',
-          createdAt: '2019-08-14T12:56:55.151Z',
-          updatedAt: '2019-08-14T12:56:55.151Z'
-        }
-      ]
-    }
-  };
   it('should handle the read article action result', () => {
     expect(Readreducer(initialState, {
-      type: 'READ_ARTICLE',
+      type: 'FETCH_ONE_ARTICLE',
       payload
     })).toEqual({
       Article: {},
@@ -109,20 +131,44 @@ describe('test the reducers', () => {
       tags: { ...tagPayload }
     });
   });
+
+  it('should handle the catch error feature', () => {
+    expect(Readreducer(initialState, {
+      type: 'READ_ARTICLE_ERROR',
+      payload: errorPayload
+    })).toEqual({
+      Article: {},
+      error: { ...errorPayload }
+    });
+  });
 });
 
-describe('testing the actions', () => {
-  it('should check the read article action on failure', () => {
-    const dataTest = { body: 'this is not awesome' };
-    mockAxios.get = jest.fn(() => Promise.reject({ response: { data: { errors: {} } } }));
-    store.dispatch(readArticle(dataTest));
-    expect(store.getActions()[0]).toBe(undefined);
+describe('testing the read article actions', () => {
+  it('should dispatch the READ_ARTICLE action and payload', () => {
+    mockAxios.get = jest.fn(() => Promise.resolve(payload));
+    store.dispatch(readArticle(payload));
+    expect(store.getActions()[0]).toMatchSnapshot();
   });
 
-  it('should check the get article tags action on failure', () => {
+  it('should dispatch the READ_ARTICLE action and payload and throws an error', () => {
     const dataTest = { body: 'this is awesome' };
-    mockAxios.get = jest.fn(() => Promise.reject({ response: { data: { errors: {} } } }));
+    mockAxios.get = jest.fn(() => Promise.reject({ response: { data: { errors: { Article: 'Article is not found' } } } }));
+    store.dispatch(readArticle(dataTest));
+    expect(store.getActions()).toMatchSnapshot();
+  });
+
+
+  it('should dispatch the GET_TAGS action and payload', () => {
+    const dataTest = { body: 'this is awesome' };
+    mockAxios.get = jest.fn(() => Promise.resolve(tagPayload));
     store.dispatch(getTags(dataTest));
-    expect(store.getActions()[0].type).toEqual('CATCH_ERROR');
+    expect(store.getActions()).toMatchSnapshot();
+  });
+
+  it('should dispatch the GET_TAGS action and payload and throws an error', () => {
+    const dataTest = { body: 'this is awesome' };
+    mockAxios.get = jest.fn(() => Promise.reject({ response: { data: { errors: { tags: 'No tags found for this article' } } } }));
+    store.dispatch(getTags(dataTest));
+    expect(store.getActions()).toMatchSnapshot();
   });
 });
