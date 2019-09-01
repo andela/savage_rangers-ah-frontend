@@ -14,6 +14,7 @@ import commentsReducer from './comments';
 import Signout from './signoutReducer';
 
 import profile from './Profile';
+import authorReducer from './authors';
 
 export default combineReducers({
   authReducer,
@@ -29,5 +30,6 @@ export default combineReducers({
   getArticle,
   commentsReducer,
   profile,
-  Signout
+  Signout,
+  authorReducer
 });

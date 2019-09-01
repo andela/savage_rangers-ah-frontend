@@ -15,6 +15,7 @@ import ForgotPassword from './Components/PasswordReset/ForgotPassword';
 import ResetPassword from './Components/PasswordReset/ResetPassword';
 import CreateArticle from './Components/CreateArticle/CreateArticle';
 import UpdateArticle from './Components/CreateArticle/UpdateArticle';
+import DisplayAuthors from './Components/authors';
 
 /**
  *
@@ -41,6 +42,7 @@ class App extends Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/login" component={!isAuth ? Login : Home} />
             <Route exact path="/redirect" component={Redirection} />
+            <Route exact path="/authors" component={DisplayAuthors} />
             <Route exact path="/signup" component={isAuth ? Home : RegistrationComponent} />
             <Route
               exact
