@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`My Connected React-Redux Component should render the component 1`] = `
+<div
+  className="comment-holder mt-5"
+>
+  <div
+    className="comment-holder__title ml-4"
+  >
+    <h3
+      style={
+        Object {
+          "fontSize": "25px",
+        }
+      }
+    >
+      COMMENTS
+    </h3>
+    <div
+      className="parent-reply-input"
+    >
+      <a
+        href="/profile/undefined"
+      />
+      <textarea
+        className="parent-reply-input__text-body ml-3"
+        name="Reply-content"
+        onChange={[Function]}
+        placeholder="type your comment..."
+        type="textarea"
+        value=""
+      />
+      <button
+        className="parent-reply-input__reply-button"
+        onClick={[Function]}
+        type="submit"
+      >
+        Comment
+      </button>
+    </div>
+    <div
+      style={Object {}}
+    >
+      <div
+        className="infinite-scroll-component "
+        style={
+          Object {
+            "WebkitOverflowScrolling": "touch",
+            "height": "auto",
+            "overflow": "hidden",
+          }
+        }
+      />
+    </div>
+  </div>
+</div>
+`;

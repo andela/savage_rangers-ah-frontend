@@ -78,6 +78,7 @@ const match = { params: { slug: 'slug' } };
 const props = {
   readArticle: jest.fn(),
   getTags: jest.fn(),
+  getAllComments: jest.fn(),
   match,
   tags: { data: [{ id: 1, name: 'TECH' }] },
   article: { Category: { name: 'Tech' }, User: { firstName: 'Frank' } },

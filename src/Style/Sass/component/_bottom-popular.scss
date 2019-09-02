@@ -10,13 +10,21 @@
 .content-holder {
     width: 100%;
     height: 100%;
+
+    &__popular {
+        font-size: 25px;
+        margin-left: 17px;
+    }
+
+    &__line-separate {
+        margin-left: 17px;
+    }
 }
 
 .popular-div-holder {
     margin-top: 5px;
     margin-left: 10px;
     width: 270px;
-    display: inline-block;
 
     &__popular-cover-image {
         height: 220px;
@@ -81,6 +89,6 @@
     display: inline-flex;
 
     &-container {
-        padding-left: 1rem;
+        padding-left: 0rem;
     }
 }
