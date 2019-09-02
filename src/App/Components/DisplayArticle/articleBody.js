@@ -4,7 +4,7 @@ import ReactHtmlParser from 'react-html-parser';
 import moment from 'moment';
 import Tags from './tags';
 
-const ArticleBody = (props) => {
+const ArticleBody = props => {
   const {
     title,
     body,
@@ -29,15 +29,15 @@ const ArticleBody = (props) => {
             alt="profilePic"
             title="profile"
           />
-          <p to="/" className="article__nameDetails">{`${firstName} ${lastName}`}</p>
+          <p
+            to="/"
+            className="article__nameDetails">{`${firstName} ${lastName}`}</p>
           <p to="/" className="article__dateDetails">
             {formattedDate}
           </p>
           <div className="article__point-separator"> . </div>
           <p to="/" className="article__minDetails">
-            {readTime}
-            {' '}
-min read
+            {readTime} min read
           </p>
         </div>
         <div className="DraftEditor-root">
@@ -52,7 +52,9 @@ min read
                 />
               }
             </div>
-            <div className="public-DraftEditor-content">{ReactHtmlParser(body)}</div>
+            <div className="public-DraftEditor-content">
+              {ReactHtmlParser(body)}
+            </div>
           </div>
         </div>
         <Tags tags={tags} />

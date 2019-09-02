@@ -6,7 +6,6 @@ import promiseMiddleware from 'redux-promise-middleware';
 import { shallow } from '../../enzyme';
 import Popular from '../Components/Popular/popular';
 import readPopularAction from '../../Redux/Actions/readPopularActions';
-// import { ReadArticle, mapStateToProps } from '../Components/DisplayArticle/readArticle';
 import readPopularReducer from '../../Redux/Reducers/popularArticleReducer';
 
 const { readPopularArticle } = readPopularAction;
@@ -24,7 +23,8 @@ const articles = [
     title: 'What you need to know to become a great software engineer in 2020',
     description: '10 Tips to become a great software engineer by 2020.',
     body: 'I get quite a few emails that basically say',
-    slug: 'what-you-need-to-know-to-become-a-great-software-engineer-in-2020-nfovo9fghng',
+    slug:
+      'what-you-need-to-know-to-become-a-great-software-engineer-in-2020-nfovo9fghng',
     readTime: 6,
     coverImage:
       'https://res.cloudinary.com/al-tech/image/upload/v1565787533/rvkmbae3pcqhgysxoqnk.jpg',
@@ -51,10 +51,12 @@ const payload = {
       data: [
         {
           id: 6,
-          title: 'What you need to know to become a great software engineer in 2020',
+          title:
+            'What you need to know to become a great software engineer in 2020',
           description: '10 Tips to become a great software engineer by 2020.',
           body: 'I get quite a few emails',
-          slug: 'what-you-need-to-know-to-become-a-great-software-engineer-in-2020-nfovo9fghng',
+          slug:
+            'what-you-need-to-know-to-become-a-great-software-engineer-in-2020-nfovo9fghng',
           readTime: 6,
           coverImage:
             'https://res.cloudinary.com/al-tech/image/upload/v1565787533/rvkmbae3pcqhgysxoqnk.jpg',
@@ -101,7 +103,11 @@ describe('testing the read popular articles action', () => {
 
   it('should dispatch the READ_ARTICLE action and payload and throws an error', () => {
     const dataTest = { body: 'this is awesome' };
-    mockAxios.get = jest.fn(() => Promise.reject({ response: { data: { errors: { Article: 'Article is not found' } } } }));
+    mockAxios.get = jest.fn(() =>
+      Promise.reject({
+        response: { data: { errors: { Article: 'Article is not found' } } }
+      })
+    );
     store.dispatch(readPopularArticle(dataTest));
     expect(store.getActions()).toMatchSnapshot();
   });

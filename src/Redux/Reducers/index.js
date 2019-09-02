@@ -22,11 +22,12 @@ export default combineReducers({
   article,
   getArticle,
   readArticle: readArticleReducer,
-  populars: readPopularArticleReducer,
   notifications,
   profile,
   articles: articleReducer,
   stats: articleReducer,
   ratings: articleReducer,
-  searchArticle
+  searchArticle,
+  readArticle: readArticleReducer,
+  populars: readPopularArticleReducer
 });

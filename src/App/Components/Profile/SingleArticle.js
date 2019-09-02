@@ -36,7 +36,9 @@ export default function SingleArticle(props) {
               />
 
               <div className="dropdown-menu mt-4">
-                <a className="dropdown-item" href={`articles/${article.slug}/edit`}>
+                <a
+                  className="dropdown-item"
+                  href={`articles/${article.slug}/edit`}>
                   Edit
                 </a>
                 <div className="dropdown-divider" />
@@ -44,8 +46,7 @@ export default function SingleArticle(props) {
                   className="dropdown-item"
                   href="/delete"
                   data-toggle="modal"
-                  data-target={`#deleteModal${article.id}`}
-                >
+                  data-target={`#deleteModal${article.id}`}>
                   Delete
                 </a>
               </div>
@@ -57,10 +58,9 @@ export default function SingleArticle(props) {
         className="single-article-link"
         to={
           article.status !== 'draft'
-            ? `/artciles/${article.slug}`
+            ? `/articles/${article.slug}`
             : `/update/article/${article.slug}`
-        }
-      >
+        }>
         <ReactImageFallback
           src={article.coverImage}
           fallbackImage="https://ielektro.es/wp-content/uploads/2017/04/ventajas-comprar-LED.jpg"
@@ -72,30 +72,31 @@ export default function SingleArticle(props) {
         </h2>
         <div
           className="m-1 col-12 single-article-content"
-          style={{ fontFamily: 'STSong', fontSize: '22px' }}
-        >
-          <div className="adaptoid">{ReactHtmlParser(article.body.substring(0, 170))}</div>
+          style={{ fontFamily: 'STSong', fontSize: '22px' }}>
+          <div className="adaptoid">
+            {ReactHtmlParser(article.body.substring(0, 170))}
+          </div>
         </div>
       </Link>
       <div className="row ml-4 mt-4 col-12 single-article-stat">
         <Rater
           total={5}
-          rating={article.rating !== 0 ? countRating(article.rating.statistics) : 0}
+          rating={
+            article.rating !== 0 ? countRating(article.rating.statistics) : 0
+          }
           interactive
         />
         <p className="ml-5 mb-4 single-article-read">
-          [
-          {article.rating.allUsers || 0}
-/
-          {article.statistics.stats.reads}
-]
+          [{article.rating.allUsers || 0}/{article.statistics.stats.reads}]
         </p>
         <p className="single-article-status">
           {' '}
-          <span className={`${article.status === 'published' ? 'text-success' : 'text-danger'}`}>
+          <span
+            className={`${
+              article.status === 'published' ? 'text-success' : 'text-danger'
+            }`}>
             {article.status}
-          </span>
-          {' '}
+          </span>{' '}
         </p>
       </div>
     </div>

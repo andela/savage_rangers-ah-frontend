@@ -3,10 +3,8 @@
     min-height: 200px;
     font-family: inherit;
   }
-
   &-editorContainer {
     margin: 10px 10px 0 10px;
-
     & .public-DraftEditor-content {
       margin-top: 85px;
       font-size: 20px;
@@ -14,30 +12,25 @@
       letter-spacing: 0.1em;
       line-break: 4px;
       text-align: justify;
-
       & figure {
         text-align: center;
-
         & img {
           padding: 10px;
           width: 65%;
         }
       }
-
       & pre {
         background-color: rgba(0, 0, 0, 0.05);
         font-family: 'Inconsolata', 'Menlo', 'Consolas', monospace;
         font-size: 16px;
         margin-bottom: 20px;
       }
-
       & h1 {
         font-weight: 600;
         text-align: center;
       }
     }
   }
-
   &-coverImage {
     width: 800px;
     height: 500px;
@@ -45,27 +38,21 @@
     margin-top: 15%;
   }
 }
-
 .editor {
   position: relative;
   border: 1px solid #ced4da;
-
   &__toolbar {
-    // background-color: #95a5a6;
     height: 70px;
     width: 100%;
     border-bottom: 1px solid #ced4da;
-
     & ul {
       width: 250px;
       position: absolute;
       margin: 2% 0 0 12%;
       list-style: none;
-
       & li {
         display: inline-block;
         cursor: pointer;
-
         &:not(:first-child) {
           margin-left: 12%;
         }
@@ -75,30 +62,24 @@
           }
         }
       }
-
       & button {
         border: none;
         background-color: $primary-white;
         outline: none;
       }
     }
-
     &--ordering {
       left: 20%;
     }
-
     &--alignment {
       left: 43%;
     }
-
     &--img {
       left: 65%;
-
       input[type='file'].file-uploader {
         display: none;
         cursor: pointer;
       }
-
       & li {
         width: 26.1px;
         height: 26.1px;
@@ -108,7 +89,6 @@
     }
   }
 }
-
 .input-group {
   width: 13%;
   margin-top: 1.5% !important;
@@ -130,10 +110,81 @@
   margin-right: 0.25em;
   vertical-align: -0.4em;
 }
-
-.adaptoid {
-  font-family: 'lato' !important;
-  & pre {
-    font-family: inherit !important;
+@media (max-width: 320px) {
+  .DraftEditor {
+    &-coverImage {
+      width: 100%;
+      height: 100%;
+    }
+    &-editorContainer {
+      & .public-DraftEditor-content {
+        margin-top: 45px;
+      }
+    }
+  }
+}
+@media (max-width: 375px) {
+  .DraftEditor {
+    &-coverImage {
+      width: 100%;
+      height: 100%;
+    }
+    &-editorContainer {
+      & .public-DraftEditor-content {
+        margin-top: 45px;
+      }
+    }
+  }
+}
+@media (max-width: 425px) {
+  .DraftEditor {
+    &-coverImage {
+      width: 100%;
+      height: 100%;
+    }
+    &-editorContainer {
+      & .public-DraftEditor-content {
+        margin-top: 45px;
+      }
+    }
+  }
+}
+@media (max-width: 768px) {
+  .DraftEditor {
+    &-coverImage {
+      width: 100%;
+      height: 100%;
+    }
+    &-editorContainer {
+      & .public-DraftEditor-content {
+        margin-top: 45px;
+      }
+    }
+  }
+}
+@media (max-width: 1024px) {
+  .DraftEditor {
+    &-coverImage {
+      width: 100%;
+      height: 100%;
+    }
+    &-editorContainer {
+      & .public-DraftEditor-content {
+        margin-top: 45px;
+      }
+    }
+  }
+}
+@media (max-width: 1920px) {
+  .DraftEditor {
+    &-coverImage {
+      width: 100%;
+      height: 100%;
+    }
+    &-editorContainer {
+      & .public-DraftEditor-content {
+        margin-top: 45px;
+      }
+    }
   }
 }

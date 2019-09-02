@@ -5,7 +5,10 @@ import mockAxios from 'axios';
 import promiseMiddleware from 'redux-promise-middleware';
 import { shallow } from '../../enzyme';
 import readArticleActions from '../../Redux/Actions/readArticleActions';
-import { ReadArticle, mapStateToProps } from '../Components/DisplayArticle/readArticle';
+import {
+  ReadArticle,
+  mapStateToProps
+} from '../Components/DisplayArticle/readArticle';
 import Readreducer from '../../Redux/Reducers/readArticleReducer';
 
 const { readArticle, getTags } = readArticleActions;
@@ -21,7 +24,8 @@ const payload = {
     title: 'What you need to know to become a great software engineer in 2020',
     description: '10 Tips to become a great software engineer by 2020.',
     body: 'I get quite a few emails that basically say',
-    slug: 'what-you-need-to-know-to-become-a-great-software-engineer-in-2020-nfovo9fghng',
+    slug:
+      'what-you-need-to-know-to-become-a-great-software-engineer-in-2020-nfovo9fghng',
     readTime: 6,
     coverImage:
       'https://res.cloudinary.com/al-tech/image/upload/v1565787533/rvkmbae3pcqhgysxoqnk.jpg',
@@ -119,30 +123,36 @@ describe('read Article component', () => {
 
 describe('test the reducers', () => {
   it('should handle the read article action result', () => {
-    expect(Readreducer(initialState, {
-      type: 'FETCH_ONE_ARTICLE',
-      payload
-    })).toEqual({
+    expect(
+      Readreducer(initialState, {
+        type: 'FETCH_ONE_ARTICLE',
+        payload
+      })
+    ).toEqual({
       Article: {},
       article: { ...payload }
     });
   });
 
   it('should handle the get tags by article action result', () => {
-    expect(Readreducer(initialState, {
-      type: 'GET_ARTICLE_TAGS',
-      payload: tagPayload
-    })).toEqual({
+    expect(
+      Readreducer(initialState, {
+        type: 'GET_ARTICLE_TAGS',
+        payload: tagPayload
+      })
+    ).toEqual({
       Article: {},
       tags: { ...tagPayload }
     });
   });
 
   it('should handle the catch error feature', () => {
-    expect(Readreducer(initialState, {
-      type: 'READ_ARTICLE_ERROR',
-      payload: errorPayload
-    })).toEqual({
+    expect(
+      Readreducer(initialState, {
+        type: 'READ_ARTICLE_ERROR',
+        payload: errorPayload
+      })
+    ).toEqual({
       Article: {},
       error: { ...errorPayload }
     });
@@ -158,7 +168,11 @@ describe('testing the read article actions', () => {
 
   it('should dispatch the READ_ARTICLE action and payload and throws an error', () => {
     const dataTest = { body: 'this is awesome' };
-    mockAxios.get = jest.fn(() => Promise.reject({ response: { data: { errors: { Article: 'Article is not found' } } } }));
+    mockAxios.get = jest.fn(() =>
+      Promise.reject({
+        response: { data: { errors: { Article: 'Article is not found' } } }
+      })
+    );
     store.dispatch(readArticle(dataTest));
     expect(store.getActions()).toMatchSnapshot();
   });
@@ -172,7 +186,13 @@ describe('testing the read article actions', () => {
 
   it('should dispatch the GET_TAGS action and payload and throws an error', () => {
     const dataTest = { body: 'this is awesome' };
-    mockAxios.get = jest.fn(() => Promise.reject({ response: { data: { errors: { tags: 'No tags found for this article' } } } }));
+    mockAxios.get = jest.fn(() =>
+      Promise.reject({
+        response: {
+          data: { errors: { tags: 'No tags found for this article' } }
+        }
+      })
+    );
     store.dispatch(getTags(dataTest));
     expect(store.getActions()).toMatchSnapshot();
   });

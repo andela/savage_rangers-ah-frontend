@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Home from './Components/Home/Home';
-import NotFound from './Components/NotFound/NotFound';
+import NotFound from './Components/ArticleNotFound/ArticleNotFound';
 import Login from './Components/Login';
 import Redirection from './Components/Redirection/redirect';
 import ProfileComponent from './Components/Profile/Profile';
@@ -43,7 +43,11 @@ class App extends Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/login" component={isAuth ? Home : Login} />
             <Route exact path="/redirect" component={Redirection} />
-            <Route exact path="/signup" component={isAuth ? Home : RegistrationComponent} />
+            <Route
+              exact
+              path="/signup"
+              component={isAuth ? Home : RegistrationComponent}
+            />
             <Route
               exact
               path="/forgot-password"
@@ -54,13 +58,23 @@ class App extends Component {
               path="/reset-password"
               component={!localStorage.getItem('token') ? ResetPassword : Home}
             />
-            <Route exact path="/profile" component={ProfileComponent} />
-            <Route path="/update/article/:slug" component={isAuth ? CreateArticle : Login} />
-            <Route exact path="/terms_and_conditions" component={TermsAndconditions} />
-            <Route path="/article/new" component={isAuth ? CreateArticle : Login} />
+            <Route path="/profile" component={ProfileComponent} />
+            <Route
+              path="/update/article/:slug"
+              component={isAuth ? CreateArticle : Login}
+            />
+
+            <Route
+              exact
+              path="/terms_and_conditions"
+              component={TermsAndconditions}
+            />
+            <Route
+              path="/article/new"
+              component={isAuth ? CreateArticle : Login}
+            />
             <Route exact path="/redirect" component={Redirection} />
             <Route exact path="/articles/:slug" component={ReadArticle} />
-            <Route path="/profile" component={ProfileComponent} />
             <Route exact path="/articles" component={Articles} />
             <Route exact path="/articles/search" component={Search} />
             <Route exact path="*" component={NotFound} />

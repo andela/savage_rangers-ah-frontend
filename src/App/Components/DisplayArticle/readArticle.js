@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import Popular from '../Popular/popular';
+// import Popular from '../Popular/popular';
 import ReadArticleActions from '../../../Redux/Actions/readArticleActions';
 import PopularArticleAction from '../../../Redux/Actions/readPopularActions';
 import ArticleNotFound from '../ArticleNotFound/ArticleNotFound';
@@ -11,20 +11,32 @@ import ArticleBody from './articleBody';
 import Loader from '../Common/loader';
 import Navbar from '../Common/NavProfile/navbar';
 import Footer from '../Common/Footer';
+import BottomPopular from '../Popular/bottom-popular';
 
 const { readArticle, getTags } = ReadArticleActions;
 const { readPopularArticle } = PopularArticleAction;
 
 export class ReadArticle extends Component {
-  state = { tags: [], isLoading: true, articles: [{ title: '', User: {}, Category: {} }] };
+  constructor(props) {
+    super(props);
+    this.state = {
+      tags: [],
+      isLoading: true,
+      articles: [{ title: '', User: {}, Category: {} }]
+    };
+  }
 
-  componentWillMount() {
+  componentDidMount() {
     const {
       readArticle: readArticles,
       getTags: getTag,
       readPopularArticle: readPopular
     } = this.props;
-    const { match: { params: { slug } } } = this.props;
+    const {
+      match: {
+        params: { slug }
+      }
+    } = this.props;
     readArticles(slug);
     getTag(slug);
     readPopular();
@@ -59,7 +71,9 @@ export class ReadArticle extends Component {
     }
 
     const { readArticle: readArticles, getTags: getTag } = this.props;
-    const { params: { slug } } = nextProps.match;
+    const {
+      params: { slug }
+    } = nextProps.match;
 
     if (nextProps.match.params.slug !== this.state.slug && this.state.slug) {
       this.setState({ isLoading: true });
@@ -90,7 +104,7 @@ export class ReadArticle extends Component {
     ) : (
       <React.Fragment>
         {!slug ? (
-          <ArticleNotFound />
+          <ArticleNotFound content="ARTICLE NOT FOUND" />
         ) : (
           <div>
             <Navbar />
@@ -109,9 +123,11 @@ export class ReadArticle extends Component {
                   profileImage={profileImage}
                 />
 
-                <div className="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12">
-                  <Popular articles={articles} />
-                </div>
+                {/* <div className="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12">
+                    <Popular articles={articles} />
+                  </div> */}
+
+                <BottomPopular articles={articles} />
               </div>
             </div>
             <Footer />
@@ -127,5 +143,7 @@ export const mapStateToProps = state => ({
   tags: state.readArticle.tags,
   popularArticle: state.populars.Articles
 });
-export default connect(mapStateToProps,
-  { readArticle, getTags, readPopularArticle })(ReadArticle);
+export default connect(
+  mapStateToProps,
+  { readArticle, getTags, readPopularArticle }
+)(ReadArticle);

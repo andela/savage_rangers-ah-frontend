@@ -112,6 +112,8 @@
           "lastName",
           "profileImage",
           "tags"
+          "tags",
+          "content"
         ]
       }
     ],

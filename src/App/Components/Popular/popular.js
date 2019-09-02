@@ -4,7 +4,7 @@ import truncate from 'truncate';
 import { Link } from 'react-router-dom';
 import ReactImageFallback from 'react-image-fallback';
 
-const Popular = (props) => {
+const Popular = props => {
   const scrollUp = () => {
     window.scrollTo(0, 50);
   };
@@ -19,8 +19,7 @@ const Popular = (props) => {
           to={`/articles/${item.slug}`}
           onClick={scrollUp()}
           key={item.title}
-          style={{ color: '#000', textDecoration: 'none' }}
-        >
+          style={{ color: '#000', textDecoration: 'none' }}>
           <div className="article__popular-content">
             <ReactImageFallback
               className="content-image"
@@ -45,7 +44,9 @@ const Popular = (props) => {
                   title="Writer Image"
                 />
                 <p className="writer__name">{`${item.User.firstName} ${item.User.lastName}`}</p>
-                <p className="writer__date">{moment(item.createdAt).format('Do MMM YYYY')}</p>
+                <p className="writer__date">
+                  {moment(item.createdAt).format('Do MMM YYYY')}
+                </p>
               </div>
             </div>
           </div>
