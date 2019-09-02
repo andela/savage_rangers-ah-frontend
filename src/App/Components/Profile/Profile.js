@@ -169,7 +169,7 @@ export class Profile extends Component {
     } = this.props;
 
     const { temporally } = this.state;
-    return !_.isEmpty(profile) ? (
+    return !_.isEmpty(profile) && follower && bookmarks && following ? (
       <div>
         <NavBar />
         <div className="container">

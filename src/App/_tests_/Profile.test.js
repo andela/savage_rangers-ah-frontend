@@ -6,55 +6,38 @@ import configureStore from 'redux-mock-store';
 import reducers from '../../Redux/Reducers/Profile';
 import profileActions from '../../Redux/Actions/Profile';
 import { shallow } from '../../enzyme';
-import { Profile, mapStateToProps } from '../Components/Profile/Profile';
+import { Profile, mapStateToProps } from '../Components/Common/NavProfile/Profile';
+import io, { serverSocket } from '../../__mocks__/socket.io-client';
 
-const {
-  getProfile,
-  getFolowers,
-  getFollowing,
-  updateProfile,
-  getBookMarks,
-  removeBookmark,
-  unfollow,
-  follow,
-  deleteArticle
-} = profileActions;
-const history = { push: jest.fn(), location: { pathname: 'Burindi' } };
+document.body.innerHTML = `<div> 
+ <div class="notify-bubble" ></div>
+</div>`;
+
+// Initializing the fake socket
+io.connect();
 
 const middlewares = [thunk, promiseMiddleware];
 const mockStore = configureStore(middlewares);
-let wrapper;
-const getState = {}; // initial state of the store
-const store = mockStore(getState);
-const follower = {
-  followers: [
-    {
-      follower: 'alain',
-      profileImage: 'default.jpg'
-    }
-  ]
-};
-const following = {
-  following: [
-    {
-      following: 'alain',
-      profileImage: 'default.jpg'
-    }
-  ]
-};
+
+const initialState = { isShown: false, hide: jest.fn(() => {}), show: jest.fn(() => {}) };
+const store = mockStore(initialState);
+
+mapStateToProps({
+  notifications: {
+    data: [],
+    configs: { config: { isShown: true } },
+    profile: { profile: {} }
+  }
+});
+
 const props = {
-  getProfile,
-  getFollowing,
-  getFolowers,
-  history,
-  updateProfile,
-  getBookMarks,
-  removeBookmark,
-  unfollow,
-  follow,
-  deleteArticle,
-  follower,
-  following
+  isShown: false,
+  show: jest.fn(() => {}),
+  hide: jest.fn(() => {}),
+  configs: { config: { isShown: true } },
+  profile: { profile: {} },
+  markAsRead: () => Promise.resolve({}),
+  get: jest.fn(() => {})
 };
 const rating = {
   allUsers: 35,
@@ -139,12 +122,31 @@ const articles = [
   }
 ];
 
-test('render the profile component', () => {
-  wrapper = shallow(<Profile {...props} />);
-  wrapper.setProps({ profile: { username: 'alain', profileImage: 'defaultAvatar.jpg', Articles: articles } });
-  wrapper.setProps({ following: { following: [] } });
-  wrapper.setProps({ follower: { followers: [] } });
-});
+const profile = shallow(<Profile store={store} {...props} />);
+
+describe('Profile', () => {
+  it('renders the Profile component', () => {
+    expect(profile.find('Fragment').exists()).toEqual(true);
+  });
+  it('renders the notifications component', () => {
+    const notification = {
+      id: 1,
+      message: 'Jesus is Lord',
+      url: 'url',
+      type: 'inApp'
+    };
+    // checks the profile
+    profile.instance().componentWillReceiveProps({
+      isShown: true,
+      profile: { profile: {} },
+      configs: { config: { isShown: true } },
+      data: [notification]
+    });
+
+    // Fetch notifications
+    const newNotifications = new Array(11);
+
+    newNotifications.map(() => notification);
 
 test('test get profile reducer', () => {
   mockAxios.get = jest.fn(() => {
@@ -222,12 +224,69 @@ describe('Reducers', () => {
     const state = reducers({}, { type: 'GET_FOLLOWER', payload: { data: { followers: [] } } });
     expect(state).toEqual({ follower: { followers: [] }, follow: false, unfollow: false });
   });
-  test('GET_FOLLOWING', () => {
-    const state = reducers({}, { type: 'GET_FOLLOWING', payload: { data: { following: [] } } });
-    expect(state).toEqual({ following: { following: [] }, follow: false, unfollow: false });
-  });
-});
 
-test('map state to prop', () => {
-  mapStateToProps({ profile: { data: {}, follower: {}, following: {} } });
+  it('renders the io notification for all events', () => {
+    profile.setState({ profile: { id: 3 } });
+    serverSocket.emit('blockArticle', {
+      inAppNotification: {
+        id: 1,
+        userId: 3,
+        url: 'url/url',
+        message: 'message'
+      }
+    });
+
+    serverSocket.emit('unblockArticle', {
+      inAppNotification: {
+        id: 1,
+        userId: 3,
+        url: 'url/url',
+        message: 'message'
+      }
+    });
+
+    serverSocket.emit('blockComment', {
+      inAppNotification: {
+        id: 1,
+        userId: 3,
+        url: 'url/url',
+        message: 'message'
+      }
+    });
+
+    serverSocket.emit('unblockComment', {
+      inAppNotification: {
+        id: 1,
+        userId: 3,
+        url: 'url/url',
+        message: 'message'
+      }
+    });
+
+    serverSocket.emit('reportArticle', {
+      inAppNotification: {
+        id: 1,
+        userId: 3,
+        url: 'url/url',
+        message: 'message'
+      }
+    });
+
+    serverSocket.emit('reportComment', {
+      inAppNotification: {
+        id: 1,
+        userId: 3,
+        url: 'url/url',
+        message: 'message'
+      }
+    });
+
+    // profile.instance().componentDidMount();
+    // console.log(profile.debug());
+  });
+
+  it('should mark a notification as read', () => {
+    profile.instance().markIoNotificationAsRead(3);
+    expect(store.getState().isShown).toEqual(false);
+  });
 });

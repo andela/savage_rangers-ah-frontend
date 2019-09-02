@@ -1,5 +1,7 @@
 // import queryString from 'query-string';
 import async from 'async';
+import io from '../../Helpers/Notifications/socket.io';
+import store from '../store';
 import axios from '../../configs/axios';
 import types from '.';
 
@@ -12,7 +14,8 @@ const {
   GET_NOTIFICATIONS_CONFIGS,
   GET_USER_PROFILE_ON_LOGIN,
   MARK_NOTIFICATION_AS_READ,
-  MARK_ALL_NOTIFICATIONS_AS_READ
+  MARK_ALL_NOTIFICATIONS_AS_READ,
+  GET_IO_NOTIFICATION
 } = types;
 
 const actions = {
@@ -116,5 +119,13 @@ const actions = {
       });
   })
 };
+
+// Socket listeners
+io.on('blockArticle', data => store.dispatch({ type: GET_IO_NOTIFICATION, payload: data.inAppNotification }));
+io.on('unblockArticle', data => store.dispatch({ type: GET_IO_NOTIFICATION, payload: data.inAppNotification }));
+io.on('blockComment', data => store.dispatch({ type: GET_IO_NOTIFICATION, payload: data.inAppNotification }));
+io.on('unblockComment', data => store.dispatch({ type: GET_IO_NOTIFICATION, payload: data.inAppNotification }));
+io.on('reportArticle', data => store.dispatch({ type: GET_IO_NOTIFICATION, payload: data.inAppNotification }));
+io.on('reportComment', data => store.dispatch({ type: GET_IO_NOTIFICATION, payload: data.inAppNotification }));
 
 export default actions;

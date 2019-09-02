@@ -203,22 +203,19 @@ input:checked + .slider:before {
       display: flex;
     }
     &__links {
-      padding: 0 5% 0 0 !important;
       &--dismiss {
         padding: 15% 2% 14% 15%;
         margin-bottom: auto;
         border-top: solid 1px white;
+        margin-right: 6px;
       }
       &--follow-up {
         margin-bottom: auto;
         padding: 14% 2% 14% 15%;
+        margin-right: 6px;
       }
     }
   }
-  /* &__message {
-    border-right: 1px solid white;
-  }
-   */
 }
 
 i.far.fa-clock.io-container--body__message--i {

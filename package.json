@@ -52,8 +52,8 @@
     "express": "^4.17.1",
     "file-loader": "^4.2.0",
     "fs": "^0.0.1-security",
-    "history": "^4.9.0",
     "html-to-draftjs": "^1.4.0",
+    "history": "^4.9.0",
     "image-webpack-loader": "^5.0.0",
     "jest": "^24.8.0",
     "loader": "^2.1.1",
@@ -86,13 +86,13 @@
     "redux-mock-store": "^1.5.3",
     "redux-thunk": "^2.3.0",
     "serve": "^11.1.0",
-    "socket.io-client": "^2.2.0",
     "simple-react-editor": "^1.0.0-fix",
     "simple-react-validator": "^1.2.2",
     "style": "^0.0.3",
     "styled-components": "^4.3.2",
     "truncate": "^2.1.0",
     "underscore": "^1.9.1",
+    "socket.io-client": "^2.2.0",
     "webpack-manifest-plugin": "^2.0.4"
   },
   "devDependencies": {
@@ -157,7 +157,8 @@
       "./node_modules/react-toastify/dist/ReactToastify.css",
       "./src/Style/scss/*",
       "src/Redux/Reducers/index",
-      "src/App/_tests_/articles/articles"
+      "src/App/_tests_/articles/articles",
+      "./node_modules/react-toastify/dist/ReactToastify.css"
     ]
   }
 }

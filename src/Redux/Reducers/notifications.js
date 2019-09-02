@@ -9,14 +9,16 @@ const {
   GET_NOTIFICATIONS_CONFIGS,
   GET_USER_PROFILE_ON_LOGIN,
   MARK_NOTIFICATION_AS_READ,
-  MARK_ALL_NOTIFICATIONS_AS_READ
+  MARK_ALL_NOTIFICATIONS_AS_READ,
+  GET_IO_NOTIFICATION
 } = actions;
 
 const initialState = {
   isShown: false,
   data: {},
   errorMessage: '',
-  profile: {}
+  profile: {},
+  io: {}
 };
 
 export default (state = initialState, action) => {
@@ -65,6 +67,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         messages: action.payload
+      };
+    case GET_IO_NOTIFICATION:
+      return {
+        ...state,
+        io: action.payload
       };
     default:
       return state;

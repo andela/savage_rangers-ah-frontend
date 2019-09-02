@@ -1,9 +1,11 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
-import _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
 import PropTypes from 'prop-types';
 import io from '../../../../Helpers/Notifications/socket.io';
 import actions from '../../../../Redux/Actions/notifications';
@@ -114,10 +116,10 @@ export class Profile extends Component {
     isShown, profile, configs, data
   }) {
     this.setState({ isShown });
-    if (!_.isEmpty({ profile }) && !_.isEmpty(configs)) {
+    if (!isEmpty({ profile }) && !isEmpty(configs)) {
       this.setState({ profile, isSnoozed: configs.config.isSnoozed });
     } else this.setState({ profile: {} });
-    if (data && !_.isEmpty(data.filter(item => item.type === 'inApp'))) {
+    if (data && !isEmpty(data.filter(item => item.type === 'inApp'))) {
       const notifications = data.filter(item => item.type === 'inApp');
       this.setState({ notifications });
       document.getElementsByClassName('notify-bubble')[0].style.display = 'block';
@@ -125,6 +127,29 @@ export class Profile extends Component {
         this.setState({ notificationsBubble: `${notifications.length}` });
       } else this.setState({ notificationsBubble: '9+' });
     } else document.getElementsByClassName('notify-bubble')[0].style.display = 'none';
+  }
+
+  componentDidUpdate({ io }) {
+    const { state: { profile } } = this;
+    const { props: { io: newIo } } = this;
+    const { get: getNotifications } = this.props;
+    const token = localStorage.getItem('token');
+    if (
+      io
+      && profile
+      && newIo.userId === profile.id
+      && !this.state.isSnoozed
+      && !isEqual(io, newIo)
+    ) {
+      toast.success(<IoNotification
+        message={`${newIo.message}`}
+        link={`${newIo.url}`}
+        id={`${newIo.id}`}
+        markAsRead={this.markIoNotificationAsRead}
+      />,
+      { className: 'io-container', closeButton: false });
+      getNotifications(token);
+    }
   }
 
   showNotifications = () => {
@@ -144,6 +169,7 @@ export class Profile extends Component {
   };
 
   render() {
+    // console.log('state', this.state);
     const { state } = this;
     return (
       <React.Fragment>
@@ -162,7 +188,7 @@ export class Profile extends Component {
               width="50"
               height="50"
               className={
-                !_.isEmpty(state.notifications)
+                !isEmpty(state.notifications)
                   ? 'rounded-circle profile-img-notify'
                   : 'rounded-circle profile-img'
               }
@@ -212,14 +238,16 @@ Profile.propTypes = {
   data: PropTypes.array,
   configs: PropTypes.object,
   profile: PropTypes.object,
-  markAsRead: PropTypes.func
+  markAsRead: PropTypes.func,
+  io: PropTypes.object
 };
 
 export const mapStateToProps = state => ({
   isShown: state.notifications.isShown,
   data: state.notifications.data.data,
   configs: state.notifications.configs,
-  profile: state.notifications.profile.profile
+  profile: state.notifications.profile.profile,
+  io: state.notifications.io
 });
 
 export default connect(mapStateToProps,

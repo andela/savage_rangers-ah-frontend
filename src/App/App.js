@@ -16,6 +16,7 @@ import CreateArticle from './Components/CreateArticle/CreateArticle';
 import 'react-toastify/dist/ReactToastify.css';
 import Articles from './Components/Articles/getArticles/Articles';
 import Search from './Components/search/search';
+import 'react-toastify/dist/ReactToastify.css';
 
 /**
  *

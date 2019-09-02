@@ -90,7 +90,7 @@ export class Notifications extends Component {
 
   render() {
     const { state } = this;
-    console.log(state)
+    console.log(state);
     return localStorage.getItem('token') ? (
       <div>
         <div className="notifications-header border-bottom">
