@@ -15,6 +15,8 @@ import Footer from '../Common/Footer';
 import BottomPopular from '../Popular/bottom-popular';
 import bookmarkActions from '../../../Redux/Actions/bookmark';
 import Comment from '../Comment/comment.holder';
+import ArticleSocialSharing from '../ArticleSocialSharing/ArticleSocialSharing';
+import Bookmark from '../Common/Bookmark/Bookmark';
 
 const { getBookMarks } = bookmarkActions;
 
@@ -137,23 +139,30 @@ export class ReadArticle extends Component {
             <BreadCrumb category={category} />
             <div className="container article">
               <div className="row">
-                <ArticleBody
-                  title={title}
-                  body={body}
-                  readTime={readTime}
-                  tags={tags}
-                  createdAt={createdAt}
-                  coverImage={coverImage}
-                  firstName={firstName}
-                  lastName={lastName}
-                  profileImage={profileImage}
-                  username={username}
-                  authorCredential={authorCredential}
-                  bookmarks={bookmarks}
-                  slug={slug}
-                />
-                <Comment slug={slug} />
-                <BottomPopular articles={articles} />
+                <div className="col-lg-1 col-sm-12 large-share">
+                  <ArticleSocialSharing slug={slug} title={title} />
+                  {username && <Bookmark username={username} slug={slug} bookmarks={bookmarks} />}
+                </div>
+                <div className="col-lg-11 col-sm-12">
+                  <ArticleBody
+                    title={title}
+                    body={body}
+                    readTime={readTime}
+                    tags={tags}
+                    createdAt={createdAt}
+                    coverImage={coverImage}
+                    firstName={firstName}
+                    lastName={lastName}
+                    profileImage={profileImage}
+                    username={username}
+                    authorCredential={authorCredential}
+                  />
+                  <div className="small-share">
+                    <ArticleSocialSharing slug={slug} title={title} />
+                  </div>
+                  <Comment slug={slug} />
+                  <BottomPopular articles={articles} />
+                </div>
               </div>
             </div>
             <Footer />

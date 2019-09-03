@@ -48,6 +48,44 @@
   </head>
 
   <body>
+    <script>
+      window.twttr = (function(d, s, id) {
+        var js,
+          fjs = d.getElementsByTagName(s)[0],
+          t = window.twttr || {};
+        if (d.getElementById(id)) return t;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://platform.twitter.com/widgets.js";
+        fjs.parentNode.insertBefore(js, fjs);
+
+        t._e = [];
+        t.ready = function(f) {
+          t._e.push(f);
+        };
+
+        return t;
+      })(document, "script", "twitter-wjs");
+    </script>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId: "453149132169143",
+          autoLogAppEvents: true,
+          xfbml: true,
+          version: "v4.0"
+        });
+      };
+    </script>
+    <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <script
+      async
+      defer
+      src="https://platform.linkedin.com/in.js"
+      type="text/javascript"
+    >
+      lang: en_US
+    </script>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
