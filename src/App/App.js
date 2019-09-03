@@ -13,6 +13,7 @@ import RegistrationComponent from './Components/Registration/Registration';
 import ForgotPassword from './Components/PasswordReset/ForgotPassword';
 import ResetPassword from './Components/PasswordReset/ResetPassword';
 import CreateArticle from './Components/CreateArticle/CreateArticle';
+import Bookmark from './Components/Common/Bookmark/ExempleArticle';
 
 /**
  *
@@ -55,6 +56,7 @@ class App extends Component {
             <Route path="/article/new" component={isAuth ? CreateArticle : Login} />
             <Route exact path="/redirect" component={Redirection} />
             <Route exact path="/articles/:slug" component={ReadArticle} />
+            <Route path="/article/read" component={Bookmark} />
             <Route exact path="*" component={NotFound} />
           </Switch>
         </Router>
