@@ -12,6 +12,9 @@ const props = {
 const shallowed = shallow(<Login {...props} />);
 const instance = shallowed.instance();
 
+// eslint-disable-next-line react/display-name
+jest.mock('../Components/Common/NavProfile/navbar', () => () => (<div id="mock-navbar">Mock navbar</div>));
+
 describe('Login', () => {
   const renderLogin = (args) => {
     const defaultProps = {

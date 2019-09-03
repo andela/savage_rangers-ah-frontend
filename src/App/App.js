@@ -10,7 +10,7 @@ import store from '../Redux/store';
 import RegistrationComponent from './Components/Registration/Registration';
 import ForgotPassword from './Components/PasswordReset/ForgotPassword';
 import ResetPassword from './Components/PasswordReset/ResetPassword';
-import CreateArticle from '../App/Components/CreateArticle/CreateArticle';
+import CreateArticle from './Components/CreateArticle/CreateArticle';
 
 /**
  *
@@ -35,7 +35,7 @@ class App extends Component {
         <Router>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/login" component={Login} />
+            <Route exact path="/login" component={!isAuth ? Login : Home} />
             <Route exact path="/redirect" component={Redirection} />
             <Route exact path="/signup" component={isAuth ? Home : RegistrationComponent} />
             <Route
