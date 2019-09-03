@@ -72,11 +72,11 @@ export class Login extends Component {
                 ))}
                 <div className="links">
                   <p className="float-left m-3 links links-right">
-                    Don’t have an account ?
+                    Don't have an account ?
                     {' '}
                     <a href="/signup">Sign up</a>
                   </p>
-                  <Link className="float-right m-3 links links-right" to="/">
+                  <Link className="float-right m-3 links links-right" to="/forgot-password">
                     Forgot your password?
                   </Link>
                 </div>
@@ -107,6 +107,7 @@ Login.propTypes = {
 };
 
 export const mapStateToProps = ({ authReducer }) => ({ authReducer });
+
 export const mapDispatchToProps = dispatch => ({ dispatchLogin: user => dispatch(login(user)) });
 
 export default connect(mapStateToProps,

@@ -1,0 +1,152 @@
+.report {
+  outline: dashed;
+  border: none;
+  outline: none;
+  margin-top: 5%;
+  background: #EFEFEF;
+  width: 380px;
+  font-size: 27px;
+  border-radius: 40px;
+
+  @media only screen and (min-width: 1445px) {
+    margin-left: 5%;
+  }
+
+  @media only screen and (max-width: 1440px) {
+    width: 350px;
+    font-size: 27px;
+    margin-left: 5%;
+  }
+
+  @media only screen and (max-width: 1024px) {
+    margin-top: 2%;
+    margin-left: 5%;
+  }
+
+  @media only screen and (max-width: 768px) {
+    width: 310px;
+    margin-left: 2.5%;
+  }
+
+  @media only screen and (max-width: 430px) {
+    width: 290px;
+    font-size: 23px;
+  }
+
+  @media only screen and (max-width: 320px) {
+    width: 270px;
+    font-size: 23px;
+  }
+
+  & i {
+    margin: 4% 0%;
+  }
+}
+
+.notAuthor {
+  visibility: hidden;
+}
+
+.reasons {
+  position: absolute;
+  z-index: 10;
+  margin: 0.5% 1%;
+  padding: 0.7% 2.5%;
+  list-style-type: none;
+  margin-left: 5%;
+  width: 330px;
+  background: #EFEFEF;
+
+
+
+  @media only screen and (max-width: 1440px) {
+    width: 300px;
+    margin-left: 9.8%;
+    font-size: 27px;
+  }
+
+  @media only screen and (max-width: 1024px) {
+    margin-left: 10.6%;
+  }
+
+  @media only screen and (max-width: 768px) {
+    width: 270px;
+    margin-left: 5%;
+    font-size: 27px;
+  }
+
+  @media only screen and (max-width: 425px) {
+    width: 250px;
+    margin-top: 1%;
+    margin-left: 7%;
+    font-size: 27px;
+  }
+
+  @media only screen and (max-width: 375px) {
+    margin-left: 7.5%;
+  }
+
+  @media only screen and (max-width: 320px) {
+    font-size: 23px;
+    margin-left: 5.5%;
+    border-radius: 5px;
+  }
+
+  & li {
+    border-radius: 5px;
+    margin: 1% -2%;
+    background: white;
+    padding: 0% 10%;
+    font-size: 25px;
+
+    @media only screen and (max-width: 1440px) {
+      margin: 2% -1%;
+      font-size: 20px;
+    }
+
+    @media only screen and (max-width: 768px) {
+      margin: 1% -4%;
+      font-size: 20px;
+    }
+
+    @media only screen and (max-width: 430px) {
+      margin: 1% -2%;
+      font-size: 20px;
+    }
+
+    @media only screen and (max-width: 430px) {
+      margin: 1% -1%;
+      font-size: 20px;
+    }
+  }
+
+  & li:hover {
+    color: white;
+    background: grey;
+  }
+}
+
+.error,
+.success {
+  text-align: center;
+  width: 300px;
+  margin-top: 1%;
+  margin-left: 6%;
+
+  @media only screen and (max-width: 768px) {
+    width: 280px;
+    margin-left: 1%;
+  }
+
+  @media only screen and (max-width: 430px) {
+    margin-left: 0%;
+  }
+
+  &.error {
+    color: red;
+  }
+
+  &.success {
+    color: #0275d8;
+  }
+}

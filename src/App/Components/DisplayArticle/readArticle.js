@@ -17,6 +17,7 @@ import bookmarkActions from '../../../Redux/Actions/bookmark';
 import Comment from '../Comment/comment.holder';
 import ArticleSocialSharing from '../ArticleSocialSharing/ArticleSocialSharing';
 import Bookmark from '../Common/Bookmark/Bookmark';
+import Report from '../ReportArticle/ReportArticle';
 
 const { getBookMarks } = bookmarkActions;
 
@@ -159,6 +160,11 @@ export class ReadArticle extends Component {
                   />
                   <div className="small-share">
                     <ArticleSocialSharing slug={slug} title={title} />
+                  </div>
+                  <div className="row">
+                    <div className="col-lg-6 col-xl-6">
+                      <Report isAuthor={this.state.isAuthor} slug={slug} />
+                    </div>
                   </div>
                   <Comment slug={slug} />
                   <BottomPopular articles={articles} />
