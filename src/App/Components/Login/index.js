@@ -36,7 +36,7 @@ export class Login extends Component {
 
     let errorMessage;
     const { authReducer: { errors, isAuthorized } = {}, history } = this.props;
-    if (!isAuthorized && errors) errorMessage = errors.error;
+    if (!isAuthorized && errors) errorMessage = errors.error || errors.email;
     if (isAuthorized) history.replace('/');
 
     return (
