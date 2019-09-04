@@ -1,15 +1,16 @@
-/* eslint-disable react/destructuring-assignment */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
+import ReactImageFallback from 'react-image-fallback';
 import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
 import PropTypes from 'prop-types';
 import actions from '../../../../Redux/Actions/notifications';
 import defaultData from '../../../../configs/urls';
-import Triangle from '../Triangle';
+import TriangularPopup from '../TriangularPopup';
 import IoNotification from '../../Notifications/IoNotification';
 
 const {
@@ -38,11 +39,10 @@ export class Profile extends Component {
     if (data && !isEmpty(data.filter(item => item.type === 'inApp'))) {
       const notifications = data.filter(item => item.type === 'inApp');
       this.setState({ notifications });
-      document.getElementsByClassName('notify-bubble')[0].style.display = 'block';
       if (notifications.length < 10) {
         this.setState({ notificationsBubble: `${notifications.length}` });
       } else this.setState({ notificationsBubble: '9+' });
-    } else document.getElementsByClassName('notify-bubble')[0].style.display = 'none';
+    }
   }
 
   componentDidUpdate({ io }) {
@@ -69,9 +69,9 @@ export class Profile extends Component {
   }
 
   showNotifications = () => {
-    const { state } = this;
+    const { state: { isShown } } = this;
     const { show: showNotifications, hide: hideNotifications } = this.props;
-    if (state.isShown) {
+    if (isShown) {
       return hideNotifications();
     }
     return showNotifications();
@@ -85,34 +85,31 @@ export class Profile extends Component {
   };
 
   render() {
-    // console.log('state', this.state);
-    const { state } = this;
+    const {
+      state: {
+        profile, notifications, notificationsBubble, isShown
+      }
+    } = this;
     return (
       <React.Fragment>
         <ToastContainer autoClose={false} />
         <ul className="navbar-nav">
           <li className="dropdown notify-container" id="notify-container">
-            <img
-              src={
-                state.profile
-                && state.profile.profileImage
-                && state.profile.profileImage.substr(0, 4) === 'http'
-                  ? state.profile.profileImage
-                  : defaultData.defaultUserProfileImage
-              }
-              alt=""
-              width="50"
-              height="50"
+            <ReactImageFallback
+              src={profile ? profile.profileImage : ''}
+              fallbackImage={defaultData.defaultUserProfileImage}
+              alt="profile image"
               className={
-                !isEmpty(state.notifications)
+                notifications.length > 0
                   ? 'rounded-circle profile-img-notify'
                   : 'rounded-circle profile-img'
               }
-              id="nav-profile-img"
               onClick={this.showNotifications}
             />
-            <Triangle direction="up" />
-            <span className="notify-bubble">{state.notificationsBubble}</span>
+            <TriangularPopup direction="up" className={isShown ? 'show' : 'hide'} />
+            <span className={isEmpty(notifications) ? 'notify-bubble hide' : 'notify-bubble show'}>
+              {notificationsBubble}
+            </span>
           </li>
           <li className="nav-item dropdown nav-item-custom">
             <a
@@ -123,20 +120,17 @@ export class Profile extends Component {
               aria-haspopup="true"
               aria-expanded="false"
             >
-              {state.profile ? state.profile.username : 'username'}
+              {profile ? profile.username : 'username'}
             </a>
             <div
               className="dropdown-menu dropdown-menu-custom"
               aria-labelledby="navbarDropdownMenuLink"
             >
-              <a className="dropdown-item dropdown-item-custom" href="#">
-                Action
+              <a className="dropdown-item dropdown-item-custom" href="/profile">
+                Profile
               </a>
-              <a className="dropdown-item dropdown-item-custom" href="#">
-                Another action
-              </a>
-              <a className="dropdown-item dropdown-item-custom" href="#">
-                Something else here
+              <a className="dropdown-item dropdown-item-custom" href="/">
+                Logout
               </a>
             </div>
           </li>

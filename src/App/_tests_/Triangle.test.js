@@ -1,10 +1,10 @@
 import React from 'react';
 import { shallow } from '../../enzyme';
-import Triangle from '../Components/Common/Triangle';
+import TriangularPopup from '../Components/Common/TriangularPopup';
 
-describe('Home', () => {
-  it('renders the Home component', () => {
-    const triangle = shallow(<Triangle direction="up" />);
+describe('TriangularPopup', () => {
+  it('renders the TriangularPopup component', () => {
+    const triangle = shallow(<TriangularPopup direction="up" />);
     expect(triangle.find('div').exists()).toEqual(true);
   });
 });

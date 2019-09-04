@@ -1,6 +1,4 @@
-export default { get: jest.fn(() => Promise.resolve({ data: {} })) };
-
-// response: {
-//     data: { message: 'The username should only contain alphanumeric characters' },
-//     status: 201
-//   }
+export default {
+  get: jest.fn(() => Promise.resolve({ data: {} })),
+  post: jest.fn(() => Promise.resolve({ data: {} }))
+};

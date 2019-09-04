@@ -6,3 +6,16 @@ nav {
 .nav-item {
   font-family: inherit !important;
 }
+
+.hide {
+  display: none !important;
+}
+
+.show {
+  display: block !important;
+}
+
+#root {
+  width: 100%;
+  overflow-x: hidden;
+}

@@ -101,7 +101,7 @@ describe('Profile', () => {
       configs: {},
       data: []
     });
-    expect(profile.find('img').exists()).toEqual(true);
+    expect(profile.find('ReactImageFallback').exists()).toEqual(true);
   });
 
   it('renders the io notification for all events', () => {

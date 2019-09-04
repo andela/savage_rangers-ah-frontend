@@ -3,7 +3,7 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import actions from '../../../Redux/Actions/notifications';
@@ -23,7 +23,7 @@ export class Notifications extends Component {
 
   componentDidMount() {
     const token = localStorage.getItem('token');
-    const { state } = this;
+    const { state: { isSnoozed } } = this;
     const {
       get: getNotifications,
       getConfigs: getNotificationsConfigs,
@@ -33,19 +33,17 @@ export class Notifications extends Component {
       getNotificationsConfigs(token);
       getNotifications(token);
       getUserProfile(token);
-      document.getElementById('get-notifications').checked = !state.isSnoozed;
+      document.getElementById('get-notifications').checked = !isSnoozed;
     }
   }
 
   componentWillReceiveProps({ data: { data }, configs }) {
-    if (data && !_.isEmpty(data.filter(item => item.type === 'inApp'))) {
+    if (data && !isEmpty(data.filter(item => item.type === 'inApp'))) {
       this.setState({ notifications: data.filter(item => item.type === 'inApp') });
-      document.getElementsByClassName('notifications-container')[0].style.height = '300px';
     } else {
       this.setState({ notifications: [] });
-      document.getElementsByClassName('notifications-container')[0].style.height = '60px';
     }
-    if (!_.isEmpty(configs)) {
+    if (!isEmpty(configs)) {
       const { config: { isSnoozed } } = configs;
       this.setState({ isSnoozed });
       document.getElementById('get-notifications').checked = !isSnoozed;
@@ -56,20 +54,15 @@ export class Notifications extends Component {
 
   snooze = () => {
     const token = localStorage.getItem('token');
-    const { state } = this;
-    const { notifications } = state;
+    const { state: { isSnoozed } } = this;
     const { snooze: snoozeNotifications } = this.props;
 
     this.setState({ isSnoozed: !document.getElementById('get-notifications').checked });
 
-    if (state.isSnoozed) {
+    if (isSnoozed) {
       snoozeNotifications('unsnooze', token);
-      document.getElementsByClassName('notifications-container')[0].style.height = !_.isEmpty(notifications)
-        ? '300px'
-        : '60px';
     } else {
       snoozeNotifications('snooze', token);
-      document.getElementsByClassName('notifications-container')[0].style.height = '60px';
     }
   };
 
@@ -89,7 +82,7 @@ export class Notifications extends Component {
   };
 
   render() {
-    const { state } = this;
+    const { state: { notifications, isSnoozed } } = this;
     return localStorage.getItem('token') ? (
       <div>
         <div className="notifications-header border-bottom">
@@ -100,10 +93,9 @@ export class Notifications extends Component {
           </label>
         </div>
         <div className="notifications-container">
-          {!_.isEmpty(state.notifications)
-            ? (!state.isSnoozed
-                && state.notifications
-                && state.notifications.map(notification => (
+          {!isEmpty(notifications)
+            ? (!isSnoozed
+                && notifications.map(notification => (
                   <div
                     key={notification.id}
                     className="notifications-item"
@@ -121,7 +113,7 @@ export class Notifications extends Component {
                   {' '}
                 </div>
             )
-            : (!state.isSnoozed && (
+            : (!isSnoozed && (
             <div className="notifications-empty">No notifications found. All clear</div>
             )) || (
             <div className="notifications-snoozed">
@@ -132,12 +124,13 @@ export class Notifications extends Component {
             </div>
             )}
         </div>
-        {(!_.isEmpty(state.notifications) && !state.isSnoozed && (
+        {!isEmpty(notifications) && !isSnoozed ? (
           <div className="space space-notifications" onClick={this.markAllAsRead}>
             Mark all as read
           </div>
-        ))
-          || ''}
+        ) : (
+          ''
+        )}
       </div>
     ) : (
       ''

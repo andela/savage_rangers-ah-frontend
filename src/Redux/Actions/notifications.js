@@ -19,16 +19,8 @@ const {
 } = types;
 
 const actions = {
-  show: () => (dispatch) => {
-    document.getElementById('notifications').style.display = 'block';
-    document.getElementById('notifications-triangle').style.display = 'block';
-    return dispatch({ type: SHOW_NOTIFICATIONS, payload: true });
-  },
-  hide: () => (dispatch) => {
-    document.getElementById('notifications').style.display = 'none';
-    document.getElementById('notifications-triangle').style.display = 'none';
-    return dispatch({ type: HIDE_NOTIFICATIONS, payload: false });
-  },
+  show: () => dispatch => dispatch({ type: SHOW_NOTIFICATIONS, payload: true }),
+  hide: () => dispatch => dispatch({ type: HIDE_NOTIFICATIONS, payload: false }),
   get: token => (dispatch) => {
     axios
       .get('/api/notifications/unseen', { headers: { authorization: token } })
@@ -72,14 +64,21 @@ const actions = {
 
   getProfile: token => (dispatch) => {
     axios
-      .get('/api/profiles', { headers: { authorization: token } })
+      .get('/api/profiles/', { headers: { authorization: token } })
       .then((res) => {
         dispatch({ type: GET_USER_PROFILE_ON_LOGIN, payload: res.data });
       })
       .catch((error) => {
-        const errorObject = error.response.data.errors;
-        const errorMessage = errorObject[Object.getOwnPropertyNames(errorObject)[0]];
-        dispatch({ type: NOTIFICATIONS_CATCH_ERROR, payload: errorMessage });
+        const { response: { status } } = error;
+        if (status === 401) {
+          localStorage.removeItem('token');
+          window.location.href = 'login';
+          dispatch({ type: NOTIFICATIONS_CATCH_ERROR, payload: error });
+        } else {
+          const errorObject = error.response.data.errors;
+          const errorMessage = errorObject[Object.getOwnPropertyNames(errorObject)[0]];
+          dispatch({ type: NOTIFICATIONS_CATCH_ERROR, payload: errorMessage });
+        }
       });
   },
 

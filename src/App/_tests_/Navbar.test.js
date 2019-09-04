@@ -22,6 +22,7 @@ describe('Navbar', () => {
   it('simulates the hide function for notifications', () => {
     navbar.instance().hideNotificationsComponent();
     expect(navbar.find('nav').exists()).toEqual(true);
+    expect(navbar.find('.notifications').hasClass('hide')).toEqual(true);
   });
   it('Shows the profile', () => {
     localStorage.setItem('token', 'fsdg');

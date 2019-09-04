@@ -51,8 +51,7 @@ module.exports = {
       },
       {
         test: /.(jpg|jpeg|png|gif|svg)$/,
-        use: [
-          'file-loader',
+        use: ['file-loader',
           {
             loader: 'image-webpack-loader',
             options: {
@@ -72,12 +71,23 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test: /\.css$/,
+        include: /(node_modules)/
+      },
+      {
+        test: /plugin\.css$/,
+        include: /(node_modules)/
       }
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: path.resolve('./public/index.html'), inject: true }),
-    new Dotenv({ path: path.resolve(__dirname, '.env') }),
+    new HtmlWebpackPlugin({
+      template: path.resolve('./public/index.html'),
+      inject: true
+    }),
+    new Dotenv(),
     new MiniCssExtractPlugin({
       filename: isDevelopment ? '[name].css' : '[name].[hash].css',
       chunkFilename: isDevelopment ? '[id].css' : '[id].[hash].css'

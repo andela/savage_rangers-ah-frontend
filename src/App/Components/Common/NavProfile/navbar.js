@@ -11,7 +11,16 @@ import notificationActions from '../../../../Redux/Actions/notifications';
 const { hide } = notificationActions;
 
 export class Navbar extends Component {
-  static propTypes = { hide: PropTypes.func.isRequired };
+  static propTypes = { hide: PropTypes.func.isRequired, isShown: PropTypes.bool };
+
+  constructor(props) {
+    super(props);
+    this.state = { isShown: false };
+  }
+
+  componentWillReceiveProps({ isShown }) {
+    this.setState({ isShown });
+  }
 
   hideNotificationsComponent = () => {
     const { props } = this;
@@ -20,6 +29,7 @@ export class Navbar extends Component {
   };
 
   render() {
+    const { state: { isShown } } = this;
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-dark">
         <NavLogo />
@@ -39,7 +49,7 @@ export class Navbar extends Component {
         <div className="collapse navbar-collapse nav-links-container" id="navbarNavAltMarkup">
           {!localStorage.getItem('token') ? <NavLinks /> : <Profile />}
         </div>
-        <div className="notifications" id="notifications">
+        <div className={isShown ? 'notifications show' : 'notifications hide'} id="notifications">
           <Notifications />
         </div>
       </nav>
@@ -47,5 +57,7 @@ export class Navbar extends Component {
   }
 }
 
-export default connect(null,
+export const mapStateToProps = ({ notifications: { isShown } }) => ({ isShown });
+
+export default connect(mapStateToProps,
   { hide })(Navbar);

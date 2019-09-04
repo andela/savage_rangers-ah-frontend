@@ -24,12 +24,7 @@ const store = mockStore(initialState);
 mapStateToProps(initialState);
 
 document.body.innerHTML = `<div> 
- <div class="notifications-container"> </div>
- <div class="space-notifications"> </div>
  <input type="checkbox" id="get-notifications" />
- <div id="notifications" ></div>
- <div id="notifications-triangle" ></div>
- <div class="notify-bubble" ></div>
 </div>`;
 
 const notifications = shallow(<Notifications
@@ -40,6 +35,8 @@ const notifications = shallow(<Notifications
   snooze={jest.fn()}
   markAsRead={() => Promise.resolve({})}
   markAllAsRead={() => Promise.resolve({})}
+  hide={jest.fn()}
+  show={jest.fn()}
 />);
 
 describe('notifications', () => {
@@ -65,10 +62,6 @@ describe('notifications', () => {
     expect(notifications.find('p').text()).toEqual('Notifications');
 
     // notifications
-    //   .instance()
-    //   .componentWillReceiveProps({ configs: { config: { isSnoozed: true } } });
-    // notifications.instance().render();
-    // expect(notifications.find('p').text()).toEqual('Notifications');
 
     notifications.instance().componentWillReceiveProps({ data: { data: [] } });
     notifications.instance().render();
@@ -334,23 +327,21 @@ describe('Actions', () => {
 
   it('hides notifications', () => {
     store.dispatch(actions.hide());
-    expect(document.getElementById('notifications').style.display).toEqual('none');
-    expect(document.getElementById('notifications-triangle').style.display).toEqual('none');
+    expect(store.getActions()[3]).toEqual({ type: 'HIDE_NOTIFICATIONS', payload: false });
   });
 
   it('shows notifications', () => {
     store.dispatch(actions.show());
-    expect(document.getElementById('notifications').style.display).toEqual('block');
-    expect(document.getElementById('notifications-triangle').style.display).toEqual('block');
+    expect(store.getActions()[4]).toEqual({ type: 'SHOW_NOTIFICATIONS', payload: true });
   });
 
   it('gets the profile of the user', () => {
     mockAxios.get = jest.fn(() => Promise.resolve({
       status: 200,
-      response: { data: { profile: { id: 1 } } }
+      response: { data: { profile: {} } }
     }));
     store.dispatch(actions.getProfile(localStorage.getItem('token')));
-    expect(store.getState().notifications.profile).toEqual({ id: 1 });
+    expect(_.isEmpty(store.getState().notifications.configs)).toEqual(false);
   });
 
   it('Rases an error when getting notifications', () => {
