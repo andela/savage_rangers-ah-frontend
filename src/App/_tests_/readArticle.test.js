@@ -24,7 +24,8 @@ const payload = {
     body: 'I get quite a few emails that basically say',
     slug: 'what-you-need-to-know-to-become-a-great-software-engineer-in-2020-nfovo9fghng',
     readTime: 6,
-    coverImage: 'https://res.cloudinary.com/al-tech/image/upload/v1565787533/rvkmbae3pcqhgysxoqnk.jpg',
+    coverImage:
+      'https://res.cloudinary.com/al-tech/image/upload/v1565787533/rvkmbae3pcqhgysxoqnk.jpg',
     author: 42,
     category: 4,
     isBlocked: false,
@@ -37,7 +38,8 @@ const payload = {
       username: 'MCFrank16',
       firstName: 'Frank',
       lastName: 'Mutabazi',
-      profileImage: 'https://res.cloudinary.com/al-tech/image/upload/v1565805494/nenxg6yetjfgbk96iq8l.jpg'
+      profileImage:
+        'https://res.cloudinary.com/al-tech/image/upload/v1565805494/nenxg6yetjfgbk96iq8l.jpg'
     }
   }
 };
@@ -70,7 +72,7 @@ const tagPayload = {
 
 const errorPayload = { error: { Article: 'Article not found' } };
 
-mapStateToProps({ readArticle: {}, populars: {} });
+mapStateToProps({ readArticle: {}, populars: {}, bookmark: { bookmarks: {}, bookmarked: false } });
 const match = { params: { slug: 'slug' } };
 
 const props = {
@@ -81,11 +83,16 @@ const props = {
   article: { Category: { name: 'Tech' }, User: { firstName: 'Frank' } },
   readPopularArticle: jest.fn(),
   isLoading: false,
-  popularArticle: [{
-    id: 1,
-    name: 'TECH'
-  }]
+  popularArticle: [
+    {
+      id: 1,
+      name: 'TECH'
+    }
+  ],
+  getBookMarks: jest.fn(),
+  bookmarks: []
 };
+localStorage.setItem('username', 'alain');
 const readOneArticle = shallow(<ReadArticle {...props} />);
 describe('read Article component', () => {
   it('renders the Display component', () => {
@@ -98,16 +105,19 @@ describe('read Article component', () => {
       article: {},
       slug: 'why-do-we-test',
       tags: [],
-      articles: [{
-        id: 4,
-        name: 'Software',
-        createdAt: '2019-08-14T12:56:55.150Z',
-        updatedAt: '2019-08-14T12:56:55.150Z'
-      }],
+      articles: [
+        {
+          id: 4,
+          name: 'Software',
+          createdAt: '2019-08-14T12:56:55.150Z',
+          updatedAt: '2019-08-14T12:56:55.150Z'
+        }
+      ],
       isLoading: false
     });
     readOneArticle.setProps(props);
     expect(readOneArticle.instance().props).toEqual(props);
+    readOneArticle.setProps({ bookmarked: true });
     expect(readOneArticle.instance().state.isLoading).toEqual(true);
   });
 });
@@ -157,7 +167,6 @@ describe('testing the read article actions', () => {
     store.dispatch(readArticle(dataTest));
     expect(store.getActions()).toMatchSnapshot();
   });
-
 
   it('should dispatch the GET_TAGS action and payload', () => {
     const dataTest = { body: 'this is awesome' };

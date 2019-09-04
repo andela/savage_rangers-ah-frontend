@@ -13,14 +13,14 @@ export function Bookmark(props) {
     <div className="boomark_article">
       <button type="button" onClick={() => bookmarkAction(slug)}>
         {!compareBookmark(bookmarks, slug) ? (
-          <i className="far fa-bookmark fa-3x" />
+          <i className="far fa-bookmark fa-2x" />
         ) : (
-          <i className="fa fa-bookmark fa-3x" />
+          <i className="fa fa-bookmark fa-2x" />
         )}
       </button>
     </div>
   ) : (
-    'loading'
+    <i className="icon-spinner icon-spin icon-large" />
   );
 }
 

@@ -1,5 +1,5 @@
 import axios from '../../configs/axios';
-import actions from '.';
+import actions from './index';
 
 const { GET_BOOKMARK, NO_BOOKMARK, BOOKMARK } = actions;
 
