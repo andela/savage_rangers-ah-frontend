@@ -10,6 +10,8 @@ const props = {
 };
 
 const shallowed = shallow(<Login {...props} />);
+shallowed.setProps({ authReducer: { errors: { email: 'confirm your email first' } } });
+
 const instance = shallowed.instance();
 
 // eslint-disable-next-line react/display-name

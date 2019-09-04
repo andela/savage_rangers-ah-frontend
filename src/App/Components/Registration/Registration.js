@@ -27,30 +27,13 @@ export class Registration extends Component {
       email: '',
       password: '',
       confirmPassword: '',
-      error: '',
-      accepted: false
+      accepted: ''
     };
     this.validator = new SimpleReactValidator({
       locale: 'en',
       messages: { in: 'Your password and confirmation password do not match.' }
     });
     this.onChange = this.onChange.bind(this);
-  }
-
-  /**
-   * will be executed whenever a new prop is added to the component
-   *
-   * @param {*} { user, error }
-   * @memberof Registration
-   */
-  async componentWillReceiveProps({ user, error }) {
-    if (user) {
-      const { history } = this.props;
-      await localStorage.setItem('token', user.token);
-      history.push(`/?username=${user.username}&email=${user.email}`);
-    } else {
-      this.setState({ error });
-    }
   }
 
   /**
@@ -74,9 +57,15 @@ export class Registration extends Component {
     if (this.validator.allValid()) {
       const { state } = this;
       const { register: registerAction } = this.props;
-      delete state.error;
-      delete state.accepted;
-      registerAction(state);
+      const {
+        username, email, password, confirmPassword
+      } = state;
+      registerAction({
+        username,
+        email,
+        password,
+        confirmPassword
+      });
     } else {
       this.validator.showMessages();
       this.forceUpdate();
@@ -84,12 +73,17 @@ export class Registration extends Component {
   };
 
   render() {
-    const { state } = this;
+    const {
+      props: { error, message },
+      state
+    } = this;
     return (
       <div>
         <NavBar />
         <div className="container">
-          {state.error ? <ErrorAlert message={state.error} type="danger" /> : ''}
+          {error ? <ErrorAlert message={error} type="danger" /> : ''}
+          {message ? <ErrorAlert message={message} type="success" /> : ''}
+
           <form className="form-horizontal col-sm-6 common-form">
             <h2 className="common-form-h2">Signup</h2>
             <div className="form-group">
@@ -184,14 +178,13 @@ export class Registration extends Component {
 }
 
 Registration.propTypes = {
-  history: propTypes.object.isRequired,
   register: propTypes.func.isRequired,
   error: propTypes.string,
-  user: propTypes.object
+  message: propTypes.string
 };
 export const mapStateToProps = state => ({
   error: state.registration.error,
-  user: state.registration.user
+  message: state.registration.message
 });
 
 export default connect(mapStateToProps,
