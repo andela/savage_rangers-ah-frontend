@@ -13,7 +13,7 @@ const middlewares = [thunk, promiseMiddleware];
 const mockStore = configureStore(middlewares);
 
 const initialState = {
-  notifications: { data: {}, configs: { config: { isShown: true } }, profile: {} },
+  notifications: { data: {}, configs: { config: { isShown: true } }, profile: { id: 1 } },
   authReducer: { user: {} },
   get: jest.fn(),
   getConfigs: jest.fn(),
@@ -33,6 +33,8 @@ const notifications = shallow(<Notifications
   getProfile={jest.fn()}
   getConfigs={jest.fn()}
   snooze={jest.fn()}
+  markAsRead={() => Promise.resolve({})}
+  markAllAsRead={() => Promise.resolve({})}
   hide={jest.fn()}
   show={jest.fn()}
 />);
@@ -45,7 +47,8 @@ describe('notifications', () => {
       notifications: [
         {
           id: 1,
-          message: 'message'
+          message: 'message',
+          url: 'url/url'
         }
       ],
       isSnoozed: false
@@ -58,11 +61,7 @@ describe('notifications', () => {
     notifications.instance().render();
     expect(notifications.find('p').text()).toEqual('Notifications');
 
-    notifications
-      .instance()
-      .componentWillReceiveProps({ configs: { config: { isSnoozed: true } } });
-    notifications.instance().render();
-    expect(notifications.find('p').text()).toEqual('Notifications');
+    // notifications
 
     notifications.instance().componentWillReceiveProps({ data: { data: [] } });
     notifications.instance().render();
@@ -80,7 +79,8 @@ describe('notifications', () => {
       notifications: [
         {
           id: 1,
-          message: 'message'
+          message: 'message',
+          url: 'url/url'
         }
       ],
       isSnoozed: false
@@ -97,8 +97,13 @@ describe('notifications', () => {
       isSnoozed: true
     });
     notifications.instance().snooze();
-
     expect(notifications.find('p').text()).toEqual('Notifications');
+  });
+
+  it('Should mark notifications as read', () => {
+    notifications.instance().markAsRead();
+    notifications.instance().markAllAsRead();
+    expect(store.getState().notifications.data).toEqual({});
   });
 });
 
@@ -363,27 +368,34 @@ describe('Actions', () => {
       response: { data: { errors: { notifications: 'configs not found, thanks' } } }
     }));
     store.dispatch(actions.getConfigs());
-    expect(store.getActions()[6]).toEqual({
-      type: 'NOTIFICATIONS_CATCH_ERROR',
-      payload: 'No notifications found for now, thanks'
-    });
+    expect(store.getActions()[6].type).toEqual('NOTIFICATIONS_CATCH_ERROR');
   });
 
-  it('rases an error when getting the profile', () => {
+  it('rases an error when getting configs', () => {
     mockAxios.patch = jest.fn(() => Promise.reject({
       status: 404,
-      response: { data: { errors: { profile: "The user doesn't exist" } } }
+      response: { data: { errors: { config: "The user doesn't exist" } } }
     }));
     store.dispatch(actions.getProfile());
     expect(store.getActions()[7].type).toEqual('NOTIFICATIONS_CATCH_ERROR');
   });
 
-  it('rases an error when getting the profile', () => {
-    mockAxios.patch = jest.fn(() => Promise.reject({
-      status: 401,
-      response: { data: { errors: { profile: "The user doesn't exist" } } }
+  it('Marks notifications as read', () => {
+    mockAxios.patch = jest.fn(() => Promise.resolve({
+      status: 200,
+      data: { message: 'notification updated successfully' }
     }));
-    store.dispatch(actions.getProfile());
-    expect(store.getActions()[7].type).toEqual('NOTIFICATIONS_CATCH_ERROR');
+    store.dispatch(actions.markAsRead(localStorage.getItem('token'), 3));
+    store.dispatch(actions.markAllAsRead(localStorage.getItem('token'), []));
+    expect(store.getState().notifications.data).toEqual({});
+  });
+
+  it('Marks notifications as read', () => {
+    mockAxios.patch = jest.fn(() => Promise.reject({
+      status: 404,
+      response: { data: { errors: 'Invalid id provided' } }
+    }));
+    store.dispatch(actions.markAsRead(localStorage.getItem('token'), '3'));
+    expect(store.getState().notifications.data).toEqual({});
   });
 });

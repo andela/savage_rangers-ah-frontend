@@ -1,11 +1,15 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import actions from '../../../Redux/Actions/notifications';
 
 const {
-  get, snooze, getConfigs, getProfile
+  get, snooze, getConfigs, getProfile, markAsRead, markAllAsRead
 } = actions;
 
 export class Notifications extends Component {
@@ -33,9 +37,10 @@ export class Notifications extends Component {
     }
   }
 
-  componentWillReceiveProps({ data, configs }) {
-    if (!isEmpty(data)) this.setState({ notifications: data.data });
-    else {
+  componentWillReceiveProps({ data: { data }, configs }) {
+    if (data && !isEmpty(data.filter(item => item.type === 'inApp'))) {
+      this.setState({ notifications: data.filter(item => item.type === 'inApp') });
+    } else {
       this.setState({ notifications: [] });
     }
     if (!isEmpty(configs)) {
@@ -51,12 +56,29 @@ export class Notifications extends Component {
     const token = localStorage.getItem('token');
     const { state: { isSnoozed } } = this;
     const { snooze: snoozeNotifications } = this.props;
+
     this.setState({ isSnoozed: !document.getElementById('get-notifications').checked });
+
     if (isSnoozed) {
       snoozeNotifications('unsnooze', token);
     } else {
       snoozeNotifications('snooze', token);
     }
+  };
+
+  markAsRead = (id) => {
+    const { markAsRead: markNotificationAsRead, get: getNotifications } = this.props;
+    const token = localStorage.getItem('token');
+
+    markNotificationAsRead(token, id).then(getNotifications(token));
+  };
+
+  markAllAsRead = () => {
+    const { markAllAsRead: markAllNotificationsAsRead, get: getNotifications } = this.props;
+    const { state } = this;
+    const token = localStorage.getItem('token');
+
+    markAllNotificationsAsRead(token, state.notifications).then(getNotifications(token));
   };
 
   render() {
@@ -74,8 +96,14 @@ export class Notifications extends Component {
           {!isEmpty(notifications)
             ? (!isSnoozed
                 && notifications.map(notification => (
-                  <div key={notification.id} className="notifications-item">
-                    {notification.message}
+                  <div
+                    key={notification.id}
+                    className="notifications-item"
+                    onClick={() => this.markAsRead(notification.id)}
+                  >
+                    <Link to={notification.url} className="link-custom">
+                      {notification.message}
+                    </Link>
                   </div>
                 ))) || (
                 <div className="notifications-snoozed">
@@ -96,8 +124,10 @@ export class Notifications extends Component {
             </div>
             )}
         </div>
-        {!isEmpty(notifications) ? (
-          <div className="space space-notifications">mark all as read</div>
+        {!isEmpty(notifications) && !isSnoozed ? (
+          <div className="space space-notifications" onClick={this.markAllAsRead}>
+            Mark all as read
+          </div>
         ) : (
           ''
         )}
@@ -114,18 +144,23 @@ Notifications.propTypes = {
   get: PropTypes.func,
   snooze: PropTypes.func,
   getConfigs: PropTypes.func,
-  getProfile: PropTypes.func
+  getProfile: PropTypes.func,
+  markAsRead: PropTypes.func,
+  markAllAsRead: PropTypes.func
 };
 
-export const mapStateToProps = ({ notifications: { data, configs }, authReducer: { user } }) => ({
-  data,
-  configs,
-  user
+export const mapStateToProps = state => ({
+  data: state.notifications.data,
+  configs: state.notifications.configs,
+  user: state.authReducer.user
 });
+
 export default connect(mapStateToProps,
   {
     get,
     snooze,
     getConfigs,
-    getProfile
+    getProfile,
+    markAsRead,
+    markAllAsRead
   })(Notifications);

@@ -14,9 +14,9 @@ export default combineReducers({
   testRedux: testReduxReducer,
   passwordReset,
   registration,
+  notifications,
   termsAndConditionReducer,
   article,
-  notifications,
   readArticle: readArticleReducer,
   populars: readPopularArticleReducer
 });
