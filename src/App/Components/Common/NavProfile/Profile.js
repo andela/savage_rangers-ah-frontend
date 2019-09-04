@@ -1,15 +1,21 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import isEmpty from 'lodash/isEmpty';
-import PropTypes from 'prop-types';
+import { ToastContainer, toast } from 'react-toastify';
 import ReactImageFallback from 'react-image-fallback';
+import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
+import PropTypes from 'prop-types';
 import actions from '../../../../Redux/Actions/notifications';
 import defaultData from '../../../../configs/urls';
 import TriangularPopup from '../TriangularPopup';
+import IoNotification from '../../Notifications/IoNotification';
 
-const { show, hide } = actions;
+const {
+  show, hide, get, markAsRead
+} = actions;
 
 export class Profile extends Component {
   constructor(props) {
@@ -18,7 +24,8 @@ export class Profile extends Component {
       isShown: false,
       profile: {},
       notifications: [],
-      notificationsBubble: ''
+      notificationsBubble: '',
+      isSnoozed: false
     };
   }
 
@@ -26,13 +33,32 @@ export class Profile extends Component {
     isShown, profile, configs, data
   }) {
     this.setState({ isShown });
-    if (!isEmpty({ ...profile, ...configs })) this.setState({ profile });
-    else this.setState({ profile: {} });
-    if (!isEmpty(data)) {
-      this.setState({ notifications: data });
-      if (data.length < 10) {
-        this.setState({ notificationsBubble: `${data.length}` });
+    if (!isEmpty({ profile }) && !isEmpty(configs)) {
+      this.setState({ profile, isSnoozed: configs.config.isSnoozed });
+    } else this.setState({ profile: {} });
+    if (data && !isEmpty(data.filter(item => item.type === 'inApp'))) {
+      const notifications = data.filter(item => item.type === 'inApp');
+      this.setState({ notifications });
+      if (notifications.length < 10) {
+        this.setState({ notificationsBubble: `${notifications.length}` });
       } else this.setState({ notificationsBubble: '9+' });
+    }
+  }
+
+  componentDidUpdate({ io }) {
+    const { state: { profile, isSnoozed } } = this;
+    const { props: { io: newIo } } = this;
+    const { get: getNotifications } = this.props;
+    const token = localStorage.getItem('token');
+    if (io && profile && newIo.userId === profile.id && !isSnoozed && !isEqual(io, newIo)) {
+      toast.success(<IoNotification
+        message={`${newIo.message}`}
+        link={`${newIo.url}`}
+        id={`${newIo.id}`}
+        markAsRead={this.markIoNotificationAsRead}
+      />,
+      { className: 'io-container', closeButton: false });
+      getNotifications(token);
     }
   }
 
@@ -45,6 +71,13 @@ export class Profile extends Component {
     return showNotifications();
   };
 
+  markIoNotificationAsRead = (id) => {
+    const { markAsRead: markNotificationAsRead, get: getNotifications } = this.props;
+    const token = localStorage.getItem('token');
+
+    markNotificationAsRead(token, id).then(getNotifications(token));
+  };
+
   render() {
     const {
       state: {
@@ -53,6 +86,7 @@ export class Profile extends Component {
     } = this;
     return (
       <React.Fragment>
+        <ToastContainer autoClose={false} />
         <ul className="navbar-nav">
           <li className="dropdown notify-container" id="notify-container">
             <ReactImageFallback
@@ -103,25 +137,27 @@ export class Profile extends Component {
 Profile.propTypes = {
   isShown: PropTypes.bool,
   show: PropTypes.func,
+  get: PropTypes.func,
   hide: PropTypes.func,
   data: PropTypes.array,
   configs: PropTypes.object,
-  profile: PropTypes.object
+  profile: PropTypes.object,
+  markAsRead: PropTypes.func,
+  io: PropTypes.object
 };
 
-export const mapStateToProps = ({
-  notifications: {
-    isShown,
-    data: { data },
-    configs,
-    profile: { profile }
-  }
-}) => ({
-  isShown,
-  data,
-  configs,
-  profile
+export const mapStateToProps = state => ({
+  isShown: state.notifications.isShown,
+  data: state.notifications.data.data,
+  configs: state.notifications.configs,
+  profile: state.notifications.profile.profile,
+  io: state.notifications.io
 });
 
 export default connect(mapStateToProps,
-  { show, hide })(Profile);
+  {
+    show,
+    hide,
+    get,
+    markAsRead
+  })(Profile);

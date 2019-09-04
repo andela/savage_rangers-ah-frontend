@@ -28,7 +28,6 @@
     ],
     "no-underscore-dangle": 0,
     "import/no-mutable-exports": 1,
-    "jsx-a11y/anchor-is-valid": "off",
     "import/no-named-as-default": 0,
     "react/prefer-stateless-function": 0,
     "react/destructuring-assignment": 1,
