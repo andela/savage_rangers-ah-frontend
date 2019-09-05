@@ -72,7 +72,8 @@ const actions = {
         const { response: { status } } = error;
         if (status === 401) {
           localStorage.removeItem('token');
-          window.location.href = 'login';
+          localStorage.removeItem('username');
+          window.location.href = '/login';
           dispatch({ type: NOTIFICATIONS_CATCH_ERROR, payload: error });
         } else {
           const errorObject = error.response.data.errors;
