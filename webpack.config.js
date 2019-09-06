@@ -8,7 +8,6 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 module.exports = {
   devtool: 'inline-source-map',
   entry: './src/index.js',
-
   output: {
     path: path.resolve(__dirname, 'build/'),
     publicPath: '/',
@@ -51,7 +50,8 @@ module.exports = {
       },
       {
         test: /.(jpg|jpeg|png|gif|svg)$/,
-        use: ['file-loader',
+        use: [
+          'file-loader',
           {
             loader: 'image-webpack-loader',
             options: {

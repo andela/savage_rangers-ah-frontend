@@ -1,13 +1,26 @@
 {
-  "env": { "browser": true, "es6": true, "jest": true },
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
   "settings": {
-    "import/resolver": { "webpack": { "config": "./webpack.common.js" } }
+    "import/resolver": {
+      "webpack": {
+        "config": "./webpack.common.js"
+      }
+    }
   },
   "extends": ["airbnb", "plugin:react/recommended", "plugin:react/recommended"],
   "plugins": ["react", "jsx-a11y"],
-  "globals": { "Atomics": "readonly", "SharedArrayBuffer": "readonly" },
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
   "parserOptions": {
-    "ecmaFeatures": { "jsx": true },
+    "ecmaFeatures": {
+      "jsx": true
+    },
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
@@ -24,7 +37,10 @@
     "function-paren-newline": ["error", "never"],
     "object-curly-newline": [
       "error",
-      { "multiline": true, "minProperties": 4 }
+      {
+        "multiline": true,
+        "minProperties": 4
+      }
     ],
     "no-underscore-dangle": 0,
     "import/no-mutable-exports": 1,
@@ -33,7 +49,9 @@
     "react/destructuring-assignment": 1,
     "react/forbid-prop-types": 0,
     "react/require-default-props": 0,
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-filename-extension": [1, {
+      "extensions": [".js", ".jsx"]
+    }],
     "jsx-a11y/label-has-associated-control": [
       "error",
       {
@@ -57,7 +75,9 @@
         }
       }
     ],
-    "import/no-unresolved": [2, { "commonjs": true }],
+    "import/no-unresolved": [2, {
+      "commonjs": true
+    }],
     "prefer-promise-reject-errors": 0,
     "react/prop-types": [
       1,
