@@ -260,6 +260,11 @@
 }
 
 @media (max-width: 425px) {
+  .article{
+    &__point-separator {
+     display: none;
+    }
+  }
   .category-p {
     width: 100px;
 

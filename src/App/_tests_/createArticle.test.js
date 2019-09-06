@@ -13,7 +13,9 @@ import {
   createArticle as firstDraft,
   drafting,
   publish as publishAction,
-  changeState
+  changeState,
+  categories,
+  getTags
 } from '../../Redux/Actions/articles';
 
 const props = {
@@ -24,7 +26,9 @@ const props = {
   getTags: jest.fn(),
   imageUploder: jest.fn(() => Promise.resolve('http://localhost/jpeg.jpg')),
   publish: jest.fn(() => Promise.resolve('article updated successfully')),
-  getCategories: jest.fn()
+  getCategories: jest.fn(),
+  getArticleDetail: jest.fn(),
+  getArticleTags: jest.fn()
 };
 
 const {
@@ -40,9 +44,16 @@ const middlewares = [thunk, promiseMiddleware];
 const mockStore = configureStore(middlewares);
 const getState = {}; // initial state of the store
 const store = mockStore(getState);
+
 describe('Create article', () => {
-  const Create = shallow(<CreateArticle {...props} />);
+  const routeParam = { match: { params: { slug: 'let me see' } } };
+
+  const Create = shallow(<CreateArticle
+    {...props}
+    {...routeParam}
+  />);
   test('should update the title', () => {
+    Create.setState({ isLoading: false });
     Create.find('#title').simulate('change', { target: { name: 'title', value: 'test title' } });
     expect(Create.state().article.title).toEqual('test title');
   });
@@ -64,14 +75,6 @@ describe('Create article', () => {
     expect(Create.state().article.tags.length).toEqual(1);
   });
 
-  test('should add category id to state', () => {
-    Create.find('select').simulate('change', { target: { id: 1, name: 'category', value: '1' } });
-    expect(Create.state().article.category).toEqual(1);
-  });
-  test('should add category id to state', () => {
-    Create.setState({ categories: [{ id: 1, name: 'love' }, { id: 2, name: 'kiss' }] });
-    expect(Create.find('#category-1').exists()).toBe(true);
-  });
   test('should update props', () => {
     Create.instance().componentWillReceiveProps({
       listOfCategories: [{ id: 1, name: 'jest' }],
@@ -202,5 +205,26 @@ describe('Actions', () => {
       type: 'CHANGE_STATE',
       payload: 'hello world'
     });
+  });
+
+  test('dispatch categories actions', () => {
+    store.clearActions();
+    const expectedCategories = { data: { categories: [{ id: 1, name: 'LOVE' }] } };
+    mockAxios.get = jest.fn(() => Promise.resolve(expectedCategories));
+    store.dispatch(categories());
+  });
+  test('testing the get category action', () => {
+    expect(store.getActions()[0]).toEqual({ type: 'GET_CATEGORIES', payload: [{ id: 1, name: 'LOVE' }] });
+  });
+
+  test('dispatch tags actions', () => {
+    store.clearActions();
+    const expectedTags = { data: { tags: [{ id: 1, name: 'Iot' }] } };
+    mockAxios.get = jest.fn(() => Promise.resolve(expectedTags));
+    store.dispatch(getTags());
+  });
+
+  test('testing the get tags action', () => {
+    expect(store.getActions()[0]).toEqual({ type: 'GET_TAGS', payload: [{ id: 1, name: 'Iot' }] });
   });
 });

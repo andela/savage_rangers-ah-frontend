@@ -8,6 +8,8 @@ import readPopularArticleReducer from './popularArticleReducer';
 import authReducer from './auth';
 import termsAndConditionReducer from './termsAndcondReducers';
 import article from './createArticle';
+import bookmark from './Bookmark';
+import getArticle from './getArticleReducer';
 
 export default combineReducers({
   authReducer,
@@ -18,5 +20,7 @@ export default combineReducers({
   termsAndConditionReducer,
   article,
   readArticle: readArticleReducer,
-  populars: readPopularArticleReducer
+  populars: readPopularArticleReducer,
+  bookmark,
+  getArticle
 });

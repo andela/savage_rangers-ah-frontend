@@ -1,6 +1,30 @@
 .category-dropdown {
-  text-align: right;
   &__selector {
+    float: right;
     width: 32% !important;
   }
+}
+
+@media (max-width: 320px){
+  .category-dropdown {
+    &__selector {
+      width: 100% !important;
+    }
+  } 
+}
+
+@media (max-width: 425px){
+  .category-dropdown {
+    &__selector {
+      width: 50% !important;
+    }
+  } 
+}
+
+@media (max-width: 375px){
+  .category-dropdown {
+    &__selector {
+      width: 100% !important;
+    }
+  } 
 }

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-// import Popular from '../Popular/popular';
+import jwt from 'jwt-decode';
 import ReadArticleActions from '../../../Redux/Actions/readArticleActions';
 import PopularArticleAction from '../../../Redux/Actions/readPopularActions';
 import ArticleNotFound from '../ArticleNotFound/ArticleNotFound';
@@ -12,7 +12,10 @@ import Loader from '../Common/loader';
 import Navbar from '../Common/NavProfile/navbar';
 import Footer from '../Common/Footer';
 import BottomPopular from '../Popular/bottom-popular';
+import Bookmark from '../Common/Bookmark/Bookmark';
+import bookmarkActions from '../../../Redux/Actions/bookmark';
 
+const { getBookMarks } = bookmarkActions;
 
 const { readArticle, getTags } = ReadArticleActions;
 const { readPopularArticle } = PopularArticleAction;
@@ -20,9 +23,17 @@ const { readPopularArticle } = PopularArticleAction;
 export class ReadArticle extends Component {
   constructor(props) {
     super(props);
-    this.state = { tags: [], isLoading: true, articles: [{ title: '', User: {}, Category: {} }] };
+    this.state = {
+      tags: [],
+      isLoading: true,
+      articles: [{ title: '', User: {}, Category: {} }],
+      isAuthor: false
+    };
   }
 
+  componentWillMount() {
+
+  }
 
   componentDidMount() {
     const {
@@ -34,8 +45,8 @@ export class ReadArticle extends Component {
     readArticles(slug);
     getTag(slug);
     readPopular();
+    this.fetchBookmark();
   }
-
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.article) {
@@ -49,8 +60,16 @@ export class ReadArticle extends Component {
         coverImage: nextProps.article.coverImage,
         firstName: nextProps.article.User.firstName,
         lastName: nextProps.article.User.lastName,
-        profileImage: nextProps.article.User.profileImage
+        profileImage: nextProps.article.User.profileImage,
+        username: nextProps.article.User.username
       });
+      if (localStorage.getItem('token')) {
+        const { username } = this.state;
+        const { user: author } = jwt(localStorage.getItem('token'));
+        if (author.username === username) {
+          this.setState({ isAuthor: true });
+        }
+      }
     }
 
     setTimeout(() => {
@@ -73,56 +92,92 @@ export class ReadArticle extends Component {
       readArticles(slug);
       getTag(slug);
     }
+    if (nextProps.bookmarked) {
+      this.fetchBookmark();
+    }
   }
+
+  fetchBookmark = () => {
+    const { getBookMarks: getBookMarksData } = this.props;
+    getBookMarksData('Burindi');
+  };
 
   render() {
     const {
-      category, title, body, readTime, tags,
-      createdAt, coverImage,
-      firstName, lastName, profileImage, slug, isLoading, articles
+      category,
+      title,
+      body,
+      readTime,
+      tags,
+      createdAt,
+      coverImage,
+      firstName,
+      lastName,
+      profileImage,
+      slug,
+      isLoading,
+      articles,
+      username,
+      isAuthor
     } = this.state;
 
-    return isLoading ? <Loader /> : (
+    const authorCredential = { isAuthor, slug };
+
+    const { bookmarks } = this.props;
+    return isLoading ? (
+      <Loader />
+    ) : (
       <React.Fragment>
-        {
-          !slug ? <ArticleNotFound content="ARTICLE NOT FOUND" /> : (
-            <div>
-              <Navbar />
-              <BreadCrumb category={category} />
-              <div className="container article">
-                <div className="row">
-                  <ArticleBody
-                    title={title}
-                    body={body}
-                    readTime={readTime}
-                    tags={tags}
-                    createdAt={createdAt}
-                    coverImage={coverImage}
-                    firstName={firstName}
-                    lastName={lastName}
-                    profileImage={profileImage}
-                  />
-
-
-                  {/* <div className="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12">
-                    <Popular articles={articles} />
-                  </div> */}
-
-                  <BottomPopular articles={articles} />
-                </div>
+        {!slug ? (
+          <ArticleNotFound content="ARTICLE NOT FOUND" />
+        ) : (
+          <div>
+            <Navbar />
+            <BreadCrumb category={category} />
+            <div className="container article">
+              <div className="row">
+                <ArticleBody
+                  title={title}
+                  body={body}
+                  readTime={readTime}
+                  tags={tags}
+                  createdAt={createdAt}
+                  coverImage={coverImage}
+                  firstName={firstName}
+                  lastName={lastName}
+                  profileImage={profileImage}
+                  username={username}
+                  authorCredential={authorCredential}
+                />
+                {username && <Bookmark username={username} slug={slug} bookmarks={bookmarks} />}
+                <BottomPopular articles={articles} />
               </div>
-              <Footer />
             </div>
-          )
-        }
+            <Footer />
+          </div>
+        )}
       </React.Fragment>
     );
   }
 }
-ReadArticle.propTypes = { article: propTypes.object, tags: propTypes.object };
+ReadArticle.propTypes = {
+  article: propTypes.object,
+  tags: propTypes.object,
+  getBookMarks: propTypes.func.isRequired,
+  bookmarked: propTypes.bool.isRequired,
+  bookmarks: propTypes.array
+};
 export const mapStateToProps = state => ({
   article: state.readArticle.article,
   tags: state.readArticle.tags,
-  popularArticle: state.populars.Articles
+  popularArticle: state.populars.Articles,
+  bookmarks: state.bookmark.bookmarks,
+  bookmarked: state.bookmark.bookmarked
 });
-export default connect(mapStateToProps, { readArticle, getTags, readPopularArticle })(ReadArticle);
+export default connect(mapStateToProps,
+  {
+    readArticle,
+    getTags,
+    readPopularArticle,
+    getBookMarks
+  })(ReadArticle);
