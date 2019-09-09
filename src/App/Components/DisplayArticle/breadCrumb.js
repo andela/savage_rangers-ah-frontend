@@ -3,8 +3,8 @@ import React from 'react';
 const BreadCrumb = (props) => {
   const { category } = props;
   return (
-    <div className="page__label col-lg-2" id="breadcrumb">
-      <p className="page__label--text">Articles</p>
+    <div className="breadcrumb__label col-lg-2" id="breadcrumb">
+      <p className="breadcrumb__label--text">Articles</p>
       <div className="category-p">
         <p className="category-p__label">CATEGORY</p>
       </div>

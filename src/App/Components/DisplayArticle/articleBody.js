@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactImageFallback from 'react-image-fallback';
 import ReactHtmlParser from 'react-html-parser';
+import propTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 import Tags from './tags';
 
@@ -9,16 +11,26 @@ const ArticleBody = (props) => {
     title, body,
     readTime, createdAt,
     coverImage, firstName,
-    lastName, profileImage, tags
+    lastName, profileImage, tags,
+    username, authorCredential
   } = props;
   const formattedDate = moment(createdAt).format('Do MMM YYYY');
   return (
     <div className="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
       <div className="article__data">
-        <h2 className="article__description">{title}</h2>
+        <h2 className="article__description">
+          {title}
+          { authorCredential.isAuthor ? (
+            <Link to={`/articles/${authorCredential.slug}/edit`} className="btn-author">
+              <i className="fas fa-pencil-alt" />
+            </Link>
+          )
+            : ' '
+          }
+        </h2>
         <div className="article__profileDetails">
           <ReactImageFallback className="article__imgProfile" src={profileImage} fallbackImage="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="profilePic" title="profile" />
-          <p to="/" className="article__nameDetails">{`${firstName} ${lastName}`}</p>
+          <p to="/" className="article__nameDetails">{firstName ? `${firstName} ${lastName}` : `${username}`}</p>
           <p to="/" className="article__dateDetails">{formattedDate}</p>
           <div className="article__point-separator"> . </div>
           <p to="/" className="article__minDetails">
@@ -27,10 +39,10 @@ const ArticleBody = (props) => {
             min read
           </p>
         </div>
-        <div className="DraftEditor-root">
-          <div className="DraftEditor-editorContainer">
-            <div className="ml-0.5">{<ReactImageFallback className="DraftEditor-coverImage ml-1" src={coverImage} fallbackImage="https://ielektro.es/wp-content/uploads/2017/04/ventajas-comprar-LED.jpg" alt="coverImage" />}</div>
-            <div className="public-DraftEditor-content">
+        <div className="DraftEditor-root article-body">
+          <div className="DraftEditor-editorContainer article-body__container">
+            <div className="ml-0.5 article-body__container--image">{<ReactImageFallback className="DraftEditor-coverImage ml-1" src={coverImage} fallbackImage="https://ielektro.es/wp-content/uploads/2017/04/ventajas-comprar-LED.jpg" alt="coverImage" />}</div>
+            <div className="public-DraftEditor-content article-body__container--content">
               {ReactHtmlParser(body)}
             </div>
           </div>
@@ -41,4 +53,9 @@ const ArticleBody = (props) => {
   );
 };
 
+
+ArticleBody.propTypes = {
+  username: propTypes.string,
+  authorCredential: propTypes.object
+};
 export default ArticleBody;
