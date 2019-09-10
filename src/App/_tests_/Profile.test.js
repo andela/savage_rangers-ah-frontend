@@ -3,7 +3,10 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
 import { shallow } from '../../enzyme';
-import { Profile, mapStateToProps } from '../Components/Common/NavProfile/Profile';
+import {
+  Profile,
+  mapStateToProps
+} from '../Components/Common/NavProfile/Profile';
 import io, { serverSocket } from '../../__mocks__/socket.io-client';
 
 document.body.innerHTML = `<div> 
@@ -16,7 +19,11 @@ io.connect();
 const middlewares = [thunk, promiseMiddleware];
 const mockStore = configureStore(middlewares);
 
-const initialState = { isShown: false, hide: jest.fn(() => {}), show: jest.fn(() => {}) };
+const initialState = {
+  isShown: false,
+  hide: jest.fn(() => {}),
+  show: jest.fn(() => {})
+};
 const store = mockStore(initialState);
 
 mapStateToProps({
@@ -24,6 +31,10 @@ mapStateToProps({
     data: [],
     configs: { config: { isShown: true } },
     profile: { profile: {} }
+  },
+  Signout: {
+    logout: {},
+    logoutError: {}
   }
 });
 
@@ -67,14 +78,18 @@ describe('Profile', () => {
       isShown: true,
       profile: { profile: {} },
       configs: { config: { isShown: true } },
-      data: newNotifications
+      data: newNotifications,
+      logout: null,
+      logoutError: null
     });
 
     profile.instance().componentWillReceiveProps({
       isShown: true,
       profile: { profile: {} },
       configs: { config: { isShown: true } },
-      data: []
+      data: [],
+      logout: null,
+      logoutError: null
     });
 
     // Shows notifications

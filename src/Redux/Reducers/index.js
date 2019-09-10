@@ -11,6 +11,7 @@ import article from './createArticle';
 import bookmark from './Bookmark';
 import getArticle from './getArticleReducer';
 import commentsReducer from './comments';
+import Signout from './signoutReducer';
 
 import profile from './Profile';
 
@@ -27,5 +28,6 @@ export default combineReducers({
   bookmark,
   getArticle,
   commentsReducer,
-  profile
+  profile,
+  Signout
 });

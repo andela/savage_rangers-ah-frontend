@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
@@ -12,6 +13,8 @@ import actions from '../../../../Redux/Actions/notifications';
 import defaultData from '../../../../configs/urls';
 import TriangularPopup from '../TriangularPopup';
 import IoNotification from '../../Notifications/IoNotification';
+import Signout from '../../../../Redux/Actions/signout';
+import 'react-toastify/dist/ReactToastify.css';
 
 const {
   show, hide, get, markAsRead
@@ -20,6 +23,7 @@ const {
 export class Profile extends Component {
   constructor(props) {
     super(props);
+    this.token = localStorage.getItem('token');
     this.state = {
       isShown: false,
       profile: {},
@@ -30,8 +34,13 @@ export class Profile extends Component {
   }
 
   componentWillReceiveProps({
-    isShown, profile, configs, data
+    isShown, profile, configs, data, logout, logoutError
   }) {
+    if (logout) {
+      localStorage.removeItem('token');
+      window.location.href = '/';
+    }
+    if (logoutError) { toast.warn(logoutError.message); }
     this.setState({ isShown });
     if (!isEmpty({ profile }) && !isEmpty(configs)) {
       this.setState({ profile, isSnoozed: configs.config.isSnoozed });
@@ -50,7 +59,13 @@ export class Profile extends Component {
     const { props: { io: newIo } } = this;
     const { get: getNotifications } = this.props;
     const token = localStorage.getItem('token');
-    if (io && profile && newIo.userId === profile.id && !isSnoozed && !isEqual(io, newIo)) {
+    if (
+      io
+      && profile
+      && newIo.userId === profile.id
+      && !isSnoozed
+      && !isEqual(io, newIo)
+    ) {
       toast.success(<IoNotification
         message={`${newIo.message}`}
         link={`${newIo.url}`}
@@ -72,7 +87,10 @@ export class Profile extends Component {
   };
 
   markIoNotificationAsRead = (id) => {
-    const { markAsRead: markNotificationAsRead, get: getNotifications } = this.props;
+    const {
+      markAsRead: markNotificationAsRead,
+      get: getNotifications
+    } = this.props;
     const token = localStorage.getItem('token');
 
     markNotificationAsRead(token, id).then(getNotifications(token));
@@ -81,9 +99,13 @@ export class Profile extends Component {
   render() {
     const {
       state: {
-        profile, notifications, notificationsBubble, isShown
+        profile,
+        notifications,
+        notificationsBubble,
+        isShown
       }
     } = this;
+    const { Signout } = this.props;
     return (
       <React.Fragment>
         <ToastContainer autoClose={false} />
@@ -100,8 +122,17 @@ export class Profile extends Component {
               }
               onClick={this.showNotifications}
             />
-            <TriangularPopup direction="up" className={isShown ? 'show' : 'hide'} />
-            <span className={isEmpty(notifications) ? 'notify-bubble hide' : 'notify-bubble show'}>
+            <TriangularPopup
+              direction="up"
+              className={isShown ? 'show' : 'hide'}
+            />
+            <span
+              className={
+                isEmpty(notifications)
+                  ? 'notify-bubble hide'
+                  : 'notify-bubble show'
+              }
+            >
               {notificationsBubble}
             </span>
           </li>
@@ -123,12 +154,17 @@ export class Profile extends Component {
               <a className="dropdown-item dropdown-item-custom" href="/profile">
                 Profile
               </a>
-              <a className="dropdown-item dropdown-item-custom" href="/">
+              <a
+                className="dropdown-item dropdown-item-custom"
+                href="#"
+                onClick={() => Signout(this.token)}
+              >
                 Logout
               </a>
             </div>
           </li>
         </ul>
+        <ToastContainer />
       </React.Fragment>
     );
   }
@@ -143,21 +179,29 @@ Profile.propTypes = {
   configs: PropTypes.object,
   profile: PropTypes.object,
   markAsRead: PropTypes.func,
-  io: PropTypes.object
+  io: PropTypes.object,
+  logout: PropTypes.object,
+  Signout: PropTypes.func,
+  logoutError: PropTypes.object
 };
 
-export const mapStateToProps = state => ({
-  isShown: state.notifications.isShown,
-  data: state.notifications.data.data,
-  configs: state.notifications.configs,
-  profile: state.notifications.profile.profile,
-  io: state.notifications.io
-});
+export const mapStateToProps = state => (
+  {
+    isShown: state.notifications.isShown,
+    data: state.notifications.data.data,
+    configs: state.notifications.configs,
+    profile: state.notifications.profile.profile,
+    io: state.notifications.io,
+    logout: state.Signout.logout,
+    logoutError: state.Signout.logoutError
+  }
+);
 
 export default connect(mapStateToProps,
   {
     show,
     hide,
     get,
-    markAsRead
+    markAsRead,
+    Signout
   })(Profile);
