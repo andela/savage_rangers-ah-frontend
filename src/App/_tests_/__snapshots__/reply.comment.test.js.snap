@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test the component should test the comment holder to render appropriate jsx 1`] = `ShallowWrapper {}`;

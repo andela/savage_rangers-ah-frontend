@@ -5,6 +5,7 @@ import propTypes from 'prop-types';
 import jwt from 'jwt-decode';
 import ReadArticleActions from '../../../Redux/Actions/readArticleActions';
 import PopularArticleAction from '../../../Redux/Actions/readPopularActions';
+import CommentAction from '../../../Redux/Actions/getAllComments';
 import ArticleNotFound from '../ArticleNotFound/ArticleNotFound';
 import BreadCrumb from './breadCrumb';
 import ArticleBody from './articleBody';
@@ -14,11 +15,13 @@ import Footer from '../Common/Footer';
 import BottomPopular from '../Popular/bottom-popular';
 import Bookmark from '../Common/Bookmark/Bookmark';
 import bookmarkActions from '../../../Redux/Actions/bookmark';
+import Comment from '../Comment/comment.holder';
 
 const { getBookMarks } = bookmarkActions;
 
 const { readArticle, getTags } = ReadArticleActions;
 const { readPopularArticle } = PopularArticleAction;
+const { getAllComments } = CommentAction;
 
 export class ReadArticle extends Component {
   constructor(props) {
@@ -35,13 +38,15 @@ export class ReadArticle extends Component {
     const {
       readArticle: readArticles,
       getTags: getTag,
-      readPopularArticle: readPopular
+      readPopularArticle: readPopular,
+      getAllComments: readCommentArticle
     } = this.props;
     const { match: { params: { slug } } } = this.props;
     readArticles(slug);
     getTag(slug);
     readPopular();
     this.fetchBookmark();
+    readCommentArticle();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -146,6 +151,7 @@ export class ReadArticle extends Component {
                   authorCredential={authorCredential}
                 />
                 {username && <Bookmark username={username} slug={slug} bookmarks={bookmarks} />}
+                <Comment slug={slug} />
                 <BottomPopular articles={articles} />
               </div>
             </div>
@@ -175,5 +181,6 @@ export default connect(mapStateToProps,
     readArticle,
     getTags,
     readPopularArticle,
-    getBookMarks
+    getBookMarks,
+    getAllComments
   })(ReadArticle);

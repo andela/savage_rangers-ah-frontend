@@ -5,6 +5,7 @@ import propTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import Tags from './tags';
+import configs from '../../../configs/urls';
 
 const ArticleBody = (props) => {
   const {
@@ -16,7 +17,7 @@ const ArticleBody = (props) => {
   } = props;
   const formattedDate = moment(createdAt).format('Do MMM YYYY');
   return (
-    <div className="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
       <div className="article__data">
         <h2 className="article__description">
           {title}
@@ -29,7 +30,7 @@ const ArticleBody = (props) => {
           }
         </h2>
         <div className="article__profileDetails">
-          <ReactImageFallback className="article__imgProfile" src={profileImage} fallbackImage="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="profilePic" title="profile" />
+          <ReactImageFallback className="article__imgProfile" src={profileImage} fallbackImage={configs.defaultUserProfileImage} alt="profilePic" title="profile" />
           <p to="/" className="article__nameDetails">{firstName ? `${firstName} ${lastName}` : `${username}`}</p>
           <p to="/" className="article__dateDetails">{formattedDate}</p>
           <div className="article__point-separator"> . </div>
@@ -41,7 +42,7 @@ const ArticleBody = (props) => {
         </div>
         <div className="DraftEditor-root article-body">
           <div className="DraftEditor-editorContainer article-body__container">
-            <div className="ml-0.5 article-body__container--image">{<ReactImageFallback className="DraftEditor-coverImage ml-1" src={coverImage} fallbackImage="https://ielektro.es/wp-content/uploads/2017/04/ventajas-comprar-LED.jpg" alt="coverImage" />}</div>
+            <div className="ml-0.5 article-body__container--image">{<ReactImageFallback className="DraftEditor-coverImage ml-1" src={coverImage} fallbackImage={configs.defaultCoverImage} alt="coverImage" />}</div>
             <div className="public-DraftEditor-content article-body__container--content">
               {ReactHtmlParser(body)}
             </div>
