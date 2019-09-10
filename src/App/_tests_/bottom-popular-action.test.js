@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import mockAxios from 'axios';
 import promiseMiddleware from 'redux-promise-middleware';
 import { shallow } from '../../enzyme';
-import Popular from '../Components/Popular/popular';
+import Popular from '../Components/Popular/bottom-popular';
 import readPopularAction from '../../Redux/Actions/readPopularActions';
 import readPopularReducer from '../../Redux/Reducers/popularArticleReducer';
 

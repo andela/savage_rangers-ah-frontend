@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test the parent comment component to check if it renders appropriately should render the component with its props 1`] = `ShallowWrapper {}`;

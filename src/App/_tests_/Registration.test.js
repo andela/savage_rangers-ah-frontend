@@ -24,20 +24,20 @@ describe('Test registration', () => {
   wrapper.setProps({ message: 'created' });
   wrapper.setProps({ user: { username: 'alain' } });
   it('use frontend validation', (done) => {
-    wrapper.find('button').simulate('click', { preventDefault: () => {} });
+    wrapper.find('button').simulate('click', { preventDefault: () => { } });
     expect(wrapper.find('.text-danger').exists()).toBe(true);
     done();
   });
   test('Component', () => {
     // simulate changes
     wrapper.find('input[type="text"]').simulate('change', {
-      preventDefault: () => {},
+      preventDefault: () => { },
       target: { name: 'username', value: 'alain' }
     });
     expect(wrapper.state('username')).toEqual('alain');
 
     wrapper.find('input[type="email"]').simulate('change', {
-      preventDefault: () => {},
+      preventDefault: () => { },
       target: { name: 'email', value: 'alain@gmail.com' }
     });
     expect(wrapper.state('email')).toEqual('alain@gmail.com');
@@ -46,7 +46,7 @@ describe('Test registration', () => {
       .find('input[type="password"]')
       .at(0)
       .simulate('change', {
-        preventDefault: () => {},
+        preventDefault: () => { },
         target: { name: 'password', value: 'krishankant123' }
       });
     expect(wrapper.state('password')).toEqual('krishankant123');
@@ -55,18 +55,18 @@ describe('Test registration', () => {
       .find('input[type="password"]')
       .at(1)
       .simulate('change', {
-        preventDefault: () => {},
+        preventDefault: () => { },
         target: { name: 'confirmPassword', value: 'krishankant123' }
       });
     expect(wrapper.state('confirmPassword')).toEqual('krishankant123');
 
     wrapper.find('input[type="checkbox"]').simulate('change', {
-      preventDefault: () => {},
+      preventDefault: () => { },
       target: { type: 'checkbox', checked: true }
     });
     expect(wrapper.state('accepted')).toEqual(true);
 
-    wrapper.find('button').simulate('click', { preventDefault: () => {} });
+    wrapper.find('button').simulate('click', { preventDefault: () => { } });
     mapStateToProps({ registration: { user: { username: 'alain' }, error: 'not found' } });
   });
 

@@ -86,7 +86,18 @@
           "lastName",
           "profileImage",
           "tags",
-          "content"
+          "content",
+          "isHidden",
+          "edit",
+          "getAllComments",
+          "slug",
+          "replies",
+          "username",
+          "postComment",
+          "updateComment",
+          "replyCommentBody",
+          "id",
+          "postCommentReply"
         ]
       }
     ],
