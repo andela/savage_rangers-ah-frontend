@@ -1,0 +1,78 @@
+.social-share__container {
+  position: fixed;
+  top: 35%;
+  left: 4%;
+  height: 200px;
+  button {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #efefef;
+    outline: none;
+    text-align: center;
+    display: block;
+    margin-top: 6%;
+  }
+
+  .twitter-share {
+    i {
+      color: #1da1f2;
+    }
+    span {
+      color: #000;
+    }
+  }
+  .linkedin-share {
+    i {
+      color: #4875b4;
+    }
+    span {
+      margin-left: 10px;
+      color: #000;
+    }
+  }
+  .facebook-share {
+    text-decoration: none;
+    i {
+      color: #3b5998;
+    }
+    span {
+      margin-left: 10px;
+    }
+  }
+  .gmail-share {
+    i {
+      color: #254a7e;
+    }
+    span {
+      margin-left: 10px;
+      color: #000;
+    }
+  }
+  button:hover {
+    cursor: pointer;
+  }
+}
+
+.small-share {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .large-share {
+    display: none;
+  }
+  .social-share__container {
+    position: unset;
+    display: flex;
+    height: unset;
+    button {
+      width: 60px;
+      height: 60px;
+      margin-left: 2%;
+    }
+  }
+  .small-share {
+    display: block;
+  }
+}
