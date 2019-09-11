@@ -1,60 +1,81 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import Welcome from '../TestRedux';
 import Navbar from '../Common/NavProfile/navbar';
+import actions from '../../../Redux/Actions/home';
+import popularActions from '../../../Redux/Actions/readPopularActions';
+import RandomArticles from './RandomHeader';
+import RecentlyAdded from './RecentlyAdded';
+// import Categorized from './CategorizeArticles';
+import ArticleCard from './ArticleCard';
+
+const { getArticlesByCategory, getRandomArticles } = actions;
+const { readPopularArticle } = popularActions;
 
 export class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = { user: {} };
+    this.state = {};
   }
 
-  componentWillMount() {
-    const { data } = this.props;
-    if (data && data.user) {
-      this.setState({ user: data.user });
-    } else {
-      this.setState({ user: {} });
+  componentDidMount() {
+    const { getRandomArticles: getRandom } = this.props;
+    getRandom();
+  }
+
+  componentDidUpdate() {
+    const {
+      categories,
+      getArticlesByCategory: getArticles,
+      readPopularArticle: getPopularArticles
+    } = this.props;
+    if (categories) {
+      getArticles(categories);
+      getPopularArticles();
     }
   }
 
   render() {
-    const { state } = this;
+    const { randomArticles } = this.props;
     return (
       <React.Fragment>
         <Navbar />
-        <div>
-          <h1>Authors Heaven</h1>
-          <p>This is the home page of authors heaven v 1.0.0</p>
+        <div className="home">
+          <RandomArticles randomArticles={randomArticles} />
+          <div className="row article-sections">
+            <div className="col-xl-9 col-lg-9">
+              <RecentlyAdded randomArticles={randomArticles} />
+            </div>
+            <div className="col-xl-3 col-lg-3 popular-home">
+              <div className="popular-home-title">Popular</div>
+              <hr />
+              {randomArticles
+                ? randomArticles.map((item, index) => (
+                  <div key={index} className="popular-home-card">
+                    <ArticleCard article={item} truncateLevel="low" />
+                  </div>
+                ))
+                : ''}
+            </div>
+          </div>
         </div>
-        <div>
-          <h2>User credentials</h2>
-          <p>
-            <strong>Picture: </strong>
-            <img src={state.user.profileImage} alt="Profile" />
-          </p>
-          <p>
-            <strong>Username: </strong>
-            {state.user.username}
-          </p>
-          <p>
-            <strong>Email: </strong>
-            {state.user.email}
-          </p>
-        </div>
-        <Welcome />
       </React.Fragment>
     );
   }
 }
 
-Home.defaultProps = { data: {} };
+Home.propTypes = { categories: propTypes.array, getArticlesByCategory: propTypes.func };
 
-Home.propTypes = { data: propTypes.object };
-
-export const mapStateToProps = state => ({ data: state.passwordReset.data });
+export const mapStateToProps = ({
+  home: { categories, randomArticles },
+  populars: { articles }
+}) => ({
+  categories,
+  articles,
+  randomArticles
+});
 
 export default connect(mapStateToProps,
-  {})(Home);
+  { getArticlesByCategory, readPopularArticle, getRandomArticles })(Home);

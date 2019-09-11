@@ -7,15 +7,28 @@ import NavLinks from './navLinks';
 import Profile from './Profile';
 import Notifications from '../../Notifications/Notifications';
 import notificationActions from '../../../../Redux/Actions/notifications';
+import homeActions from '../../../../Redux/Actions/home';
+
+const { getCategories } = homeActions;
 
 const { hide } = notificationActions;
 
 export class Navbar extends Component {
-  static propTypes = { hide: PropTypes.func.isRequired, isShown: PropTypes.bool };
+  static propTypes = {
+    hide: PropTypes.func.isRequired,
+    isShown: PropTypes.bool,
+    getCategories: PropTypes.func,
+    categories: PropTypes.array
+  };
 
   constructor(props) {
     super(props);
     this.state = { isShown: false };
+  }
+
+  componentDidMount() {
+    const { getCategories: getNavCategories } = this.props;
+    getNavCategories();
   }
 
   componentWillReceiveProps({ isShown }) {
@@ -30,10 +43,21 @@ export class Navbar extends Component {
 
   render() {
     const { state: { isShown } } = this;
+    const { categories } = this.props;
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-dark">
         <NavLogo />
         <h3 id="web-name">Authors-Haven</h3>
+        <div className="nav-categories">
+          {categories
+            ? categories.map(category => (
+              <div key={category.id}>
+                {category.name}
+                {' | '}
+              </div>
+            ))
+            : ''}
+        </div>
         <button
           className="navbar-toggler"
           type="button"
@@ -57,7 +81,10 @@ export class Navbar extends Component {
   }
 }
 
-export const mapStateToProps = ({ notifications: { isShown } }) => ({ isShown });
+export const mapStateToProps = ({ notifications: { isShown }, home: { categories } }) => ({
+  isShown,
+  categories
+});
 
 export default connect(mapStateToProps,
-  { hide })(Navbar);
+  { hide, getCategories })(Navbar);

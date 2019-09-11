@@ -1,0 +1,228 @@
+.nav-categories {
+  display: flex;
+  color: white;
+}
+.home {
+  padding: 2%;
+}
+.home,
+.article-sections {
+  margin-top: 2%;
+}
+.article-card {
+  position: relative;
+  &__content {
+    position: absolute;
+    top: 73%;
+    left: 2%;
+    z-index: 300;
+    color: white;
+    background-color: rgba($color: #000, $alpha: 0.3);
+    &--title {
+      font-size: 2.2em;
+      text-transform: capitalize;
+      font-weight: 600;
+    }
+  }
+}
+.article-card-small {
+  margin-bottom: 4%;
+  & .article-card {
+    &__content {
+      top: 62%;
+      &--title {
+        width: 110px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 1em;
+        text-transform: capitalize;
+        font-weight: 600;
+      }
+      & .category {
+        &-name {
+          margin-left: 9%;
+        }
+      }
+    }
+  }
+}
+.big-image {
+  & img {
+    width: 100%;
+    min-height: 400px;
+    object-fit: cover;
+  }
+}
+.small-image {
+  & img {
+    width: 100%;
+    min-height: 195px;
+  }
+}
+
+.category {
+  &-block {
+    position: absolute;
+    width: 6px;
+    height: 23px;
+  }
+  &-color {
+    &__science {
+      background-color: #219653;
+    }
+    &__law {
+      background-color: #724524;
+    }
+    &__music {
+      background-color: #ebd197;
+    }
+    &__art {
+      background-color: #f0a051;
+    }
+    &__love {
+      background-color: #f05151;
+    }
+    &__technology {
+      background-color: #51ddf0;
+    }
+    &__business {
+      background-color: #edba57;
+    }
+    &__entertainment {
+      background-color: #2f80ed;
+    }
+  }
+  &-name {
+    margin-left: 4%;
+  }
+}
+
+.article-layout {
+  width: 100%;
+  background-color: #f5f4f4;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  &__image {
+    & img {
+      width: 150px;
+      height: 150px;
+      margin: 2%;
+    }
+  }
+  &__body {
+    font-family: 'STSong';
+    width: 100%;
+    line-height: 1;
+
+    & h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-size: 1em;
+    }
+  }
+  &__title {
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1.2em;
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+
+  &__profile {
+    display: flex;
+    &--image {
+      padding: 2%;
+      & img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+      }
+    }
+    &--detail {
+    }
+    & .profile-detail {
+      font-family: inherit;
+      &__date {
+        font-size: 0.7em;
+      }
+    }
+  }
+}
+
+.recent-header {
+  &__categories {
+    display: flex;
+    & .category-block {
+      position: unset;
+      height: 40px;
+      width: 12px;
+      &:not(:first-child) {
+        margin-left: 1%;
+      }
+    }
+    & h3 {
+      font-size: 2.2em;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+  }
+
+  & hr {
+    border: 1px solid black;
+  }
+}
+
+.recent-articles {
+  & .big-image {
+    & img {
+      height: 588px;
+    }
+  }
+}
+
+.popular-home-card {
+  .article-layout {
+    margin-left: 0%;
+    &__image {
+      & img {
+        width: 95px;
+        height: 100px;
+        object-fit: cover;
+      }
+    }
+    &__body {
+      font-size: 1em;
+    }
+    &__title {
+      width: 110px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 1em;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+  }
+}
+
+.article-layout-content {
+  padding: 3%;
+}
+
+.popular-home {
+  & hr {
+    border: 1px solid #000;
+  }
+  &-title {
+    font-size: 2.2em;
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+  &-home {
+  }
+}
