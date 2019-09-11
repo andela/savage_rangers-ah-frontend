@@ -1,10 +1,10 @@
 export default (ratings) => {
-  let users = 0;
-  let rates = 0;
-  ratings.map((single) => {
-    rates += single.rating * single.users;
-    users += single.users;
-    return true;
-  });
-  return rates / users;
+  const x = ratings.map(item => ({
+    first: item.rating * item.users,
+    second: item.users
+  }));
+  return (
+    x.map(item => item.first).reduce((a, b) => a + b, 0)
+      / x.map(item => item.second).reduce((a, b) => a + b, 0)
+  );
 };

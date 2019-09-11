@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<articles /> render() it should render a single with article deferent data 1`] = `[Function]`;
+
+exports[`<articles /> render() it should render a single with deferent data to cover all lines 1`] = `[Function]`;
+
+exports[`<articles /> render() it should render a single with deferent data to cover all lines 2`] = `[Function]`;
+
+exports[`<articles /> render() it should render a single with deferent data to cover all lines 3`] = `[Function]`;
+
+exports[`<articles /> render() it should render a single with deferent data to cover all lines 4`] = `[Function]`;
+
+exports[`<articles /> render() it should render a single with deferent data to cover all lines 5`] = `[Function]`;
+
+exports[`<articles /> render() it should render a single with deferent data to cover all lines 6`] = `[Function]`;
+
+exports[`<articles /> render() it should render a single with deferent data to cover all lines 7`] = `[Function]`;
+
+exports[`<articles /> render() it should render a single with deferent data to cover all lines 8`] = `[Function]`;

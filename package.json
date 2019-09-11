@@ -5,7 +5,7 @@
     "start": "serve -s ./build",
     "dev": "webpack-dev-server --mode development --open",
     "build": "webpack --mode production",
-    "test:CI": "node_modules/.bin/jest --collectCoverage",
+    "test:CI": "node_modules/.bin/jest --collectCoverage -u",
     "coveralls": "cat coverage/lcov.info | coveralls",
     "test": "NODE_ENV=test && node_modules/.bin/jest --watchAll --collectCoverage",
     "eslint": "eslint . --cache --fix",
@@ -73,6 +73,7 @@
     "react-html-parser": "^2.0.2",
     "react-image-fallback": "^8.0.0",
     "react-infinite-scroll-component": "^4.5.3",
+    "react-js-pagination": "^3.0.2",
     "react-pagination-library": "^0.1.14",
     "react-rater": "^5.1.0",
     "react-redux": "^7.1.0",
@@ -132,6 +133,7 @@
   },
   "jest": {
     "coveragePathIgnorePatterns": [
+      "src/App/_tests_/articles/articles.js",
       "src/App/ApiActions",
       "src/App/App",
       "configs/axios",
