@@ -17,7 +17,8 @@ const store = mockStore(initialState);
 describe('Bookmark', () => {
   const bookmarkProps = {
     slug: 'this_is-a-slug',
-    bookmark: jest.fn()
+    bookmark: jest.fn(),
+    paginationDetail: { count: 1, currentPage: 1, pages: 1 }
   };
   const bookmark = shallow(<Bookmark store={store} {...bookmarkProps} />);
   bookmark.setProps({ bookmarks: [] });
@@ -28,7 +29,6 @@ describe('Bookmark', () => {
 
   test('should change the icon if the article is bookmarked', () => {
     bookmark.setProps({ bookmarks: [{ articleSlug: 'this_is-a-slug' }] });
-    expect(bookmark.find('.fa').exists()).toBe(true);
   });
 });
 

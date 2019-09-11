@@ -13,7 +13,6 @@ import Loader from '../Common/loader';
 import Navbar from '../Common/NavProfile/navbar';
 import Footer from '../Common/Footer';
 import BottomPopular from '../Popular/bottom-popular';
-import Bookmark from '../Common/Bookmark/Bookmark';
 import bookmarkActions from '../../../Redux/Actions/bookmark';
 import Comment from '../Comment/comment.holder';
 
@@ -99,8 +98,9 @@ export class ReadArticle extends Component {
   }
 
   fetchBookmark = () => {
+    const { user: { username } } = jwt(localStorage.getItem('token'));
     const { getBookMarks: getBookMarksData } = this.props;
-    getBookMarksData('Burindi');
+    getBookMarksData(username);
   };
 
   render() {
@@ -149,8 +149,9 @@ export class ReadArticle extends Component {
                   profileImage={profileImage}
                   username={username}
                   authorCredential={authorCredential}
+                  bookmarks={bookmarks}
+                  slug={slug}
                 />
-                {username && <Bookmark username={username} slug={slug} bookmarks={bookmarks} />}
                 <Comment slug={slug} />
                 <BottomPopular articles={articles} />
               </div>

@@ -94,6 +94,9 @@ const props = {
   bookmarks: []
 };
 localStorage.setItem('username', 'alain');
+localStorage.setItem('token',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VybmFtZSI6IkJ1cmluZGkiLCJlbWFpbCI6ImFsYWluMUBnbWFpbC5jb20ifSwiaWF0IjoxNTY4MTI4NDU5LCJleHAiOjE1NjgyMTQ4NTl9.HFugJ8jmmfF6DIuoSobH8tRXHc82Smzk71ruzjoRqpk');
+
 const readOneArticle = shallow(<ReadArticle {...props} />);
 describe('read Article component', () => {
   it('renders the Display component', () => {

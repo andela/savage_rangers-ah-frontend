@@ -12,6 +12,7 @@ import bookmark from './Bookmark';
 import getArticle from './getArticleReducer';
 import commentsReducer from './comments';
 
+import profile from './Profile';
 
 export default combineReducers({
   authReducer,
@@ -25,5 +26,6 @@ export default combineReducers({
   populars: readPopularArticleReducer,
   bookmark,
   getArticle,
-  commentsReducer
+  commentsReducer,
+  profile
 });

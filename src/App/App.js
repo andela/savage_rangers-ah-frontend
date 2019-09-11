@@ -8,6 +8,7 @@ import Login from './Components/Login';
 import TermsAndconditions from './Components/TermsAndConditions';
 import Redirection from './Components/Redirection/redirect';
 import ReadArticle from './Components/DisplayArticle/readArticle';
+import ProfileComponent from './Components/Profile/Profile';
 import store from '../Redux/store';
 import RegistrationComponent from './Components/Registration/Registration';
 import ForgotPassword from './Components/PasswordReset/ForgotPassword';
@@ -58,6 +59,7 @@ class App extends Component {
             <Route exact path="/articles/:slug" component={ReadArticle} />
             <Route path="/articles/:slug/edit" component={isAuth ? UpdateArticle : Login} />
             <Route path="/notfound" component={NotFound} />
+            <Route path="/profile" component={ProfileComponent} />
             <Route exact path="*" component={NotFound} />
           </Switch>
         </Router>
