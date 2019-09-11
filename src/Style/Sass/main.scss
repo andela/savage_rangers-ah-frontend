@@ -1,8 +1,10 @@
 @import "abstract/variables";
 @import "abstract/common";
 @import "abstract/typography";
+@import "abstract/variables";
 @import "abstract/mixin";
 @import "base/base";
+@import "base/reset";
 @import "component/navProfile";
 @import "component/navLogo";
 @import "component/navLink";
@@ -40,3 +42,5 @@
 @import "component/rater";
 @import "layout/pagination";
 @import "layout/socialsharing";
+@import "layout/authors";
+@import "layout/authorPagination";
