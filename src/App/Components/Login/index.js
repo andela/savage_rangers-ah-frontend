@@ -76,7 +76,7 @@ export class Login extends Component {
                     {' '}
                     <a href="/signup">Sign up</a>
                   </p>
-                  <Link className="float-right m-3 links links-right" to="/">
+                  <Link className="float-right m-3 links links-right" to="/forgot-password">
                     Forgot your password?
                   </Link>
                 </div>
