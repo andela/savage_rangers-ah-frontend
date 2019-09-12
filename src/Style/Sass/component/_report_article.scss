@@ -1,9 +1,13 @@
+.report_container {
+  button {
+    outline: none;
+  }
+}
 .report {
-  outline: dashed;
   border: none;
   outline: none;
   margin-top: 5%;
-  background: #EFEFEF;
+  background: #efefef;
   width: 380px;
   font-size: 27px;
   border-radius: 40px;
@@ -55,9 +59,7 @@
   list-style-type: none;
   margin-left: 5%;
   width: 330px;
-  background: #EFEFEF;
-
-
+  background: #efefef;
 
   @media only screen and (max-width: 1440px) {
     width: 300px;

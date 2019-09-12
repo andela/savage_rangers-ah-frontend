@@ -11,7 +11,6 @@ import articleActions from '../../../../Redux/Actions/getArticles';
 import Loader from '../../Common/loader';
 import articleCategoryActions from '../../../../Redux/Actions/getArticlesByCategory';
 
-
 const { getArticlesByCategory } = articleCategoryActions;
 
 const { getArticles } = articleActions;
@@ -32,7 +31,6 @@ export class Articles extends Component {
       category
     };
   }
-
 
   componentDidMount() {
     const page = this.state.currentPage - 1;
@@ -78,12 +76,12 @@ export class Articles extends Component {
       this.props.history.push(`?filter=${filter}&&input=${input}?page=${numPage}`);
       searchData(input, filter, paginate);
     }
-  }
+  };
 
   handleChange = (update) => {
     const newState = update.target.value;
     this.setState({ [update.target.name]: newState });
-  }
+  };
 
   handleSearch = () => {
     this.setState({ isLoading: true });
@@ -93,19 +91,14 @@ export class Articles extends Component {
     const paginate = page > 0 ? `${page}0` : page;
     this.props.history.push(`?filter=${filter}&&input=${input}`);
     searchData(input, filter, paginate);
-  }
+  };
 
   render() {
     const { Search, articles, searchFailed } = this.props;
     const data = Search === undefined ? articles : Search;
     let articlesToDisplay;
     if (data) {
-      articlesToDisplay = data.map(article => (
-        <Article
-          key={article.id}
-          data={article}
-        />
-      ));
+      articlesToDisplay = data.map(article => <Article key={article.id} data={article} />);
     }
 
     const { isLoading } = this.state;
@@ -140,9 +133,14 @@ export class Articles extends Component {
                   />
                   <div className="dropdown">
                     <form>
-                      <select name="filter" className="custom-select" onChange={({ target }) => this.setState({ filter: target.value })} value={this.state.filter}>
+                      <select
+                        name="filter"
+                        className="custom-select"
+                        onChange={({ target }) => this.setState({ filter: target.value })}
+                        value={this.state.filter}
+                      >
                         <option selected>Search by</option>
-                        <option value="tags">Tag</option>
+                        <option value="tag">Tag</option>
                         <option value="title">Title</option>
                         <option value="username">Author</option>
                         <option value="body">Content</option>
@@ -153,14 +151,10 @@ export class Articles extends Component {
                   <div className="main__search--btn-search input-group-append">
                     <button type="submit" onClick={this.handleSearch}>
                       <span className="searchIcon input-group-text red lighten-3" id="basic-text1">
-                        <i
-                          className="fas fa-search text-grey"
-                          aria-hidden="true"
-                        />
+                        <i className="fas fa-search text-grey" aria-hidden="true" />
                       </span>
                     </button>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -169,34 +163,27 @@ export class Articles extends Component {
               <div className="errorPage-articles">
                 <div className="errorPage-articles__error-articles">
                   <h1>404</h1>
-                  <p>
-                    Article not found
-                  </p>
-                  <a href="/articles" className="back"><h6>Back to Articles</h6></a>
+                  <p>Article not found</p>
+                  <a href="/articles" className="back">
+                    <h6>Back to Articles</h6>
+                  </a>
                 </div>
               </div>
-            )
-              : (
+            ) : (
+              <div>
+                <div className="main__display-articles container">{articlesToDisplay}</div>
                 <div>
-
-                  <div className="main__display-articles container">
-                    {
-                      articlesToDisplay
-                    }
-                  </div>
-                  <div>
-                    <Pagination
-                      currentPage={activePage}
-                      totalPages={numberOfPage}
-                      changeCurrentPage={this.changeToNextPage}
-                    />
-                  </div>
+                  <Pagination
+                    currentPage={activePage}
+                    totalPages={numberOfPage}
+                    changeCurrentPage={this.changeToNextPage}
+                  />
                 </div>
-              )}
+              </div>
+            )}
             <Footer />
           </div>
         </div>
-
       );
     }
     return <Loader />;
@@ -211,10 +198,10 @@ Articles.propTypes = {
   searchFailed: propTypes.object
 };
 
-
 export const mapStateToProps = state => ({
   articles: state.articles.articles,
   Search: state.searchArticle.articles,
   searchFailed: state.searchArticle.searchFailed
 });
-export default connect(mapStateToProps, { getArticles, searchArticles, getArticlesByCategory })(Articles);
+export default connect(mapStateToProps,
+  { getArticles, searchArticles, getArticlesByCategory })(Articles);

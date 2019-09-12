@@ -107,6 +107,29 @@ export class UpdateArticle extends Component {
     notFound
   }) {
     if (articleToUpdate && articleTags) {
+      const allowed = [
+        'id',
+        'title',
+        'description',
+        'body',
+        'slug',
+        'readTime',
+        'coverImage',
+        'author',
+        'category',
+        'status',
+        'createdAt',
+        'updatedAt',
+        'deletedAt',
+        'Category',
+        'User'
+      ];
+      const filteredArticle = Object.keys(articleToUpdate)
+        .filter(key => allowed.includes(key))
+        .reduce((obj, key) => {
+          obj[key] = articleToUpdate[key];
+          return obj;
+        }, {});
       const cleanTagName = [];
       articleTags.data.map(tagName => cleanTagName.push(tagName.name));
       if (localStorage.getItem('token')) {
@@ -121,7 +144,7 @@ export class UpdateArticle extends Component {
       this.setState({
         categories: listOfCategories,
         tags: listOfTags,
-        articleToUpdate,
+        articleToUpdate: filteredArticle,
         stateTags: cleanTagName,
         title: articleToUpdate.title,
         description: articleToUpdate.description,
@@ -334,7 +357,6 @@ export class UpdateArticle extends Component {
               </button>
             </div>
           </div>
-          <ToastContainer />
           <Footer />
         </div>
       );

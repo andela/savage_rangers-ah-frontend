@@ -91,7 +91,10 @@ export class Profile extends Component {
       getProfileData();
     } if (remove) {
       toast.success('🦄 Successfully removed!');
-      getBookMarksData(username);
+      const { bookmarks } = this.props;
+      const bookmarksLength = bookmarks.bookmarks.length;
+      const offset = bookmarksLength > 1 ? (bookmarks.paginationDetail.currentPage - 1) * 10 : 0;
+      getBookMarksData(username, offset);
     } if (unfollowed) {
       toast.success('🦄 Unfollowed successfully !');
       this.getNewData(username);
@@ -158,8 +161,8 @@ export class Profile extends Component {
   changePage = (num) => {
     const { username } = this.state;
     const { bookmarks: { paginationDetail: { currentPage } }, getBookMarks: getBookMarksData } = this.props;
-    (currentPage !== num) && getBookMarksData(username, (num-1)*10);
-  } 
+    (currentPage !== num) && getBookMarksData(username, (num - 1) * 10);
+  }
 
   render() {
     const {
@@ -311,8 +314,8 @@ export class Profile extends Component {
                 </div>
 
                 <div id="menu1" className="container tab-pane fade">
-                {!isEmpty(bookmarks) ?
-                    <Bookmark data={bookmarks} remove={this.removeBookmark} owner={owner} changePage={this.changePage}/>
+                  {!isEmpty(bookmarks)
+                    ? <Bookmark data={bookmarks} remove={this.removeBookmark} owner={owner} changePage={this.changePage} />
                     : <p>No bookmark</p>
                 }
                 </div>

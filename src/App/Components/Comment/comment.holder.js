@@ -96,11 +96,17 @@ const CommentHolder = ({
 
   return (
     <div className="comment-holder mt-5">
-      <ToastContainer autoClose={false} closeButton={false} />
       <div className="comment-holder__title ml-4">
         <h3 style={{ fontSize: '25px' }}>COMMENTS</h3>
         <div className="parent-reply-input">
-          <a href={`/profile/${extractedData.username}`}><ReactFallbackImage className="rounded-circle comment-body__writer-image" src={extractedData.profileImage} fallbackImage={configs.defaultUserProfileImage} alt="Generic placeholder" /></a>
+          <a href={`/profile/${extractedData.username}`}>
+            <ReactFallbackImage
+              className="rounded-circle comment-body__writer-image"
+              src={extractedData.profileImage}
+              fallbackImage={configs.defaultUserProfileImage}
+              alt="Generic placeholder"
+            />
+          </a>
           <textarea
             type="textarea"
             name="Reply-content"
@@ -109,17 +115,22 @@ const CommentHolder = ({
             value={commentText}
             onChange={({ target }) => setComment(target.value)}
           />
-          <button className="parent-reply-input__reply-button" type="submit" onClick={submitComment}>Comment</button>
+          <button
+            className="parent-reply-input__reply-button"
+            type="submit"
+            onClick={submitComment}
+          >
+            Comment
+          </button>
         </div>
         <InfiniteScroll
           dataLength={limit}
           next={fetchMoreData}
           hasMore
-          style={{ height: '70rem', overflow: 'scroll' }}
+          style={{ 'max-height': '70rem', overflow: 'scroll' }}
         >
-          {
-
-            data ? data.map(item => (
+          {data
+            ? data.map(item => (
               <CommentBody
                 key={item.id}
                 slug={slug}
@@ -138,10 +149,9 @@ const CommentHolder = ({
                 removeComment={eraseComment}
                 reportComment={submitReport}
               />
-            )) : null
-          }
+            ))
+            : null}
         </InfiniteScroll>
-
       </div>
     </div>
   );

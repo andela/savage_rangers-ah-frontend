@@ -14,7 +14,10 @@
   .author-card__left {
     .user-image {
       border-radius: 50% !important;
-      margin-right: 10px;
+      margin-right: 100px;
+      object-fit: cover;
+      width: 167px;
+      height: 167px;
     }
   }
 
@@ -32,15 +35,17 @@
     .stats {
       span {
         background: #fff;
-        padding: 10px;
         border-radius: 20px;
         margin-right: 15px;
+        padding: 5px 10px;
+        margin-bottom: 10px;
       }
     }
     .action-buttons {
       button {
         border-radius: 20px;
-        padding: 10px 30px;
+        padding: 5px 30px;
+        text-transform: capitalize;
         color: #fff;
         cursor: pointer;
         margin-right: 20px;

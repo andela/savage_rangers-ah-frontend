@@ -1,5 +1,4 @@
 import React from 'react';
-import isEmpty from 'lodash/isEmpty';
 import ReactImageFallback from 'react-image-fallback';
 import propTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -11,7 +10,7 @@ export default function BookMark(props) {
   const {
     data, remove, owner, changePage
   } = props;
-  const { paginationDetail: { count, currentPage, pages } } = data;
+  const { paginationDetail: { currentPage, pages } } = data;
   return (
     <div>
       {data.bookmarks.map(bookmark => (
@@ -32,10 +31,12 @@ export default function BookMark(props) {
             className="col-2"
           />
           <p className="col-3 mt-3 bookmark_container-username">
-            {`${bookmark.Article.User.firstName}   ${bookmark.Article.User.lastName}`}
+            {bookmark.Article.User.firstName
+              ? `${bookmark.Article.User.firstName}   ${bookmark.Article.User.lastName}`
+              : ''}
           </p>
           <Link
-            to={`articles/${bookmark.articleSlug}`}
+            to={`/articles/${bookmark.articleSlug}`}
             className="bookmark_container_read_more m-2 p-1"
           >
             Read more
@@ -51,11 +52,6 @@ export default function BookMark(props) {
           )}
         </div>
       ))}
-      {/* <Paginate
-        currentPage={activePage}
-        totalPages={numberOfPage}
-        changeCurrentPage={this.changePage}
-      /> */}
       <Paginate currentPage={currentPage} totalPages={pages} changeCurrentPage={changePage} />
     </div>
   );
@@ -64,5 +60,6 @@ export default function BookMark(props) {
 BookMark.propTypes = {
   data: propTypes.object,
   remove: propTypes.func.isRequired,
-  owner: propTypes.bool
+  owner: propTypes.bool,
+  changePage: propTypes.func
 };
