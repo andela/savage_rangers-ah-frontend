@@ -13,10 +13,10 @@ import bookmark from './Bookmark';
 import getArticle from './getArticleReducer';
 import commentsReducer from './comments';
 import Signout from './signoutReducer';
-
 import profile from './Profile';
 import authorReducer from './authors';
 import searchArticle from './searchArticle';
+import report from './reportArticle';
 
 export default combineReducers({
   authReducer,
@@ -37,5 +37,6 @@ export default combineReducers({
   articles: articleReducer,
   stats: articleReducer,
   ratings: articleReducer,
-  searchArticle
+  searchArticle,
+  report
 });
