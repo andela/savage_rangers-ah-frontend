@@ -17,7 +17,7 @@ const BottomPopular = (props) => {
 
       {
         articles.map(item => (
-          <Link to={`/articles/${item.slug}`} onClick={scrollUp()} key={item.title} style={{ color: '#000', textDecoration: 'none' }}>
+          <Link to={`/articles/${item.slug}`} onClick={() => scrollUp()} key={item.title} style={{ color: '#000', textDecoration: 'none' }}>
             <div className="popular">
               <div className="popular-container">
                 <div className="popular-div-holder" style={{ marginLeft: '15px' }}>

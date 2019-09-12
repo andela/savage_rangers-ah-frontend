@@ -31,7 +31,8 @@ export class ReadArticle extends Component {
       tags: [],
       isLoading: true,
       articles: [{ title: '', User: {}, Category: {} }],
-      isAuthor: false
+      isAuthor: false,
+      token: localStorage.getItem('token')
     };
   }
 
@@ -46,7 +47,10 @@ export class ReadArticle extends Component {
     readArticles(slug);
     getTag(slug);
     readPopular();
-    this.fetchBookmark();
+    const { token } = this.state;
+    if (token) {
+      this.fetchBookmark();
+    }
     readCommentArticle();
   }
 
@@ -65,9 +69,10 @@ export class ReadArticle extends Component {
         profileImage: nextProps.article.User.profileImage,
         username: nextProps.article.User.username
       });
-      if (localStorage.getItem('token')) {
+      const { token } = this.state;
+      if (token) {
         const { username } = this.state;
-        const { user: author } = jwt(localStorage.getItem('token'));
+        const { user: author } = jwt(token);
         if (author.username === username) {
           this.setState({ isAuthor: true });
         }
@@ -156,6 +161,8 @@ export class ReadArticle extends Component {
                     profileImage={profileImage}
                     username={username}
                     authorCredential={authorCredential}
+                    slug={slug}
+                    bookmarks={bookmarks}
                   />
                   <div className="small-share">
                     <ArticleSocialSharing slug={slug} title={title} />

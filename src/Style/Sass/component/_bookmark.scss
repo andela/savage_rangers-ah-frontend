@@ -1,20 +1,54 @@
 .boomark_article {
   position: fixed;
-  margin-left: -120px;
-  top: 82%;
-  left: 5%;
+  top: 74%;
+  left: 4%;
   button {
-    background: none;
-    border: none;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #efefef;
     outline: none;
+    text-align: center;
+    display: block;
+    margin-top: 42%;
+    svg {
+      margin-top: -10px;
+    }
+    border: none;
     cursor: pointer;
   }
 }
+.bookmark_small_screen {
+  display: none;
+}
 
-@media (max-width: 1024px) {
-  .boomark_article {
-    position: relative;
+@media (max-width: 768px) {
+  .bookmark_small_screen {
+    display: block;
     float: right;
-    margin-top: -82px;
+    margin-right: 270px;
+    margin-top: -70px;
+    .boomark_article {
+      position: relative;
+    }
+  }
+}
+
+@media (max-width: 425px) {
+  .bookmark_small_screen {
+    margin-right: 90px;
+    margin-top: -63px;
+  }
+}
+
+@media (max-width: 375px) {
+  .bookmark_small_screen {
+    margin-right: 40px;
+  }
+}
+
+@media (max-width: 320px) {
+  .bookmark_small_screen {
+    margin-right: -10px;
   }
 }

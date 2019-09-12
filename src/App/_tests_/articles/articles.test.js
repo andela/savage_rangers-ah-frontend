@@ -58,10 +58,12 @@ describe('Articles', () => {
     expect(wrapper.instance().state.filter).toEqual('title');
   });
 
-
   it('Handle the search', () => {
     wrapper.setState({ isLoading: false });
     wrapper.instance().handleSearch();
     expect(wrapper.instance().state.filter).toEqual('title');
+  });
+  it('should pass new props', () => {
+    wrapper.setProps({ location: { search: '?filter=2' } });
   });
 });
