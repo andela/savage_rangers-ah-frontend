@@ -19,6 +19,9 @@ import ArticleSocialSharing from '../ArticleSocialSharing/ArticleSocialSharing';
 import Bookmark from '../Common/Bookmark/Bookmark';
 import Report from '../ReportArticle/ReportArticle';
 import Ratings from './Ratings';
+import HighlightArticle from './HighlightArticle';
+import getHighlight from '../../../Redux/Actions/getHighlight';
+import postHighlight from '../../../Redux/Actions/postHighlight';
 
 const { getBookMarks } = bookmarkActions;
 
@@ -42,7 +45,8 @@ export class ReadArticle extends Component {
       readArticle: readArticles,
       getTags: getTag,
       readPopularArticle: readPopular,
-      getAllComments: readCommentArticle
+      getAllComments: readCommentArticle,
+      getHighlight: fetchHighlight
     } = this.props;
     const { match: { params: { slug } } } = this.props;
     readArticles(slug);
@@ -50,6 +54,7 @@ export class ReadArticle extends Component {
     readPopular();
     this.fetchBookmark();
     readCommentArticle();
+    fetchHighlight(slug);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -101,6 +106,54 @@ export class ReadArticle extends Component {
     }
   }
 
+  componentDidUpdate = () => {
+    const interval = setInterval(() => {
+      const highlights = document.querySelectorAll('.highligthComment');
+      if (highlights && highlights.length) {
+        clearInterval(interval);
+      }
+      this.showHighlights();
+    }, 1000);
+  };
+
+  showHighlights = () => {
+    const { highlights } = this.props;
+    const elements = document.querySelectorAll('.article__data *');
+    let articleLength = document.querySelector('.article__data')
+      && document.querySelector('.article__data').innerText
+      && document.querySelector('.article__data').innerText.length;
+    (elements || []).forEach((element) => {
+      articleLength -= 1;
+      const elementClass = element.getAttribute('class');
+      if (elementClass && elementClass.includes('highligthComment')) {
+        return element;
+      }
+      return element.setAttribute('id', `node-${articleLength}`);
+    });
+
+    (highlights || []).forEach(({
+      startIndex, lastIndex, text, comment, nodeId
+    }) => {
+      if (document.querySelector(`#${nodeId}`) && document.querySelector(`#${nodeId}`).innerHTML) {
+        const highlightedText = `<span
+          class="highligthComment"
+          style="background: green; cursor: pointer;"
+          data-toggle="modal"
+          data-target="#highlightDetailsModal"
+          onclick="document.querySelector('#highlightDetailsModalBody').innerHTML = '${comment}'">
+          ${text}
+        </span>`;
+
+        const updatedHtml = document
+          .querySelector(`#${nodeId}`)
+          .innerHTML.replace(text, highlightedText);
+
+        document.querySelector(`#${nodeId}`).innerHTML = updatedHtml;
+      }
+    });
+    return highlights;
+  };
+
   fetchBookmark = () => {
     if (localStorage.getItem('token')) {
       const { user: { username } } = jwt(localStorage.getItem('token'));
@@ -113,8 +166,8 @@ export class ReadArticle extends Component {
     const {
       category,
       title,
-      body,
       readTime,
+      body,
       tags,
       createdAt,
       coverImage,
@@ -127,6 +180,7 @@ export class ReadArticle extends Component {
       username,
       isAuthor
     } = this.state;
+    const { postHighlight: highlightText } = this.props;
 
     const authorCredential = { isAuthor, slug };
 
@@ -139,13 +193,14 @@ export class ReadArticle extends Component {
           <ArticleNotFound content="ARTICLE NOT FOUND" />
         ) : (
           <div>
+            <HighlightArticle slug={slug} postHighlight={highlightText} />
             <Navbar />
             <BreadCrumb category={category} />
             <div className="container article">
               <div className="row">
                 <div className="col-lg-1 col-sm-12 large-share">
                   <ArticleSocialSharing slug={slug} title={title} />
-                  {username && <Bookmark username={username} slug={slug} bookmarks={bookmarks} />}
+                  {/* {username && <Bookmark username={username} slug={slug} bookmarks={bookmarks} />} */}
                 </div>
                 <div className="col-lg-11 col-sm-12">
                   <ArticleBody
@@ -193,14 +248,18 @@ ReadArticle.propTypes = {
   tags: propTypes.object,
   getBookMarks: propTypes.func.isRequired,
   bookmarked: propTypes.bool.isRequired,
-  bookmarks: propTypes.array
+  bookmarks: propTypes.array,
+  highlights: propTypes.array,
+  getHighlight: propTypes.func,
+  postHighlight: propTypes.func
 };
 export const mapStateToProps = state => ({
   article: state.readArticle.article,
   tags: state.readArticle.tags,
   popularArticle: state.populars.Articles,
   bookmarks: state.bookmark.bookmarks,
-  bookmarked: state.bookmark.bookmarked
+  bookmarked: state.bookmark.bookmarked,
+  highlights: state.highlight.highlights
 });
 export default connect(mapStateToProps,
   {
@@ -208,5 +267,7 @@ export default connect(mapStateToProps,
     getTags,
     readPopularArticle,
     getBookMarks,
-    getAllComments
+    getAllComments,
+    getHighlight,
+    postHighlight
   })(ReadArticle);

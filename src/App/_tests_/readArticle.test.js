@@ -72,13 +72,19 @@ const tagPayload = {
 
 const errorPayload = { error: { Article: 'Article not found' } };
 
-mapStateToProps({ readArticle: {}, populars: {}, bookmark: { bookmarks: {}, bookmarked: false } });
+mapStateToProps({
+  readArticle: {},
+  populars: {},
+  bookmark: { bookmarks: {}, bookmarked: false },
+  highlight: { highlights: {} }
+});
 const match = { params: { slug: 'slug' } };
 
 const props = {
   readArticle: jest.fn(),
   getTags: jest.fn(),
   getAllComments: jest.fn(),
+  getHighlight: jest.fn(),
   match,
   tags: { data: [{ id: 1, name: 'TECH' }] },
   article: { Category: { name: 'Tech' }, User: { firstName: 'Frank' } },
