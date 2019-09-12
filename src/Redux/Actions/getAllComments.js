@@ -9,10 +9,11 @@ const {
   POST_COMMENT_REPLY,
   UPDATE_COMMENT,
   LIKE_DISLIKE_COMMENT_REACTION,
-  LIKE_DISLIKE_COUNT
+  LIKE_DISLIKE_COUNT,
+  EDIT_COMMENT,
+  DELETE_COMMENT,
+  REPORT_COMMENT
 } = types;
-
-// const token = localStorage.getItem('token');
 
 export default {
   getAllComments: (slug, limit) => (dispatch) => {
@@ -88,6 +89,22 @@ export default {
     }
     return null;
   },
+  editComment: (slug, id, body, token) => async (dispatch) => {
+    try {
+      const response = await axios.patch(`/api/articles/${slug}/comments/${id}`, { body }, { headers: { Authorization: token } });
+      dispatch({
+        type: EDIT_COMMENT,
+        payload: response
+      });
+      return response;
+    } catch (err) {
+      dispatch({
+        type: CATCH_COMMENT_ERROR,
+        payload: err.errors
+      });
+    }
+    return null;
+  },
   likeAndDislikeCount: (reaction, commentId, token) => async (dispatch) => {
     try {
       const res = await axios.get(`/api/comment/${reaction}/${commentId}`, { headers: { Authorization: token } });
@@ -99,6 +116,42 @@ export default {
       dispatch({
         type: CATCH_COMMENT_ERROR,
         payload: err
+      });
+    }
+    return null;
+  },
+
+  deleteComment: (slug, id, token) => async (dispatch) => {
+    try {
+      const response = await axios.delete(`/api/articles/${slug}/comments/${id}`, { headers: { Authorization: token } });
+      dispatch({
+        type: DELETE_COMMENT,
+        payload: response.message
+      });
+      return response;
+    } catch (err) {
+      dispatch({
+        type: CATCH_COMMENT_ERROR,
+        payload: err.errors
+      });
+    }
+    return null;
+  },
+
+  reportComment: (slug, id, commentReason, token) => async (dispatch) => {
+    const data = { commentReason };
+    try {
+      const response = await axios.post(`/api/articles/${slug}/comments/${id}/report`, data, { headers: { Authorization: token } });
+      dispatch({
+        type: REPORT_COMMENT,
+        payload: response.message
+      });
+      return response;
+    } catch (err) {
+      const errorObject = err.response.data.errors.Message;
+      dispatch({
+        type: CATCH_COMMENT_ERROR,
+        payload: errorObject
       });
     }
     return null;
