@@ -10,19 +10,24 @@ import CommentHolder from '../Components/Comment/comment.holder';
 import actions from '../../Redux/Actions/getAllComments';
 import commentReducer from '../../Redux/Reducers/comments';
 
-
 const {
-  getAllComments, postComment, updateComment, postCommentReply
+  getAllComments,
+  postComment,
+  updateComment,
+  postCommentReply,
+  likeAndDislikeCommentReaction,
+  likeAndDislikeCount
 } = actions;
 
 const props = {
   getComments: getAllComments,
   createComment: postComment,
   newComment: updateComment
+
 };
 
 const initialState = {
-  All_Comments: [], Error: {}, NEW_COMMENT: {}, REPLY: {}
+  All_Comments: [], Error: {}, NEW_COMMENT: {}, REPLY: {}, Reaction: {}
 };
 
 const payload = [
@@ -55,7 +60,8 @@ const payload = [
         createdAt: '2019-09-05T08:50:55.295Z',
         updatedAt: '2019-09-05T08:50:55.295Z'
       }
-    ]
+    ],
+    Reactions: []
   }
 ];
 
@@ -76,10 +82,20 @@ const postCommentPayload = {
 
 };
 
+const reaction = {
+  status: 201,
+  message: 'You have successfully  liked this comment'
+};
+
+const reactionCount = {
+  status: 200,
+  likeCount: 1
+};
+
 const middlewares = [thunk, promiseMiddleware];
 const mockStore = configureStore(middlewares);
 const store = mockStore({
-  commentsReducer: { All_Comments: [] },
+  commentsReducer: { All_Comments: payload },
   notifications: { profile: {} }
 });
 
@@ -96,9 +112,15 @@ describe('My Connected React-Redux Component', () => {
 
   it('should submit the comment after click the button', () => {
     renderer.act(() => {
-      component.root.findByType('button').props.onClick({ preventDefault: jest.fn() });
+      component.root.findAllByType('button')[0].props.onClick({ submitComment: jest.fn(), preventDefault: jest.fn() });
     });
+    expect(jest.fn()).toHaveBeenCalledTimes(0);
+  });
 
+  it('should submit the comment after click the button', () => {
+    renderer.act(() => {
+      component.root.findAllByType('button')[2].props.onClick({ submitReaction: jest.fn() });
+    });
     expect(jest.fn()).toHaveBeenCalledTimes(0);
   });
 
@@ -141,8 +163,22 @@ describe('testing reducers', () => {
 
   it('should update the comments state', () => {
     expect(commentReducer(initialState, {
-      type: 'CATCH_ERROR',
+      type: 'CATCH_COMMENT_ERROR',
       postCommentPayload
+    }));
+  });
+
+  it('should post new likes or dislikes', () => {
+    expect(commentReducer(initialState, {
+      type: 'LIKE_DISLIKE_COMMENT_REACTION',
+      reaction
+    }));
+  });
+
+  it('should count the likes or dislikes', () => {
+    expect(commentReducer(initialState, {
+      type: 'LIKE_DISLIKE_COUNT',
+      reaction
     }));
   });
 });
@@ -171,14 +207,32 @@ describe('testing the comments actions result', () => {
     mockAxios.post = jest.fn(() => Promise.reject({ error: { errors: { body: 'Server unable to process the recieved data' } } }));
 
     store.dispatch(postCommentReply('How-to-create-sequelize-seeds'));
+
+    // like and dislike a comment
+    mockAxios.post = jest.fn(() => Promise.resolve({ response: { reaction } }));
+    store.dispatch(likeAndDislikeCommentReaction({ body: '' }));
+
+    mockAxios.post = jest.fn(() => Promise.reject({ response: { data: '' } }));
+    store.dispatch(likeAndDislikeCommentReaction({ body: '' }));
+
+    // count likes or dislikes
+    mockAxios.get = jest.fn(() => Promise.resolve({ res: { reactionCount } }));
+    store.dispatch(likeAndDislikeCount('likes', 6));
+
+    mockAxios.get = jest.fn(() => Promise.reject({ err: {} }));
+    store.dispatch(likeAndDislikeCount('dislikes', 2));
+
+    // update the comment
+    store.dispatch(updateComment(postCommentPayload.data));
   });
+
   it('get all the comments', () => {
     expect(store.getActions()[5].type).toEqual('GET_ALL_ARTICLE_COMMENTS');
     expect(store.getActions()[5].payload[0]).toEqual(payload[0]);
   });
 
   it('get all the comments and throws an error', () => {
-    expect(store.getActions()[7].type).toEqual('CATCH_ERROR');
+    expect(store.getActions()[7].type).toEqual('CATCH_COMMENT_ERROR');
   });
 
   it('create a new comment', () => {
@@ -187,7 +241,7 @@ describe('testing the comments actions result', () => {
   });
 
   it('create a new comment and throws an error', () => {
-    expect(store.getActions()[7].type).toEqual('CATCH_ERROR');
+    expect(store.getActions()[9].type).toEqual('CATCH_COMMENT_ERROR');
   });
 
   it('create a comment reply', () => {
@@ -196,6 +250,21 @@ describe('testing the comments actions result', () => {
   });
 
   it('create a comment reply and throws an error', () => {
-    expect(store.getActions()[40].type).toEqual('CATCH_ERROR');
+    expect(store.getActions()[11].type).toEqual('CATCH_COMMENT_ERROR');
+  });
+
+  it(' should like and dislike a comment', () => {
+    expect(store.getActions()[10].type).toEqual('LIKE_DISLIKE_COMMENT_REACTION');
+    expect(store.getActions()[10].payload.response.reaction).toEqual(reaction);
+  });
+
+  it('should like and dislike counts', () => {
+    expect(store.getActions()[12].type).toEqual('LIKE_DISLIKE_COUNT');
+    expect(store.getActions()[12].payload.res.reactionCount).toEqual(reactionCount);
+  });
+
+  it('should update the comment', () => {
+    expect(store.getActions()[4].type).toEqual('UPDATE_COMMENT');
+    expect(store.getActions()[4].payload).toEqual(postCommentPayload.data);
   });
 });

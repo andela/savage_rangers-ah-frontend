@@ -4,13 +4,15 @@ import axios from '../../configs/axios';
 
 const {
   GET_ALL_ARTICLE_COMMENTS,
-  CATCH_ERROR,
+  CATCH_COMMENT_ERROR,
   POST_COMMENT,
   POST_COMMENT_REPLY,
-  UPDATE_COMMENT
+  UPDATE_COMMENT,
+  LIKE_DISLIKE_COMMENT_REACTION,
+  LIKE_DISLIKE_COUNT
 } = types;
 
-const token = localStorage.getItem('token');
+// const token = localStorage.getItem('token');
 
 export default {
   getAllComments: (slug, limit) => (dispatch) => {
@@ -22,13 +24,13 @@ export default {
         });
       }).catch((err) => {
         dispatch({
-          type: CATCH_ERROR,
+          type: CATCH_COMMENT_ERROR,
           payload: err.errors
         });
       });
   },
 
-  postComment: (slug, body) => async (dispatch) => {
+  postComment: (slug, body, token) => async (dispatch) => {
     try {
       const { data: response } = await axios.post(`/api/articles/${slug}/comments`, { body }, { headers: { Authorization: token } });
       dispatch({
@@ -38,7 +40,7 @@ export default {
       return response.data;
     } catch (error) {
       dispatch({
-        type: CATCH_ERROR,
+        type: CATCH_COMMENT_ERROR,
         payload: error.errors
       });
     }
@@ -52,7 +54,7 @@ export default {
     });
   },
 
-  postCommentReply: (slug, body, parentCommentId) => async (dispatch) => {
+  postCommentReply: (slug, body, parentCommentId, token) => async (dispatch) => {
     try {
       const { data: response } = await axios.post(`/api/articles/${slug}/comments`, { body, parentCommentId }, { headers: { Authorization: token } });
       dispatch({
@@ -62,8 +64,41 @@ export default {
       return response.data;
     } catch (error) {
       dispatch({
-        type: CATCH_ERROR,
+        type: CATCH_COMMENT_ERROR,
         payload: error.errors
+      });
+    }
+    return null;
+  },
+
+  likeAndDislikeCommentReaction: (reaction, commentId, token) => async (dispatch) => {
+    const data = {};
+    try {
+      const response = await axios.post(`/api/comment/${reaction}/${commentId}`, data, { headers: { Authorization: token } });
+      dispatch({
+        type: LIKE_DISLIKE_COMMENT_REACTION,
+        payload: response
+      });
+    } catch (err) {
+      const errorObject = err.response.data.message;
+      dispatch({
+        type: CATCH_COMMENT_ERROR,
+        payload: errorObject
+      });
+    }
+    return null;
+  },
+  likeAndDislikeCount: (reaction, commentId, token) => async (dispatch) => {
+    try {
+      const res = await axios.get(`/api/comment/${reaction}/${commentId}`, { headers: { Authorization: token } });
+      dispatch({
+        type: LIKE_DISLIKE_COUNT,
+        payload: res
+      });
+    } catch (err) {
+      dispatch({
+        type: CATCH_COMMENT_ERROR,
+        payload: err
       });
     }
     return null;

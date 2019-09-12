@@ -1,13 +1,20 @@
+/* eslint-disable no-restricted-globals */
 import React, { useEffect, useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
 import { connect, useSelector } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import ReactFallbackImage from 'react-image-fallback';
 import CommentBody from './parent.comment.body';
+import LoginFirst from '../Common/LoginFirstToast';
 import actions from '../../../Redux/Actions/getAllComments';
 import configs from '../../../configs/urls';
 
 const {
-  getAllComments, postComment, updateComment, postCommentReply
+  getAllComments,
+  postComment,
+  updateComment,
+  postCommentReply,
+  likeAndDislikeCommentReaction
 } = actions;
 
 const CommentHolder = ({
@@ -15,27 +22,46 @@ const CommentHolder = ({
   postComment: createComment,
   updateComment: newComment,
   postCommentReply: replyComment,
-  slug
+  slug,
+  likeAndDislikeCommentReaction: commentReaction,
+  history
 }) => {
   const data = useSelector(state => state.commentsReducer.All_Comments);
   const userData = useSelector(state => state.notifications.profile);
   const extractedData = userData.profile || '';
   const [commentText, setComment] = useState('');
   const [limit, setLimit] = useState(5);
+  const checkAuth = localStorage.getItem('token');
 
+  const goToLogin = () => {
+    history.replace(`/login?redirect=${document.location.pathname}`);
+  };
+
+  const submitReaction = async (reaction, commentId) => {
+    if (checkAuth) {
+      await commentReaction(reaction, commentId, checkAuth);
+      getComments(slug, limit);
+    } else {
+      toast.success(<LoginFirst redirectToLogin={goToLogin} />);
+    }
+  };
 
   const submitReplies = async (slugText, replyText, id) => {
-    await replyComment(slugText, replyText, id);
+    await replyComment(slugText, replyText, id, checkAuth);
     getComments(slugText, limit);
   };
 
   const submitComment = async (e) => {
-    e.preventDefault();
-    const datacamp = await createComment(slug, commentText);
-    newComment(datacamp);
-    setComment('');
+    if (checkAuth) {
+      e.preventDefault();
+      const datacamp = await createComment(slug, commentText, checkAuth);
+      newComment(datacamp);
+      setComment('');
+      await getComments(slug, limit);
+    } else {
+      toast.success(<LoginFirst redirectToLogin={goToLogin} />);
+    }
   };
-
 
   const fetchMoreData = () => {
     setLimit(limit + 10);
@@ -48,6 +74,7 @@ const CommentHolder = ({
 
   return (
     <div className="comment-holder mt-5">
+      <ToastContainer autoClose={false} closeButton={false} />
       <div className="comment-holder__title ml-4">
         <h3 style={{ fontSize: '25px' }}>COMMENTS</h3>
         <div className="parent-reply-input">
@@ -66,7 +93,7 @@ const CommentHolder = ({
           dataLength={limit}
           next={fetchMoreData}
           hasMore
-          style={{ overflow: 'hidden' }}
+          style={{ height: '70rem', overflow: 'scroll' }}
         >
           {
 
@@ -77,10 +104,12 @@ const CommentHolder = ({
                 id={item.id}
                 body={item.body}
                 createdAt={item.createdAt}
-                username={extractedData.username}
-                profileImage={extractedData.profileImage}
+                username={item.User ? item.User.username : null}
+                profileImage={item.User ? item.User.profileImage : null}
                 replies={item.Replies}
+                reactionCount={item.Reactions}
                 replyCommentBody={submitReplies}
+                commentReaction={submitReaction}
               />
             )) : null
           }
@@ -92,5 +121,9 @@ const CommentHolder = ({
 };
 
 export default connect(null, {
-  getAllComments, postComment, updateComment, postCommentReply
+  getAllComments,
+  postComment,
+  updateComment,
+  postCommentReply,
+  likeAndDislikeCommentReaction
 })(CommentHolder);

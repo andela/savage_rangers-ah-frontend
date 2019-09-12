@@ -57,7 +57,6 @@
         background: none;
         border: none;
         outline: none !important;
-        position: absolute;
         margin-top: 15px;
         text-decoration: none;
         color: #2F3640;
@@ -96,7 +95,6 @@
         color: white;
         font-family: 'inherit';
         cursor: pointer;
-        position: absolute;
         margin-top: 7px;
     }
 
@@ -163,14 +161,15 @@
         width: 50px;
         border: 1px solid black;
         border-radius: 20px;
-        padding: 1px 5px 5px 8px;
+        padding: 0px 0px 0px 0px;
         cursor: pointer;
+        outline: none !important;
 
         #dislike {
             color: rgb(246, 11, 11);
         }
 
-        #number {
+        .count_number {
             font-size: 13px;
             font-family: 'inherit'
         }
@@ -181,13 +180,13 @@
 
         #delete {
             color: rgb(246, 11, 11);
-            padding-left: 9px;
+            padding-left: -2px;
             padding-top: 1px;
         }
 
         #edit {
             color: rgb(118, 118, 119);
-            padding-left: 9px;
+            padding-left: 2px;
             padding-top: 1px;
         }
 
@@ -265,6 +264,10 @@
 
     .comment-icons {
         margin-left: -53px;
+
+        &__dislike-comment {
+            background-color: $primary-white;
+        }
     }
 }
 
@@ -335,6 +338,10 @@
 
     .comment-icons {
         margin-left: -2px;
+
+        &__dislike-comment {
+            background-color: $primary-white;
+        }
     }
 }
 
@@ -405,6 +412,10 @@
 
     .comment-icons {
         margin-left: -1px;
+
+        &__dislike-comment {
+            background-color: $primary-white;
+        }
     }
 }
 
@@ -424,6 +435,12 @@
             width: 28rem;
         }
     }
+
+    .comment-icons {
+        &__dislike-comment {
+            background-color: $primary-white;
+        }
+    }
 }
 
 /* Desktop Styles */
@@ -432,6 +449,12 @@
         &__title {
             width: 49rem;
             margin-bottom: 45px;
+        }
+    }
+
+    .comment-icons {
+        &__dislike-comment {
+            background-color: $primary-white;
         }
     }
 

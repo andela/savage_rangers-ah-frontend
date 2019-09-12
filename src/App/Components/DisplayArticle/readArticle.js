@@ -101,9 +101,11 @@ export class ReadArticle extends Component {
   }
 
   fetchBookmark = () => {
-    const { user: { username } } = jwt(localStorage.getItem('token'));
-    const { getBookMarks: getBookMarksData } = this.props;
-    getBookMarksData(username);
+    if (localStorage.getItem('token')) {
+      const { user: { username } } = jwt(localStorage.getItem('token'));
+      const { getBookMarks: getBookMarksData } = this.props;
+      getBookMarksData(username);
+    }
   };
 
   render() {
@@ -166,7 +168,7 @@ export class ReadArticle extends Component {
                       <Report isAuthor={this.state.isAuthor} slug={slug} />
                     </div>
                   </div>
-                  <Comment slug={slug} />
+                  <Comment slug={slug} history={this.props.history} />
                   <BottomPopular articles={articles} />
                 </div>
               </div>
