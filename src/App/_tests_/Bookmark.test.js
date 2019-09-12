@@ -35,11 +35,11 @@ describe('Bookmark', () => {
 describe('Bookmark actions', () => {
   test('should get bookmarked article', () => {
     mockAxios.get = jest.fn(() => Promise.resolve({ data: { data: { bookmarks: [{ articleSlug: 'simple-react-validtion-by-alain' }] } } }));
-    store.dispatch(bookmarkActions.getBookMarks('alain'));
+    store.dispatch(bookmarkActions.hasBookmarked('slug'));
   });
   test('should return an empty array if the request fails', () => {
     mockAxios.get = jest.fn(() => Promise.reject({ status: 404, data: { error: 'no bookmarked article' } }));
-    store.dispatch(bookmarkActions.getBookMarks('alain'));
+    store.dispatch(bookmarkActions.hasBookmarked('slug'));
   });
 
   test('Should bookmark an article', () => {
@@ -49,37 +49,20 @@ describe('Bookmark actions', () => {
 });
 
 test('Should have dispatched all actions', () => {
-  expect(store.getActions()[0]).toEqual({
-    type: 'GET_BOOKMARK',
-    payload: [{ articleSlug: 'simple-react-validtion-by-alain' }]
-  });
-  expect(store.getActions()[1]).toEqual({ type: 'NO_BOOKMARK' });
+  expect(store.getActions()[0]).toEqual({ type: 'HAS_BOOKMARKED' });
+  expect(store.getActions()[1]).toEqual({ type: 'NOT_BOOKMARKED' });
   expect(store.getActions()[2]).toEqual({ type: 'BOOKMARK', payload: 'bookmarked corectly' });
 });
 
 describe('Reducers', () => {
-  const action = {
-    type: 'GET_BOOKMARK',
-    payload: [
-      {
-        articleSlug: 'i-dont-want-to-live-in-ohio-i-belong-in-new-york-j07n6mx0y8q',
-        Article: {
-          id: 8,
-          title: '‘I Don’t Want to Live in Ohio. I Belong in New York!’',
-          description: 'A move was affecting my daughter more than I thought it would',
-          User: { firstName: null, lastName: null, profileImage: null },
-          Category: { name: 'LOVE' }
-        }
-      }
-    ]
-  };
+  const action = { type: 'HAS_BOOKMARKED' };
   test('should get bookmark', () => {
     const state = bookmarkReducer({}, action);
-    expect(state).toEqual({ bookmarked: false, bookmarks: action.payload });
+    expect(state).toEqual({ bookmarked: false, isBookmarked: true });
   });
   test('should send an empty array if no bookmark found', () => {
-    const state = bookmarkReducer({}, { type: 'NO_BOOKMARK' });
-    expect(state).toEqual({ bookmarked: false, bookmarks: [] });
+    const state = bookmarkReducer({}, { type: 'NOT_BOOKMARKED' });
+    expect(state).toEqual({ bookmarked: false, isBookmarked: false });
   });
   test('should send true if the bookmark action passed', () => {
     const state = bookmarkReducer({}, { type: 'BOOKMARK' });

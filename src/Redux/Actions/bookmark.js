@@ -1,14 +1,14 @@
 import axios from '../../configs/axios';
 import actions from './index';
 
-const { GET_BOOKMARK, NO_BOOKMARK, BOOKMARK } = actions;
+const { HAS_BOOKMARKED, NOT_BOOKMARKED, BOOKMARK } = actions;
 
 export default {
-  getBookMarks: username => (dispatch) => {
+  hasBookmarked: slug => (dispatch) => {
     axios
-      .get(`/api/bookmarks/${username}`, { headers: { Authorization: localStorage.getItem('token') } })
-      .then(response => dispatch({ type: GET_BOOKMARK, payload: response.data.data.bookmarks }))
-      .catch(() => dispatch({ type: NO_BOOKMARK }));
+      .get(`/api/bookmarks/bookmarked/${slug}`, { headers: { Authorization: localStorage.getItem('token') } })
+      .then(() => dispatch({ type: HAS_BOOKMARKED }))
+      .catch(() => dispatch({ type: NOT_BOOKMARKED }));
   },
   bookmark: slug => (dispatch) => {
     axios

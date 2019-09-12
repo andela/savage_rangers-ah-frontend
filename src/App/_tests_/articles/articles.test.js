@@ -58,10 +58,13 @@ describe('Articles', () => {
     expect(wrapper.instance().state.filter).toEqual('title');
   });
 
-
   it('Handle the search', () => {
     wrapper.setState({ isLoading: false });
     wrapper.instance().handleSearch();
     expect(wrapper.instance().state.filter).toEqual('title');
+  });
+  it('should pass new props', () => {
+    props.location.search = '?filter=2&input=like';
+    shallow(<Articles store={mockStore} {...props} data />);
   });
 });

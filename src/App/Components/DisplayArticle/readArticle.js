@@ -23,7 +23,7 @@ import HighlightArticle from './HighlightArticle';
 import getHighlight from '../../../Redux/Actions/getHighlight';
 import postHighlight from '../../../Redux/Actions/postHighlight';
 
-const { getBookMarks } = bookmarkActions;
+const { hasBookmarked } = bookmarkActions;
 
 const { readArticle, getTags } = ReadArticleActions;
 const { readPopularArticle } = PopularArticleAction;
@@ -36,7 +36,8 @@ export class ReadArticle extends Component {
       tags: [],
       isLoading: true,
       articles: [{ title: '', User: {}, Category: {} }],
-      isAuthor: false
+      isAuthor: false,
+      token: localStorage.getItem('token')
     };
   }
 
@@ -52,7 +53,10 @@ export class ReadArticle extends Component {
     readArticles(slug);
     getTag(slug);
     readPopular();
-    this.fetchBookmark();
+    const { token } = this.state;
+    if (token) {
+      this.fetchBookmark(slug);
+    }
     readCommentArticle();
     fetchHighlight(slug);
   }
@@ -72,9 +76,10 @@ export class ReadArticle extends Component {
         profileImage: nextProps.article.User.profileImage,
         username: nextProps.article.User.username
       });
-      if (localStorage.getItem('token')) {
+      const { token } = this.state;
+      if (token) {
         const { username } = this.state;
-        const { user: author } = jwt(localStorage.getItem('token'));
+        const { user: author } = jwt(token);
         if (author.username === username) {
           this.setState({ isAuthor: true });
         }
@@ -102,7 +107,7 @@ export class ReadArticle extends Component {
       getTag(slug);
     }
     if (nextProps.bookmarked) {
-      this.fetchBookmark();
+      this.fetchBookmark(slug);
     }
   }
 
@@ -154,12 +159,9 @@ export class ReadArticle extends Component {
     return highlights;
   };
 
-  fetchBookmark = () => {
-    if (localStorage.getItem('token')) {
-      const { user: { username } } = jwt(localStorage.getItem('token'));
-      const { getBookMarks: getBookMarksData } = this.props;
-      getBookMarksData(username);
-    }
+  fetchBookmark = (slug) => {
+    const { hasBookmarked: hasBookmarkedInfo } = this.props;
+    hasBookmarkedInfo(slug);
   };
 
   render() {
@@ -184,7 +186,8 @@ export class ReadArticle extends Component {
 
     const authorCredential = { isAuthor, slug };
 
-    const { bookmarks } = this.props;
+    const { isBookmarked } = this.props;
+
     return isLoading ? (
       <Loader />
     ) : (
@@ -200,7 +203,9 @@ export class ReadArticle extends Component {
               <div className="row">
                 <div className="col-lg-1 col-sm-12 large-share">
                   <ArticleSocialSharing slug={slug} title={title} />
-                  {/* {username && <Bookmark username={username} slug={slug} bookmarks={bookmarks} />} */}
+                  {username && (
+                    <Bookmark username={username} slug={slug} bookmarked={isBookmarked} />
+                  )}
                 </div>
                 <div className="col-lg-11 col-sm-12">
                   <ArticleBody
@@ -215,10 +220,12 @@ export class ReadArticle extends Component {
                     profileImage={profileImage}
                     username={username}
                     authorCredential={authorCredential}
+                    slug={slug}
+                    bookmarked={isBookmarked}
                   />
                   <div className="row">
                     <div className="col-lg-6 col-xl-6">
-                      <Ratings articleSlug={slug} />
+                      {!isAuthor && <Ratings articleSlug={slug} />}
                     </div>
                     <div className="col-lg-6 col-xl-6 report-article-custom">
                       <Report
@@ -246,28 +253,34 @@ export class ReadArticle extends Component {
 ReadArticle.propTypes = {
   article: propTypes.object,
   tags: propTypes.object,
-  getBookMarks: propTypes.func.isRequired,
+  hasBookmarked: propTypes.func.isRequired,
   bookmarked: propTypes.bool.isRequired,
   bookmarks: propTypes.array,
   highlights: propTypes.array,
   getHighlight: propTypes.func,
-  postHighlight: propTypes.func
+  postHighlight: propTypes.func,
+  isBookmarked: propTypes.bool
 };
+
 export const mapStateToProps = state => ({
   article: state.readArticle.article,
   tags: state.readArticle.tags,
   popularArticle: state.populars.Articles,
   bookmarks: state.bookmark.bookmarks,
   bookmarked: state.bookmark.bookmarked,
-  highlights: state.highlight.highlights
+  highlights: state.highlight.highlights,
+  isBookmarked: state.bookmark.isBookmarked,
+  bookmarked: state.bookmark.bookmarked
 });
+
 export default connect(mapStateToProps,
   {
     readArticle,
     getTags,
     readPopularArticle,
-    getBookMarks,
     getAllComments,
     getHighlight,
-    postHighlight
+    postHighlight,
+    hasBookmarked,
+    getAllComments
   })(ReadArticle);

@@ -5,7 +5,7 @@ export default class ErrorAlert extends Component {
   constructor(props) {
     super(props);
     const { type, cssClass } = this.props;
-    const classData = `d-flex justify-content-center alert alert-dismissible fade show alert-${type} ${cssClass}`;
+    const classData = `d-flex justify-content-center alert alert-dismissible fade show alert-${type} ${cssClass} mt-1`;
     this.state = { classData };
   }
 

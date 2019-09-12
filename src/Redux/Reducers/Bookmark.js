@@ -1,21 +1,21 @@
 import actions from '../Actions';
 
-const { GET_BOOKMARK, NO_BOOKMARK, BOOKMARK } = actions;
+const { NOT_BOOKMARKED, HAS_BOOKMARKED, BOOKMARK } = actions;
 
 const initialState = { data: {} };
 export default (state = initialState, action) => {
   switch (action.type) {
-    case GET_BOOKMARK:
+    case HAS_BOOKMARKED:
       return {
         ...state,
         bookmarked: false,
-        bookmarks: action.payload
+        isBookmarked: true
       };
-    case NO_BOOKMARK:
+    case NOT_BOOKMARKED:
       return {
         ...state,
         bookmarked: false,
-        bookmarks: []
+        isBookmarked: false
       };
     case BOOKMARK:
       return {

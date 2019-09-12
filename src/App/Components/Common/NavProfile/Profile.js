@@ -53,6 +53,8 @@ export class Profile extends Component {
       if (notifications.length < 10) {
         this.setState({ notificationsBubble: `${notifications.length}` });
       } else this.setState({ notificationsBubble: '9+' });
+    } else {
+      this.setState({ notifications: [] });
     }
   }
 
@@ -112,7 +114,14 @@ export class Profile extends Component {
               }
               onClick={this.showNotifications}
             />
-            <TriangularPopup direction="up" className={isShown ? 'show' : 'hide'} />
+            <TriangularPopup
+              direction="up"
+              className={
+                isShown
+                  ? 'custom-triangle-notifications show'
+                  : 'custom-triangle-notifications hide'
+              }
+            />
             <span className={isEmpty(notifications) ? 'notify-bubble hide' : 'notify-bubble show'}>
               {notificationsBubble}
             </span>
@@ -128,24 +137,40 @@ export class Profile extends Component {
             >
               {profile ? profile.username : 'username'}
             </a>
+
             <div
               className="dropdown-menu dropdown-menu-custom"
               aria-labelledby="navbarDropdownMenuLink"
             >
-              <a className="dropdown-item dropdown-item-custom" href="/profile">
-                Profile
+              <a className="dropdown-item dropdown-item-custom" href="/articles">
+                Articles
               </a>
-              <a
-                className="dropdown-item dropdown-item-custom"
-                href="#"
-                onClick={() => Signout(this.token)}
-              >
-                Logout
+              <a className="dropdown-item dropdown-item-custom" href="/authors">
+                Authors
               </a>
+              {this.token && (
+                <div>
+                  <a
+                    className="dropdown-item dropdown-item-custom"
+                    href={`/profile/${localStorage.getItem('username')}`}
+                  >
+                    Profile
+                  </a>
+                  <a className="dropdown-item dropdown-item-custom" href="/articles/new">
+                    New article
+                  </a>
+                  <a
+                    className="dropdown-item dropdown-item-custom"
+                    href="#"
+                    onClick={() => Signout(this.token)}
+                  >
+                    Logout
+                  </a>
+                </div>
+              )}
             </div>
           </li>
         </ul>
-        <ToastContainer />
       </React.Fragment>
     );
   }

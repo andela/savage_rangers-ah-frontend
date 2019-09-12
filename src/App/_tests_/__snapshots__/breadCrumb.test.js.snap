@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`testing the breadcrumb component should test if the component renders the appropriate jsx elements 1`] = `ShallowWrapper {}`;
