@@ -9,7 +9,10 @@ import Navbar from '../../Common/NavProfile/navbar';
 import Footer from '../../Common/Footer';
 import articleActions from '../../../../Redux/Actions/getArticles';
 import Loader from '../../Common/loader';
+import articleCategoryActions from '../../../../Redux/Actions/getArticlesByCategory';
 
+
+const { getArticlesByCategory } = articleCategoryActions;
 
 const { getArticles } = articleActions;
 const { searchArticles } = searchAction;
@@ -18,12 +21,15 @@ export class Articles extends Component {
   constructor(props) {
     super(props);
     const parsed = queryString.parse(this.props.location.search);
-    const { page, filter, input } = parsed;
+    const {
+      page, filter, input, category
+    } = parsed;
     this.state = {
       isLoading: true,
       currentPage: page || 1,
       input: '' || input,
-      filter: 'title' || filter
+      filter: 'title' || filter,
+      category
     };
   }
 
@@ -31,13 +37,14 @@ export class Articles extends Component {
   componentDidMount() {
     const page = this.state.currentPage - 1;
     const paginate = page > 0 ? `${page}0` : page;
-    const { getArticles: getArticlesData } = this.props;
-    const { filter, input } = this.state;
-
+    const { getArticles: getArticlesData, getArticlesByCategory: getByCategory } = this.props;
+    const { filter, input, category } = this.state;
 
     if (filter && input) {
       const { searchArticles: searchData } = this.props;
       searchData(input, filter, paginate);
+    } else if (category) {
+      getByCategory(category, paginate);
     } else {
       getArticlesData(paginate);
     }
@@ -52,17 +59,23 @@ export class Articles extends Component {
   }
 
   changeToNextPage = (numPage) => {
-    this.props.history.push(`?page=${numPage}`);
     this.setState({ isLoading: true });
     const page = numPage - 1;
     const paginate = Number(page > 0 ? `${page}0` : page);
     const { Search } = this.props;
-    if (Search === undefined) {
+    const { category } = this.state;
+    if (category) {
+      this.props.history.push(`?category/${category}?page=${numPage}`);
+      const { getArticlesByCategory: getByCategory } = this.props;
+      getByCategory(category, paginate);
+    } else if (Search === undefined) {
+      this.props.history.push(`?page=${numPage}`);
       const { getArticles: getArticlesData } = this.props;
       getArticlesData(paginate);
     } else {
       const { searchArticles: searchData } = this.props;
       const { filter, input } = this.state;
+      this.props.history.push(`?filter=${filter}&&input=${input}?page=${numPage}`);
       searchData(input, filter, paginate);
     }
   }
@@ -171,7 +184,7 @@ export class Articles extends Component {
                       articlesToDisplay
                     }
                   </div>
-                  <div className="page">
+                  <div>
                     <Pagination
                       currentPage={activePage}
                       totalPages={numberOfPage}
@@ -204,4 +217,4 @@ export const mapStateToProps = state => ({
   Search: state.searchArticle.articles,
   searchFailed: state.searchArticle.searchFailed
 });
-export default connect(mapStateToProps, { getArticles, searchArticles })(Articles);
+export default connect(mapStateToProps, { getArticles, searchArticles, getArticlesByCategory })(Articles);
