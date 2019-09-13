@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`articles render() it should render all articles 1`] = `ShallowWrapper {}`;
-
-exports[`articles render() it should render all articles 2`] = `[Function]`;
-
-exports[`articles render() it should render all articles 3`] = `ShallowWrapper {}`;
-
-exports[`articles render() it should render all articles 4`] = `[Function]`;

@@ -2,13 +2,15 @@ import actions from '../Actions';
 
 const {
   GET_ALL_ARTICLE_COMMENTS,
-  CATCH_ERROR, POST_COMMENT,
+  CATCH_COMMENT_ERROR, POST_COMMENT,
   UPDATE_COMMENT,
-  POST_COMMENT_REPLY
+  POST_COMMENT_REPLY,
+  LIKE_DISLIKE_COMMENT_REACTION,
+  LIKE_DISLIKE_COUNT
 } = actions;
 
 const initialState = {
-  All_Comments: [], Error: {}, NEW_COMMENT: {}, REPLY: {}
+  All_Comments: [], Error: {}, NEW_COMMENT: {}, REPLY: {}, Reaction: {}, Counter: {}
 };
 
 export default (state = initialState, action) => {
@@ -33,7 +35,17 @@ export default (state = initialState, action) => {
         ...state,
         REPLY: action.payload
       };
-    case CATCH_ERROR:
+    case LIKE_DISLIKE_COMMENT_REACTION:
+      return {
+        ...state,
+        Reaction: action.payload
+      };
+    case LIKE_DISLIKE_COUNT:
+      return {
+        ...state,
+        Count: action.payload
+      };
+    case CATCH_COMMENT_ERROR:
       return {
         ...state,
         Error: action.payload

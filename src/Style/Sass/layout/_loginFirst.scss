@@ -1,0 +1,17 @@
+.login-popup-buttons {
+    text-align: center;
+
+    button {
+        margin: 2%;
+        background-color: transparent;
+        color: white;
+        outline: none;
+        border-radius: 8px;
+        width: 45%;
+        border: 1px solid;
+
+        &:hover {
+            background-color: rgba($color: #ffffff, $alpha: 0.3);
+        }
+    }
+}

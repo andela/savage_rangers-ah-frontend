@@ -7,7 +7,14 @@ import replyBody from './replyBody';
 import configs from '../../../configs/urls';
 
 const ReplyComment = ({
-  isHidden, replies, replyCommentBody, slug, id, username, profileImage
+  isHidden,
+  replies,
+  replyCommentBody,
+  slug,
+  id,
+  username,
+  profileImage,
+  commentReaction
 }) => {
   const { isEditable, edit } = useEdit();
   const { content, changeContentValue } = replyBody();
@@ -55,7 +62,13 @@ const ReplyComment = ({
                       </div>
                     ) : <p className="comment-body__text-comment">{item.body}</p>
                   }
-                  <CommentIcons edit={edit} />
+                  <CommentIcons
+                    key={item.id}
+                    edit={edit}
+                    id={item.id}
+                    reactionCount={item.Reactions}
+                    commentReaction={commentReaction}
+                  />
                 </div>
               </div>
             </div>

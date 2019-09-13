@@ -9,7 +9,16 @@ import configs from '../../../configs/urls';
 
 
 const CommentBody = ({
-  body, createdAt, username, profileImage, replies, replyCommentBody, slug, id
+  body,
+  createdAt,
+  username,
+  profileImage,
+  replies,
+  reactionCount,
+  replyCommentBody,
+  slug,
+  id,
+  commentReaction
 }) => {
   const { isHidden, toggle } = useReply();
   const { isEditable, edit } = useEdit();
@@ -32,7 +41,13 @@ const CommentBody = ({
               <p className="comment-body__text-comment">{body}</p>
             )
           }
-          <CommentIcons edit={edit} />
+          <CommentIcons
+            key={id}
+            edit={edit}
+            commentReaction={commentReaction}
+            id={id}
+            reactionCount={reactionCount}
+          />
           <button type="button" className="comment-body__view-more-replies" id="view-replies" onClick={toggle}>
             {!isHidden ? 'View Replies' : 'Hide Replies'}
             {' '}
@@ -50,6 +65,8 @@ const CommentBody = ({
         id={id}
         username={username}
         profileImage={profileImage}
+        reactionCount={reactionCount}
+        commentReaction={commentReaction}
       />
     </div>
   );

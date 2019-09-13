@@ -1,6 +1,9 @@
+/* eslint-disable no-restricted-globals */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import queryString from 'query-string';
+import isEmpty from 'lodash/isEmpty';
 import SimpleReactValidator from 'simple-react-validator';
 import propTypes from 'prop-types';
 import Input from '../Inputs';
@@ -35,12 +38,12 @@ export class Login extends Component {
     const { validator, state } = this;
 
     let errorMessage;
-    const {
-      authReducer: { errors, isAuthorized, user },
-      history
-    } = this.props;
+    const { authReducer: { errors, isAuthorized, user } = {}, history } = this.props;
     if (!isAuthorized && errors) errorMessage = errors.error || errors.email;
-    if (isAuthorized) history.replace(`/profile/${user.username}`);
+    if (isAuthorized) {
+      if (isEmpty(queryString.parse(location.search))) history.replace(`/profile/${user.username}`);
+      else history.replace(queryString.parse(location.search).redirect);
+    }
 
     return (
       <div className="">
@@ -72,11 +75,11 @@ export class Login extends Component {
                 ))}
                 <div className="links">
                   <p className="float-left m-3 links links-right">
-                    Don't have an account ?
+                    Don’t have an account ?
                     {' '}
                     <a href="/signup">Sign up</a>
                   </p>
-                  <Link className="float-right m-3 links links-right" to="/forgot-password">
+                  <Link className="float-right m-3 links links-right" to="/">
                     Forgot your password?
                   </Link>
                 </div>
@@ -107,7 +110,6 @@ Login.propTypes = {
 };
 
 export const mapStateToProps = ({ authReducer }) => ({ authReducer });
-
 export const mapDispatchToProps = dispatch => ({ dispatchLogin: user => dispatch(login(user)) });
 
 export default connect(mapStateToProps,
