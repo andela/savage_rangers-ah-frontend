@@ -40,7 +40,9 @@ export class Profile extends Component {
       localStorage.removeItem('token');
       window.location.href = '/';
     }
-    if (logoutError) { toast.warn(logoutError.message); }
+    if (logoutError) {
+      toast.warn(logoutError.message);
+    }
     this.setState({ isShown });
     if (!isEmpty({ profile }) && !isEmpty(configs)) {
       this.setState({ profile, isSnoozed: configs.config.isSnoozed });
@@ -59,13 +61,7 @@ export class Profile extends Component {
     const { props: { io: newIo } } = this;
     const { get: getNotifications } = this.props;
     const token = localStorage.getItem('token');
-    if (
-      io
-      && profile
-      && newIo.userId === profile.id
-      && !isSnoozed
-      && !isEqual(io, newIo)
-    ) {
+    if (io && profile && newIo.userId === profile.id && !isSnoozed && !isEqual(io, newIo)) {
       toast.success(<IoNotification
         message={`${newIo.message}`}
         link={`${newIo.url}`}
@@ -87,10 +83,7 @@ export class Profile extends Component {
   };
 
   markIoNotificationAsRead = (id) => {
-    const {
-      markAsRead: markNotificationAsRead,
-      get: getNotifications
-    } = this.props;
+    const { markAsRead: markNotificationAsRead, get: getNotifications } = this.props;
     const token = localStorage.getItem('token');
 
     markNotificationAsRead(token, id).then(getNotifications(token));
@@ -99,10 +92,7 @@ export class Profile extends Component {
   render() {
     const {
       state: {
-        profile,
-        notifications,
-        notificationsBubble,
-        isShown
+        profile, notifications, notificationsBubble, isShown
       }
     } = this;
     const { Signout } = this.props;
@@ -122,17 +112,8 @@ export class Profile extends Component {
               }
               onClick={this.showNotifications}
             />
-            <TriangularPopup
-              direction="up"
-              className={isShown ? 'show' : 'hide'}
-            />
-            <span
-              className={
-                isEmpty(notifications)
-                  ? 'notify-bubble hide'
-                  : 'notify-bubble show'
-              }
-            >
+            <TriangularPopup direction="up" className={isShown ? 'show' : 'hide'} />
+            <span className={isEmpty(notifications) ? 'notify-bubble hide' : 'notify-bubble show'}>
               {notificationsBubble}
             </span>
           </li>
@@ -185,17 +166,15 @@ Profile.propTypes = {
   logoutError: PropTypes.object
 };
 
-export const mapStateToProps = state => (
-  {
-    isShown: state.notifications.isShown,
-    data: state.notifications.data.data,
-    configs: state.notifications.configs,
-    profile: state.notifications.profile.profile,
-    io: state.notifications.io,
-    logout: state.Signout.logout,
-    logoutError: state.Signout.logoutError
-  }
-);
+export const mapStateToProps = state => ({
+  isShown: state.notifications.isShown,
+  data: state.notifications.data.data,
+  configs: state.notifications.configs,
+  profile: state.notifications.profile.profile,
+  io: state.notifications.io,
+  logout: state.Signout.logout,
+  logoutError: state.Signout.logoutError
+});
 
 export default connect(mapStateToProps,
   {

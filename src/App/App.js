@@ -18,7 +18,6 @@ import UpdateArticle from './Components/CreateArticle/UpdateArticle';
 import DisplayAuthors from './Components/authors';
 import Articles from './Components/Articles/getArticles/Articles';
 
-
 /**
  *
  *

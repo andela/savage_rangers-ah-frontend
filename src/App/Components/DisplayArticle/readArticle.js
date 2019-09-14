@@ -18,6 +18,7 @@ import Comment from '../Comment/comment.holder';
 import ArticleSocialSharing from '../ArticleSocialSharing/ArticleSocialSharing';
 import Bookmark from '../Common/Bookmark/Bookmark';
 import Report from '../ReportArticle/ReportArticle';
+import Ratings from './Ratings';
 
 const { getBookMarks } = bookmarkActions;
 
@@ -160,13 +161,16 @@ export class ReadArticle extends Component {
                     username={username}
                     authorCredential={authorCredential}
                   />
-                  <div className="small-share">
-                    <ArticleSocialSharing slug={slug} title={title} />
-                  </div>
                   <div className="row">
                     <div className="col-lg-6 col-xl-6">
+                      <Ratings articleSlug={slug} />
+                    </div>
+                    <div className="col-lg-6 col-xl-6 report-article-custom">
                       <Report isAuthor={this.state.isAuthor} slug={slug} />
                     </div>
+                  </div>
+                  <div className="small-share">
+                    <ArticleSocialSharing slug={slug} title={title} />
                   </div>
                   <Comment slug={slug} history={this.props.history} />
                   <BottomPopular articles={articles} />
