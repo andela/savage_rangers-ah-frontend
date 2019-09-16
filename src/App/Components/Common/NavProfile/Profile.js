@@ -15,6 +15,7 @@ import TriangularPopup from '../TriangularPopup';
 import IoNotification from '../../Notifications/IoNotification';
 import Signout from '../../../../Redux/Actions/signout';
 import 'react-toastify/dist/ReactToastify.css';
+import jwt from 'jwt-decode';
 
 const {
   show, hide, get, markAsRead
@@ -31,6 +32,10 @@ export class Profile extends Component {
       notificationsBubble: '',
       isSnoozed: false
     };
+    if (this.token) {
+      const user = jwt(this.token);
+      localStorage.setItem('username', user.user.username);
+    }
   }
 
   componentWillReceiveProps({
