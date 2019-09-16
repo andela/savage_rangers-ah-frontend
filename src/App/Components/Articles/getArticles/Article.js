@@ -57,7 +57,7 @@ export class Article extends Component {
 
                 </div>
                 <div className="Rate col-lg-6 col-md-6 col-sm-12 row">
-                  <div className="rating col">
+                  <div className="ratings col">
                     <Rater total={5} rating={ratings} interactive={false} />
                   </div>
                   <div className="ratedUser col-1">

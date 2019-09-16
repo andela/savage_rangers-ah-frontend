@@ -166,7 +166,11 @@ export class ReadArticle extends Component {
                       <Ratings articleSlug={slug} />
                     </div>
                     <div className="col-lg-6 col-xl-6 report-article-custom">
-                      <Report isAuthor={this.state.isAuthor} slug={slug} />
+                      <Report
+                        isAuthor={this.state.isAuthor}
+                        slug={slug}
+                        history={this.props.history}
+                      />
                     </div>
                   </div>
                   <div className="small-share">

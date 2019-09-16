@@ -52,7 +52,7 @@ export class Navbar extends Component {
           {categories
             ? categories.map((category, index) => (
               <div key={category.id} className="nav-categories__item">
-                {category.name}
+                <a href={`/articles?category=${category.id}`}>{category.name}</a>
                 <span className="hidden-span">__</span>
                 <span className={`hidden-span__${index}`}> | </span>
                 <span className="hidden-span">__</span>
@@ -72,6 +72,12 @@ export class Navbar extends Component {
         >
           <i className="fas fa-bars" />
         </button>
+        {/* <a className="nav-item nav-link" href="/articles?category=4">Technology</a>
+        <a className="nav-item nav-link" href="/articles?category=1">Love</a>
+        <a className="nav-item nav-link" href="/articles?category=2">Music</a>
+        <a className="nav-item nav-link" href="/articles?category=3">art</a>
+        <a className="nav-item nav-link" href="/articles?category=5">Business</a>
+        <a className="nav-item nav-link" href="/articles?category=6">Entertainment</a> */}
         <div className="collapse navbar-collapse nav-links-container" id="navbarNavAltMarkup">
           {!localStorage.getItem('token') ? <NavLinks /> : <Profile />}
         </div>

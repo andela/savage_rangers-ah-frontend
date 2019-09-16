@@ -152,7 +152,8 @@
                                 margin-top: -11.5%;
                             }
 
-                            & .rating {
+                            & .ratings {
+                                background-color: none !important;
                                 width: auto !important;
 
                                 @media only screen and (max-width: 768px) {
