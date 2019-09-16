@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
+import queryString from 'query-string';
 import Navbar from '../Common/NavProfile/navbar';
 import InlineLoader from '../Common/InlineLoader';
 import actions from '../../../Redux/Actions/home';
@@ -23,6 +24,8 @@ export class Home extends Component {
   }
 
   componentDidMount() {
+    const { token } = queryString.parse(window.location.search);
+    if (token) localStorage.setItem('token', token);
     const {
       getRandomArticles: getRandom,
       readPopularArticle: getPopularArticles,

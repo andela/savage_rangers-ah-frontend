@@ -54,7 +54,7 @@ export default function SingleArticle(props) {
         to={
           article.status !== 'draft'
             ? `/articles/${article.slug}`
-            : `/update/article/${article.slug}`
+            : `/articles/${article.slug}/edit?draft=true`
         }
       >
         <ReactImageFallback
@@ -81,7 +81,7 @@ export default function SingleArticle(props) {
         <Rater
           total={5}
           rating={article.rating !== 0 ? countRating(article.rating.statistics) : 0}
-          interactive
+          interactive={false}
         />
         <p className="ml-5 mb-4 single-article-read">
           reviews:

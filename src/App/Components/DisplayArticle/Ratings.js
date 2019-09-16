@@ -50,7 +50,11 @@ export class Ratings extends Component {
       });
     }
 
-    if (errorMessage && errorMessage !== defaultError) {
+    if (
+      errorMessage
+      && errorMessage !== defaultError
+      && errorMessage !== 'No ratings found for this article'
+    ) {
       this.setState({ defaultError: errorMessage });
       toast.error(errorMessage);
     }
@@ -107,7 +111,7 @@ export class Ratings extends Component {
     if (redirect) return <Redirect to={`/login?redirect=${location.pathname}`} />;
     return (
       <React.Fragment>
-        {isLoggedIn ? <ToastContainer /> : <ToastContainer autoClose={false} closeButton={false} />}
+        {!isLoggedIn && <ToastContainer autoClose={false} closeButton={false} />}
         {!isEmpty(stats) ? (
           <div className="ratings-container">
             <div className="ratings-container--stats">

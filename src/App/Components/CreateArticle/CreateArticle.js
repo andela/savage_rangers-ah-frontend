@@ -45,17 +45,38 @@ export class CreateArticle extends Component {
       const {
         initialState, isChanged, stateTags, article
       } = this.state;
-      const {
-        firstDraft: createFirstDraft,
-        drafting: autosaveArticle
-      } = this.props;
+      const { firstDraft: createFirstDraft, drafting: autosaveArticle } = this.props;
       const keys = Object.keys(article);
       if (keys.length !== 1) {
         if (initialState === null) {
           createFirstDraft(article).then(() => {
             const { savedArticle } = this.props;
+            const allowed = [
+              'id',
+              'title',
+              'description',
+              'body',
+              'slug',
+              'readTime',
+              'coverImage',
+              'author',
+              'category',
+              'status',
+              'createdAt',
+              'updatedAt',
+              'deletedAt',
+              'Category',
+              'User'
+            ];
+
+            const filteredArticle = Object.keys(savedArticle.article)
+              .filter(key => allowed.includes(key))
+              .reduce((obj, key) => {
+                obj[key] = savedArticle.article[key];
+                return obj;
+              }, {});
             const patchableArticle = {
-              ...savedArticle.article,
+              ...filteredArticle,
               tags: stateTags
             };
             this.setState({
@@ -88,10 +109,7 @@ export class CreateArticle extends Component {
     this.autosaveFunctionality;
   }
 
-  componentWillReceiveProps({
-    listOfCategories,
-    listOfTags
-  }) {
+  componentWillReceiveProps({ listOfCategories, listOfTags }) {
     if (listOfCategories && listOfTags) {
       this.setState({
         categories: listOfCategories,
@@ -176,12 +194,7 @@ export class CreateArticle extends Component {
 
   render() {
     const {
-      imgUrl,
-      tags,
-      categories,
-      published,
-      isLoading,
-      article
+      imgUrl, tags, categories, published, isLoading, article
     } = this.state;
     if (published) {
       return <Redirect to={`/articles/${article.slug}`} />;
@@ -239,10 +252,7 @@ export class CreateArticle extends Component {
               />
               <label htmlFor="cover-image">
                 <div className={imgUrl ? '' : 'white-cover'} id="white-cover" />
-                <div
-                  className={imgUrl ? 'hidden' : 'btn btn-cover'}
-                  id="output"
-                >
+                <div className={imgUrl ? 'hidden' : 'btn btn-cover'} id="output">
                   <p>Cover image</p>
                 </div>
                 <img id="output-header" />
@@ -250,18 +260,13 @@ export class CreateArticle extends Component {
             </div>
             <div className="form-group">
               <label htmlFor="editor">Body</label>
-              <SimplexEditor
-                getArticle={this.addArticleToState}
-              />
+              <SimplexEditor getArticle={this.addArticleToState} />
             </div>
             <div className="form-group">
               <label htmlFor="tags" className="required">
                 Tags
               </label>
-              <Tagify
-                tags={tags}
-                getTagList={this.addTags}
-              />
+              <Tagify tags={tags} getTagList={this.addTags} />
             </div>
             <div className="text-center">
               <button
@@ -274,7 +279,6 @@ export class CreateArticle extends Component {
               </button>
             </div>
           </div>
-          <ToastContainer />
           <Footer />
         </div>
       );

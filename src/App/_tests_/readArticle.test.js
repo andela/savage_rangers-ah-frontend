@@ -35,7 +35,7 @@ const payload = {
     deletedAt: null,
     Category: { name: 'TECHNOLOGY' },
     User: {
-      username: 'MCFrank16',
+      username: 'Burindi',
       firstName: 'Frank',
       lastName: 'Mutabazi',
       profileImage:
@@ -72,7 +72,11 @@ const tagPayload = {
 
 const errorPayload = { error: { Article: 'Article not found' } };
 
-mapStateToProps({ readArticle: {}, populars: {}, bookmark: { bookmarks: {}, bookmarked: false } });
+mapStateToProps({
+  readArticle: {},
+  populars: {},
+  bookmark: { isBookmarked: true, bookmarked: false }
+});
 const match = { params: { slug: 'slug' } };
 
 const props = {
@@ -81,7 +85,7 @@ const props = {
   getAllComments: jest.fn(),
   match,
   tags: { data: [{ id: 1, name: 'TECH' }] },
-  article: { Category: { name: 'Tech' }, User: { firstName: 'Frank' } },
+  article: { Category: { name: 'Tech' }, User: { username: 'Burindi', firstName: 'Frank' } },
   readPopularArticle: jest.fn(),
   isLoading: false,
   popularArticle: [
@@ -90,10 +94,10 @@ const props = {
       name: 'TECH'
     }
   ],
-  getBookMarks: jest.fn(),
-  bookmarks: []
+  isBookmarked: true,
+  hasBookmarked: jest.fn()
 };
-localStorage.setItem('username', 'alain');
+localStorage.setItem('username', 'Burindi');
 localStorage.setItem('token',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VybmFtZSI6IkJ1cmluZGkiLCJlbWFpbCI6ImFsYWluMUBnbWFpbC5jb20ifSwiaWF0IjoxNTY4MTI4NDU5LCJleHAiOjE1NjgyMTQ4NTl9.HFugJ8jmmfF6DIuoSobH8tRXHc82Smzk71ruzjoRqpk');
 
@@ -106,7 +110,7 @@ describe('read Article component', () => {
 
   it('will receive props', () => {
     readOneArticle.setState({
-      article: {},
+      article: { User: { username: 'Burindi' } },
       slug: 'why-do-we-test',
       tags: [],
       articles: [
@@ -120,6 +124,7 @@ describe('read Article component', () => {
       isLoading: false
     });
     readOneArticle.setProps(props);
+    readOneArticle.setProps();
     expect(readOneArticle.instance().props).toEqual(props);
     readOneArticle.setProps({ bookmarked: true });
     expect(readOneArticle.instance().state.isLoading).toEqual(true);

@@ -21,7 +21,7 @@ const ArticleBody = (props) => {
     tags,
     username,
     authorCredential,
-    bookmarks,
+    bookmarked,
     slug
   } = props;
 
@@ -59,7 +59,11 @@ const ArticleBody = (props) => {
             {' '}
 min read
           </p>
-          {username && <Bookmark username={username} slug={slug} bookmarks={bookmarks} />}
+          {username && (
+            <div className="bookmark_small_screen">
+              <Bookmark username={username} slug={slug} bookmarked={bookmarked} />
+            </div>
+          )}
         </div>
         <div className="DraftEditor-root article-body">
           <div className="DraftEditor-editorContainer article-body__container">
@@ -76,7 +80,6 @@ min read
             <div className="public-DraftEditor-content article-body__container--content">
               {ReactHtmlParser(body)}
             </div>
-            <div className="public-DraftEditor-content">{ReactHtmlParser(body)}</div>
           </div>
         </div>
         <Tags tags={tags} />
@@ -88,7 +91,7 @@ min read
 ArticleBody.propTypes = {
   username: propTypes.string,
   authorCredential: propTypes.object,
-  bookmarks: propTypes.array,
+  bookmarked: propTypes.bool,
   slug: propTypes.string
 };
 export default ArticleBody;

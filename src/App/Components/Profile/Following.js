@@ -35,7 +35,7 @@ export default function Following(props) {
       ))}
     </div>
   ) : (
-    'No follower'
+    'No following'
   );
 }
 

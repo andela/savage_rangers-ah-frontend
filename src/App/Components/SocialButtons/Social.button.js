@@ -10,9 +10,15 @@ class SocialButton extends Component {
   render() {
     return (
       <div className="social-btn text-center">
-        <a href={this.facebookLink} className="btn btn-primary btn-lg" title="Facebook"><i className="fab fa-facebook-f" /></a>
-        <a href={this.twitterLink} className="btn btn-info btn-lg" title="Twitter"><i className="fab fa-twitter" /></a>
-        <a href={this.googleLink} className="btn btn-danger btn-lg" title="Google"><i className="fab fa-google" /></a>
+        <a href={this.facebookLink} className="btn btn-primary btn-lg" title="Facebook">
+          <i className="fab fa-facebook-f" />
+        </a>
+        <a href={this.twitterLink} className="btn btn-info btn-lg" title="Twitter">
+          <i className="fab fa-twitter" />
+        </a>
+        <a href={this.googleLink} className="btn btn-danger btn-lg" title="Google">
+          <i className="fab fa-google" />
+        </a>
       </div>
     );
   }

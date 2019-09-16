@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
-import Separator from '../Separator/or_separator';
 
-class SocialLogin extends Component {
+class SocialButton extends Component {
+  facebookLink = 'https://authors-heaven.herokuapp.com/api/users/facebook';
+
+  twitterLink = 'https://authors-heaven.herokuapp.com/api/users/twitter';
+
+  googleLink = 'https://authors-heaven.herokuapp.com/api/users/google';
+
   render() {
     return (
       <div className="social-btn text-center">
-        <Separator name="or use" />
-        <a href={process.env.facebookLink} className="btn btn-primary btn-lg" title="Facebook">
+        <a href={this.facebookLink} className="btn btn-primary btn-lg" title="Facebook">
           <i className="fab fa-facebook-f" />
         </a>
-        <a href={process.env.twitterLink} className="btn btn-info btn-lg" title="Twitter">
+        <a href={this.twitterLink} className="btn btn-info btn-lg" title="Twitter">
           <i className="fab fa-twitter" />
         </a>
-        <a href={process.env.googleLink} className="btn btn-danger btn-lg" title="Google">
+        <a href={this.googleLink} className="btn btn-danger btn-lg" title="Google">
           <i className="fab fa-google" />
         </a>
       </div>
@@ -20,4 +24,4 @@ class SocialLogin extends Component {
   }
 }
 
-export default SocialLogin;
+export default SocialButton;

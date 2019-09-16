@@ -9,6 +9,7 @@ import Footer from '../Common/Footer';
 import action from '../../../Redux/Actions/authors';
 import compareSubscription from '../../../Helpers/compareSubscription';
 import Loader from '../Common/loader';
+import urls from '../../../configs/urls';
 
 import FollowActions from '../../../Redux/Actions/Follow';
 
@@ -41,7 +42,11 @@ export class DisplayAuthors extends Component {
   }
 
   render() {
-    const { props: { authorReducer, follow: followAction, unfollow: unfollowAction } } = this;
+    const {
+      props: {
+        authorReducer, follow: followAction, unfollow: unfollowAction, history
+      }
+    } = this;
     const decoded = jwtDecode(localStorage.getItem('token'));
     if (authorReducer.authors) {
       const authors = authorReducer.authors.map(author => (
@@ -50,7 +55,7 @@ export class DisplayAuthors extends Component {
             <div className="d-flex justify-content-center justify-content-md-start justify-content-lg-start author-card__left">
               <ReactImageFallback
                 src={author.profileImage}
-                fallbackImage="https://res.cloudinary.com/al-tech/image/upload/v1566213662/usermale_jxmkj5.png"
+                fallbackImage={urls.defaultUserProfileImage}
                 className="rounded user-image"
                 width="200"
                 height="200"
@@ -65,17 +70,21 @@ export class DisplayAuthors extends Component {
               </p>
               <div className="stats d-flex justify-content-center justify-content-md-start justify-content-lg-start">
                 <span className="articles">
-                  articles:
+                  articles:&nbsp;
                   {author.Articles.length || 'No data'}
                 </span>
                 <span className="followers">
-                  followers:
+                  followers:&nbsp;
                   {author.followers.length || 'No data'}
                 </span>
               </div>
               <div className="action-buttons d-flex justify-content-center justify-content-md-start justify-content-lg-start">
-                <button type="button" className="btn profile__button">
-                  view profile
+                <button
+                  type="button"
+                  className="btn profile__button"
+                  onClick={() => history.push(`/profile/${author.username}`)}
+                >
+                  View profile
                 </button>
                 {compareSubscription(decoded.user.username, author.followers, 'follower') ? (
                   <button
@@ -108,7 +117,7 @@ export class DisplayAuthors extends Component {
           <div className="container">
             <div className="col search-bar__container d-flex flex-column flex-md-row flex-lg-row justify-content-between">
               <h1>Authors</h1>
-              <div className="search">
+              {/* <div className="search">
                 <div className="input-group">
                   <input type="text" className="form-control" placeholder="Search" />
                   <div className="input-group-append">
@@ -117,7 +126,7 @@ export class DisplayAuthors extends Component {
                     </button>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
             {authors}
           </div>
@@ -129,7 +138,6 @@ export class DisplayAuthors extends Component {
               changeCurrentPage={this.changeCurrentPage}
             />
           </div>
-          <ToastContainer />
           <Footer />
         </div>
       );
