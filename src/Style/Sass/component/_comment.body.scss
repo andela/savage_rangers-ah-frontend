@@ -41,7 +41,7 @@
     }
 
     &__update-button {
-        margin-left: 18px;
+        margin-left: 5px;
         border-radius: 20px;
         width: 76px;
         outline: none !important;
@@ -49,7 +49,18 @@
         color: white;
         font-family: 'inherit';
         cursor: pointer;
-        position: absolute;
+        margin-top: 17px;
+    }
+
+    &__update-button-reply {
+        margin-left: 15px;
+        border-radius: 20px;
+        width: 76px;
+        outline: none !important;
+        background-color: #2F3640;
+        color: white;
+        font-family: 'inherit';
+        cursor: pointer;
         margin-top: 17px;
     }
 

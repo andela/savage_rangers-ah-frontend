@@ -127,6 +127,8 @@ exports[`My Connected React-Redux Component should render the component 1`] = `
                 </div>
                 <button
                   className="comment-icons__dislike-comment ml-2"
+                  data-target="#reasonModal"
+                  data-toggle="modal"
                   title="report"
                   type="button"
                 >
@@ -135,11 +137,6 @@ exports[`My Connected React-Redux Component should render the component 1`] = `
                     id="report"
                   />
                    
-                  <small
-                    className="count_number"
-                  >
-                    100
-                  </small>
                 </button>
                 <button
                   className="comment-icons__dislike-comment ml-2"
@@ -154,6 +151,7 @@ exports[`My Connected React-Redux Component should render the component 1`] = `
                 </button>
                 <button
                   className="comment-icons__dislike-comment ml-2"
+                  onClick={[Function]}
                   title="delete"
                   type="button"
                 >
@@ -162,6 +160,186 @@ exports[`My Connected React-Redux Component should render the component 1`] = `
                     id="delete"
                   />
                 </button>
+                <div
+                  aria-hidden="true"
+                  aria-labelledby="reasonModalTitle"
+                  className="modal fade"
+                  id="reasonModal"
+                  role="dialog"
+                  tabIndex="-1"
+                >
+                  <div
+                    className="modal-dialog modal-dialog-centered"
+                    role="document"
+                  >
+                    <div
+                      className="modal-content"
+                    >
+                      <div
+                        className="modal-header"
+                        style={
+                          Object {
+                            "textAlign": "center",
+                          }
+                        }
+                      >
+                        <h5
+                          className="modal-title"
+                          id="reasonModalTitle"
+                          style={
+                            Object {
+                              "fontSize": "24px",
+                            }
+                          }
+                        >
+                          Report Reasons
+                        </h5>
+                        <button
+                          aria-label="Close"
+                          className="close"
+                          data-dismiss="modal"
+                          type="button"
+                        >
+                          <span
+                            aria-hidden="true"
+                          >
+                            ×
+                          </span>
+                        </button>
+                      </div>
+                      <div
+                        className="modal-body"
+                      >
+                        <div
+                          className="radio"
+                        >
+                          <label>
+                            <input
+                              name="optradio"
+                              onClick={[Function]}
+                              style={
+                                Object {
+                                  "margin": "5px",
+                                }
+                              }
+                              type="radio"
+                              value="1"
+                            />
+                            It contains violent content
+                          </label>
+                        </div>
+                        <div
+                          className="radio"
+                        >
+                          <label>
+                            <input
+                              name="optradio"
+                              onClick={[Function]}
+                              style={
+                                Object {
+                                  "margin": "5px",
+                                }
+                              }
+                              type="radio"
+                              value="2"
+                            />
+                            this content exploits the minors
+                          </label>
+                        </div>
+                        <div
+                          className="radio disabled"
+                        >
+                          <label>
+                            <input
+                              name="optradio"
+                              onClick={[Function]}
+                              style={
+                                Object {
+                                  "margin": "5px",
+                                }
+                              }
+                              type="radio"
+                              value="3"
+                            />
+                            this content is being used for harassment
+                          </label>
+                        </div>
+                        <div
+                          className="radio disabled"
+                        >
+                          <label>
+                            <input
+                              name="optradio"
+                              onClick={[Function]}
+                              style={
+                                Object {
+                                  "margin": "5px",
+                                }
+                              }
+                              type="radio"
+                              value="4"
+                            />
+                            this content is a spam
+                          </label>
+                        </div>
+                        <div
+                          className="radio disabled"
+                        >
+                          <label>
+                            <input
+                              name="optradio"
+                              onClick={[Function]}
+                              style={
+                                Object {
+                                  "margin": "5px",
+                                }
+                              }
+                              type="radio"
+                              value="5"
+                            />
+                            this content violates the privacy of someone
+                          </label>
+                        </div>
+                        <div
+                          className="radio disabled"
+                        >
+                          <label>
+                            <input
+                              name="optradio"
+                              onClick={[Function]}
+                              style={
+                                Object {
+                                  "margin": "5px",
+                                }
+                              }
+                              type="radio"
+                              value="6"
+                            />
+                            this content violates the copyright and trademark infringement
+                          </label>
+                        </div>
+                      </div>
+                      <div
+                        className="modal-footer"
+                      >
+                        <button
+                          className="btn btn-secondary"
+                          data-dismiss="modal"
+                          type="button"
+                        >
+                          Close
+                        </button>
+                        <button
+                          className="btn btn-primary"
+                          onClick={[Function]}
+                          type="button"
+                        >
+                          Report
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <button
                 className="comment-body__view-more-replies"

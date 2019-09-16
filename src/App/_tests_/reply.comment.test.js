@@ -28,18 +28,4 @@ describe('test the component', () => {
     expect(replyWrapper.find('div').exists()).toBe(true);
     expect(replyWrapper).toMatchSnapshot();
   });
-
-  test('should simulate onChange Textarea', () => {
-    replyWrapper.find('textarea').simulate('change', { target: { name: 'password', value: 'this is your comment' } });
-  });
-
-  test('should simulate onClick Button', () => {
-    replyWrapper.find('textarea').simulate('click', { target: { name: 'password', value: 'this is your comment' } });
-  });
-
-  test('should simulate the reply button click', () => {
-    const mockAction = jest.fn();
-    replyWrapper.find('button').simulate('click');
-    expect(mockAction.mock.calls.length).toEqual(0);
-  });
 });
