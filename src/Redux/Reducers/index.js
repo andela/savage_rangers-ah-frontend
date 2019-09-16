@@ -18,6 +18,7 @@ import authorReducer from './authors';
 import searchArticle from './searchArticle';
 import report from './reportArticle';
 import articleRatings from './articleRatings';
+import home from './home';
 
 export default combineReducers({
   authReducer,
@@ -40,5 +41,6 @@ export default combineReducers({
   ratings: articleReducer,
   searchArticle,
   report,
-  articleRatings
+  articleRatings,
+  home
 });

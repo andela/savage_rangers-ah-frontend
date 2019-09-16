@@ -141,3 +141,21 @@
     font-size: 0.6em;
   }
 }
+
+.btn-read,
+.btn-read:active,
+.btn-read:hover {
+  outline: none;
+  text-decoration: none;
+  color: #2f3640;
+  background-color: #c4c4c4;
+  border-radius: 30px;
+}
+
+@media (max-width: 768px) {
+  .btn-read {
+    width: 90%;
+    font-size: 1.2em;
+    font-weight: 600;
+  }
+}

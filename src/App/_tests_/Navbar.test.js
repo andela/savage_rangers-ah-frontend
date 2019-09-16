@@ -11,7 +11,7 @@ const mockStore = configureStore(middlewares);
 const initialState = { hide: () => {} };
 const store = mockStore(initialState);
 
-const navbar = shallow(<Navbar store={store} hide={() => {}} />);
+const navbar = shallow(<Navbar store={store} hide={() => {}} getCategories={() => {}} />);
 
 describe('Navbar', () => {
   it('renders the navbar component', () => {
