@@ -1,7 +1,6 @@
 import types from './index';
 import axios from '../../configs/axios';
 
-
 const {
   GET_ALL_ARTICLE_COMMENTS,
   CATCH_COMMENT_ERROR,
@@ -17,13 +16,21 @@ const {
 
 export default {
   getAllComments: (slug, limit) => (dispatch) => {
-    axios.get(`/api/articles/${slug}/comments?offset=0&&limit=${limit}`)
+    axios
+      .get(`/api/articles/${slug}/comments?offset=0&&limit=${limit}`)
       .then((res) => {
         dispatch({
           type: GET_ALL_ARTICLE_COMMENTS,
           payload: res.data.data
         });
-      }).catch((err) => {
+      })
+      .catch((err) => {
+        if (err.response.status === 404) {
+          dispatch({
+            type: GET_ALL_ARTICLE_COMMENTS,
+            payload: []
+          });
+        }
         dispatch({
           type: CATCH_COMMENT_ERROR,
           payload: err.errors
@@ -33,7 +40,9 @@ export default {
 
   postComment: (slug, body, token) => async (dispatch) => {
     try {
-      const { data: response } = await axios.post(`/api/articles/${slug}/comments`, { body }, { headers: { Authorization: token } });
+      const { data: response } = await axios.post(`/api/articles/${slug}/comments`,
+        { body },
+        { headers: { Authorization: token } });
       dispatch({
         type: POST_COMMENT,
         payload: response
@@ -57,7 +66,9 @@ export default {
 
   postCommentReply: (slug, body, parentCommentId, token) => async (dispatch) => {
     try {
-      const { data: response } = await axios.post(`/api/articles/${slug}/comments`, { body, parentCommentId }, { headers: { Authorization: token } });
+      const { data: response } = await axios.post(`/api/articles/${slug}/comments`,
+        { body, parentCommentId },
+        { headers: { Authorization: token } });
       dispatch({
         type: POST_COMMENT_REPLY,
         payload: response.data
@@ -91,7 +102,9 @@ export default {
   },
   editComment: (slug, id, body, token) => async (dispatch) => {
     try {
-      const response = await axios.patch(`/api/articles/${slug}/comments/${id}`, { body }, { headers: { Authorization: token } });
+      const response = await axios.patch(`/api/articles/${slug}/comments/${id}`,
+        { body },
+        { headers: { Authorization: token } });
       dispatch({
         type: EDIT_COMMENT,
         payload: response
