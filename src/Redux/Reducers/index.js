@@ -13,6 +13,8 @@ import bookmark from './Bookmark';
 import getArticle from './getArticleReducer';
 import commentsReducer from './comments';
 import Signout from './signoutReducer';
+import highlight from './highlight';
+
 import profile from './Profile';
 import authorReducer from './authors';
 import searchArticle from './searchArticle';
@@ -42,5 +44,6 @@ export default combineReducers({
   searchArticle,
   report,
   articleRatings,
-  home
+  home,
+  highlight
 });

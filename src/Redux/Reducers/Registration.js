@@ -19,7 +19,7 @@ export default (state = initialState, action) => {
     case CATCH_ERROR:
       return {
         ...state,
-        error: action.payload.message
+        error: action.payload && action.payload.message
       };
     default:
       return state;

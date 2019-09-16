@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactImageFallback from 'react-image-fallback';
 import ReactHtmlParser from 'react-html-parser';
 import propTypes from 'prop-types';
@@ -24,6 +24,18 @@ const ArticleBody = (props) => {
     bookmarks,
     slug
   } = props;
+
+  const [highlightedText, setHighlightedText] = useState('');
+
+  const getSelectionText = () => {
+    let selected = '';
+    if (window.getSelection) {
+      selected = window.getSelection().toString();
+    } else if (document.selection && document.selection.type !== 'Control') {
+      selected = document.selection.createRange().text;
+    }
+    return selected;
+  };
 
   const formattedDate = moment(createdAt).format('Do MMM YYYY');
   return (
@@ -61,6 +73,7 @@ min read
           </p>
           {username && <Bookmark username={username} slug={slug} bookmarks={bookmarks} />}
         </div>
+        {/* eslint-disable-next-line jsx-a11y/mouse-events-have-key-events */}
         <div className="DraftEditor-root article-body">
           <div className="DraftEditor-editorContainer article-body__container">
             <div className="ml-0.5 article-body__container--image">

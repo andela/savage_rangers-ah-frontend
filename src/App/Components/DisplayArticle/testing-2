@@ -1,0 +1,4 @@
+const ht = document.querySelector('#node-6233').innerHTML.substring(311, 320);
+const sht = `<span style="color: red" onclick="alert('hello')">${ht}</span>`;
+const updatedHtml = document.querySelector('#node-6233').innerHTML.replace(ht, sht);
+document.querySelector('#node-6235').innerHTML = updatedHtml
