@@ -97,7 +97,10 @@ const CommentHolder = ({
   return (
     <div className="comment-holder mt-5">
       <div className="comment-holder__title ml-4">
-        <h3 style={{ fontSize: '25px' }}>COMMENTS</h3>
+        <h3 style={{ fontSize: '25px' }}>
+          COMMENTS &nbsp;
+          {data.length}
+        </h3>
         <div className="parent-reply-input">
           <a href={`/profile/${extractedData.username}`}>
             <ReactFallbackImage
@@ -157,13 +160,14 @@ const CommentHolder = ({
   );
 };
 
-export default connect(null, {
-  getAllComments,
-  postComment,
-  updateComment,
-  postCommentReply,
-  likeAndDislikeCommentReaction,
-  editComment,
-  deleteComment,
-  reportComment
-})(CommentHolder);
+export default connect(null,
+  {
+    getAllComments,
+    postComment,
+    updateComment,
+    postCommentReply,
+    likeAndDislikeCommentReaction,
+    editComment,
+    deleteComment,
+    reportComment
+  })(CommentHolder);
